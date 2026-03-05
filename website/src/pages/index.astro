@@ -1,39 +1,59 @@
 ---
-import { languages } from '../i18n';
-
-// 获取浏览器首选语言
-const acceptLanguage = Astro.request.headers.get('accept-language') || '';
-
-// 解析浏览器语言偏好
-function getPreferredLanguage(acceptLang: string): string {
-  // 解析 Accept-Language 头，格式如: "zh-CN,zh;q=0.9,en;q=0.8"
-  const languages = acceptLang.split(',').map(lang => {
-    const [code, q] = lang.trim().split(';q=');
-    return { code: code.toLowerCase(), weight: q ? parseFloat(q) : 1 };
-  });
-
-  // 按权重排序
-  languages.sort((a, b) => b.weight - a.weight);
-
-  // 匹配支持的语言
-  const supportedLangs = ['zh-cn', 'en', 'ja', 'ko', 'es', 'fr'];
-
-  for (const lang of languages) {
-    // 完全匹配
-    if (supportedLangs.includes(lang.code)) {
-      return lang.code === 'zh-cn' ? 'zh-CN' : lang.code;
-    }
-    // 部分匹配（如 zh 匹配 zh-CN）
-    const partialMatch = supportedLangs.find(s => s.startsWith(lang.code.split('-')[0]));
-    if (partialMatch) {
-      return partialMatch === 'zh-cn' ? 'zh-CN' : partialMatch;
-    }
-  }
-
-  // 默认英文
-  return 'en';
-}
-
-const preferredLang = getPreferredLanguage(acceptLanguage);
-return Astro.redirect(`/${preferredLang}`);
+// 静态生成模式下，使用客户端 JavaScript 进行语言检测和重定向
+// 支持的语言列表
+const supportedLangs = ['zh-CN', 'en', 'ja', 'ko', 'es', 'fr'];
+const defaultLang = 'en';
 ---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chat Exporter</title>
+  <script is:inline>
+    (function() {
+      // 支持的语言
+      var supportedLangs = ['zh-CN', 'en', 'ja', 'ko', 'es', 'fr'];
+      var defaultLang = 'en';
+
+      // 获取浏览器语言
+      var browserLang = navigator.language || navigator.userLanguage;
+
+      // 匹配语言
+      var targetLang = defaultLang;
+
+      // 完全匹配
+      if (supportedLangs.indexOf(browserLang) !== -1) {
+        targetLang = browserLang;
+      } else {
+        // 部分匹配（如 zh 匹配 zh-CN）
+        var langPrefix = browserLang.split('-')[0];
+        for (var i = 0; i < supportedLangs.length; i++) {
+          if (supportedLangs[i].indexOf(langPrefix) === 0) {
+            targetLang = supportedLangs[i];
+            break;
+          }
+        }
+      }
+
+      // 检查是否已经访问过（避免重复重定向）
+      var hasVisited = sessionStorage.getItem('lang-detected');
+
+      if (!hasVisited) {
+        sessionStorage.setItem('lang-detected', 'true');
+        // 直接跳转，无需等待
+        window.location.replace('/' + targetLang + '/');
+      } else {
+        // 已访问过，默认跳转英文
+        window.location.replace('/' + defaultLang + '/');
+      }
+    })();
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0;url=/en/">
+  </noscript>
+</head>
+<body>
+  <p style="text-align:center;padding-top:100px;font-family:sans-serif;">Redirecting...</p>
+</body>
+</html>
