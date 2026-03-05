@@ -9,12 +9,12 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const formats = [
-  { name: 'Markdown', ext: '.md', icon: '/assets/formats/md.png', color: 'bg-blue-500/10 border-blue-500/30' },
-  { name: 'JSON', ext: '.json', icon: '/assets/formats/json.png', color: 'bg-yellow-500/10 border-yellow-500/30' },
-  { name: 'PDF', ext: '.pdf', icon: '/assets/formats/pdf.png', color: 'bg-red-500/10 border-red-500/30' },
-  { name: 'TXT', ext: '.txt', icon: '/assets/formats/txt.png', color: 'bg-gray-500/10 border-gray-500/30' },
-  { name: 'CSV', ext: '.csv', icon: '/assets/formats/csv.png', color: 'bg-green-500/10 border-green-500/30' },
-  { name: 'PNG', ext: '.png', icon: '/assets/formats/png.png', color: 'bg-purple-500/10 border-purple-500/30' },
+  { name: 'Markdown', ext: '.md', icon: '/assets/formats/md', color: 'bg-blue-500/10 border-blue-500/30' },
+  { name: 'JSON', ext: '.json', icon: '/assets/formats/json', color: 'bg-yellow-500/10 border-yellow-500/30' },
+  { name: 'PDF', ext: '.pdf', icon: '/assets/formats/pdf', color: 'bg-red-500/10 border-red-500/30' },
+  { name: 'TXT', ext: '.txt', icon: '/assets/formats/txt', color: 'bg-gray-500/10 border-gray-500/30' },
+  { name: 'CSV', ext: '.csv', icon: '/assets/formats/csv', color: 'bg-green-500/10 border-green-500/30' },
+  { name: 'PNG', ext: '.png', icon: '/assets/formats/png', color: 'bg-purple-500/10 border-purple-500/30' },
 ];
 ---
 
@@ -28,12 +28,17 @@ const formats = [
         <div
           class={`flex items-center gap-3 px-5 py-3 rounded-xl border ${format.color} hover:scale-105 transition-transform duration-300`}
         >
-          <img
-            src={format.icon}
-            alt={format.name}
-            class="w-8 h-8 object-contain"
-            loading="lazy"
-          />
+          <picture>
+            <source srcset={`${format.icon}.webp`} type="image/webp" />
+            <img
+              src={`${format.icon}.png`}
+              alt={format.name}
+              class="w-8 h-8 object-contain"
+              loading="lazy"
+              width="32"
+              height="32"
+            />
+          </picture>
           <div>
             <div class="text-sm font-medium text-white">{format.name}</div>
             <div class="text-xs text-gray-500">{format.ext}</div>
