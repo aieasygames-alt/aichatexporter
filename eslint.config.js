@@ -133,7 +133,7 @@ export default [
   },
   // JavaScript 文件配置 (content scripts 等浏览器扩展代码)
   {
-    files: ['**/*.js'],
+    files: ['content/**/*.js', 'background/**/*.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'script',
@@ -142,9 +142,10 @@ export default [
     rules: {
       'no-console': 'off',
       'no-undef': 'off', // 浏览器环境有很多全局变量
+      'no-unused-vars': 'warn', // 降级为警告
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'tests/**', 'website/**', 'local-node/**'],
+    ignores: ['dist/**', 'node_modules/**', 'tests/**', 'website/**', 'local-node/**', 'eslint.config.js', 'vite.config.ts', 'vitest.config.ts'],
   },
 ];

@@ -3,7 +3,7 @@
  * 通用工具函数和导出逻辑
  */
 
-import type { ChatMessage, ExportMetadata, ExportResult, ExtractResult, PlatformParser, ExportFormat } from '../types';
+import type { ExportMetadata, ExportResult, ExtractResult, PlatformParser, ExportFormat } from '../types';
 
 // 导入并初始化所有格式化器
 import './formatters';

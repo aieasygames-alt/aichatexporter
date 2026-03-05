@@ -3,7 +3,7 @@
  * 使用 chrome.storage.local 持久化用户设置
  */
 
-import type { AppSettings, LanguageCode, ExportFormat, ThemeMode } from '../types';
+import type { AppSettings } from '../types';
 import { DEFAULT_SETTINGS } from '../types';
 
 const STORAGE_KEY = 'ai-chat-exporter-settings';

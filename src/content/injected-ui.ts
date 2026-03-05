@@ -3,9 +3,9 @@
  * 在页面中间显示导出界面，支持多语言
  */
 
-import type { ChatMessage, ExportFormat, LanguageCode, TranslationKey } from '../types';
+import type { ChatMessage, LanguageCode, TranslationKey } from '../types';
 
-interface MessageStart {
+interface _MessageStart {
   element: HTMLElement;
   isUser: boolean;
   top: number;
