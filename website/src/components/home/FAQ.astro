@@ -1,0 +1,64 @@
+---
+import { type Lang, useTranslations } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Get FAQ items from translation
+const faqItems = [
+  { question: t('faq.items.0.question'), answer: t('faq.items.0.answer') },
+  { question: t('faq.items.1.question'), answer: t('faq.items.1.answer') },
+  { question: t('faq.items.2.question'), answer: t('faq.items.2.answer') },
+  { question: t('faq.items.3.question'), answer: t('faq.items.3.answer') },
+  { question: t('faq.items.4.question'), answer: t('faq.items.4.answer') },
+  { question: t('faq.items.5.question'), answer: t('faq.items.5.answer') },
+];
+---
+
+<section class="py-20">
+  <div class="container-custom">
+    <h2 class="section-title">{t('faq.title')}</h2>
+    <p class="section-subtitle">{t('faq.subtitle')}</p>
+
+    <div class="max-w-3xl mx-auto space-y-4">
+      {faqItems.map((item, index) => (
+        <details
+          class="group bg-bg-secondary rounded-xl border border-white/5 overflow-hidden"
+          style={`animation-delay: ${index * 50}ms`}
+        >
+          <summary class="flex items-center justify-between p-5 cursor-pointer list-none hover:bg-white/5 transition-colors">
+            <span class="font-medium text-white pr-4">{item.question}</span>
+            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-bg-tertiary flex items-center justify-center group-open:rotate-180 transition-transform duration-200">
+              <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </summary>
+          <div class="px-5 pb-5 text-gray-400 text-sm leading-relaxed border-t border-white/5 pt-4">
+            {item.answer}
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <div class="text-center mt-8">
+      <a href={`/${lang}/faq`} class="text-accent hover:text-accent/80 transition-colors text-sm font-medium">
+        View all FAQs →
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details[open] summary {
+    border-bottom-color: transparent;
+  }
+</style>

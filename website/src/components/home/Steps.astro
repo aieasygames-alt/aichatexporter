@@ -1,0 +1,72 @@
+---
+import { type Lang, useTranslations } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const steps = [
+  { key: 'step1', number: 1, icon: '🔌' },
+  { key: 'step2', number: 2, icon: '💬' },
+  { key: 'step3', number: 3, icon: '📤' },
+  { key: 'step4', number: 4, icon: '📁' },
+];
+---
+
+<section class="py-20 bg-bg-secondary/50">
+  <div class="container-custom">
+    <h2 class="section-title">{t('steps.title')}</h2>
+    <p class="section-subtitle">{t('steps.subtitle')}</p>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {steps.map((step, index) => (
+        <div class="relative">
+          {/* Connector line */}
+          {index < steps.length - 1 && (
+            <div class="hidden lg:block absolute top-12 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-accent/50 to-transparent"></div>
+          )}
+
+          <div class="text-center">
+            {/* Step number with icon */}
+            <div class="relative inline-flex mb-4">
+              <div class="w-24 h-24 rounded-2xl bg-bg-tertiary border border-white/5 flex items-center justify-center">
+                <img
+                  src="/assets/screenshots/demo-steps.png"
+                  alt={`Step ${step.number}`}
+                  class="w-16 h-16 object-contain"
+                  loading="lazy"
+                  style={`object-position: ${(index) * 25}% 0; object-fit: cover; clip-path: inset(0 ${(3-index) * 25}% 0 ${index * 25}%)`}
+                />
+              </div>
+              <div class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white font-bold text-sm">
+                {step.number}
+              </div>
+            </div>
+
+            <h3 class="text-lg font-semibold text-white mb-2">
+              {t(`steps.${step.key}.title`)}
+            </h3>
+            <p class="text-gray-400 text-sm">
+              {t(`steps.${step.key}.description`)}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Alternative: Use the demo image */}
+    <div class="mt-12 flex justify-center">
+      <div class="rounded-2xl overflow-hidden border border-white/10 max-w-2xl">
+        <img
+          src="/assets/screenshots/demo-steps.png"
+          alt="How to use AI Chat Exporter"
+          class="w-full"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>

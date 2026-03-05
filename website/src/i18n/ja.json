@@ -1,0 +1,131 @@
+{
+  "site": {
+    "title": "AI Chat Exporter - AI会話を複数形式でエクスポート",
+    "description": "ChatGPT、Claude、Gemini、DeepSeek、Grokの会話をワンクリックでエクスポート。Markdown、JSON、PDF、TXT、CSV、PNG画像形式に対応。",
+    "keywords": "AIチャットエクスポーター, ChatGPTエクスポート, Claudeエクスポート, Geminiエクスポート, AI会話バックアップ"
+  },
+  "nav": {
+    "features": "機能",
+    "howToUse": "使い方",
+    "faq": "よくある質問",
+    "install": "インストール",
+    "home": "ホーム"
+  },
+  "hero": {
+    "title": "AI会話をワンクリックでエクスポート",
+    "subtitle": "ChatGPT、Claude、Gemini、DeepSeek、Grokのチャット履歴をMarkdown、JSON、PDF、TXT、CSV、PNG画像形式でエクスポート。",
+    "cta": {
+      "install": "無料でインストール",
+      "learnMore": "詳しく見る"
+    },
+    "platforms": "主要なAIプラットフォームをサポート"
+  },
+  "features": {
+    "title": "強力な機能",
+    "subtitle": "AI会話のエクスポートとバックアップに必要なすべて",
+    "exportFormats": {
+      "title": "複数のエクスポート形式",
+      "description": "Markdown、JSON、PDF、TXT、CSV、またはスタイル付きPNG画像でエクスポート。簡単に共有できます。"
+    },
+    "privacy": {
+      "title": "プライバシー優先",
+      "description": "すべての処理はブラウザ内でローカルに行われます。会話がデバイス外に出ることはありません。"
+    },
+    "multiLanguage": {
+      "title": "多言語サポート",
+      "description": "英語、中国語、日本語、韓国語、スペイン語、フランス語のインターフェースを利用可能。"
+    },
+    "oneClick": {
+      "title": "ワンクリックエクスポート",
+      "description": "シンプルで直感的なインターフェース。ワンクリックで会話をエクスポート。"
+    }
+  },
+  "formats": {
+    "title": "対応エクスポート形式",
+    "subtitle": "ニーズに合った形式をお選びください"
+  },
+  "steps": {
+    "title": "使い方",
+    "subtitle": "4つの簡単なステップで始められます",
+    "step1": {
+      "title": "拡張機能をインストール",
+      "description": "ChromeウェブストアからAI Chat Exporterをブラウザに追加"
+    },
+    "step2": {
+      "title": "AIチャットを開く",
+      "description": "ChatGPT、Claude、Gemini、またはサポートされているAIプラットフォームに移動"
+    },
+    "step3": {
+      "title": "エクスポートをクリック",
+      "description": "拡張機能アイコンまたはフローティングエクスポートボタンをクリック"
+    },
+    "step4": {
+      "title": "形式を選択",
+      "description": "希望の形式を選択して会話をダウンロード"
+    }
+  },
+  "reviews": {
+    "title": "ユーザーの声",
+    "subtitle": "世界中の数千人のユーザーに信頼されています",
+    "rating": "評価",
+    "users": "ユーザー"
+  },
+  "faq": {
+    "title": "よくある質問",
+    "subtitle": "AI Chat Exporterに関するよくある質問の答えを見つけましょう",
+    "items": [
+      {
+        "question": "どのAIプラットフォームがサポートされていますか？",
+        "answer": "AI Chat ExporterはChatGPT、Claude、Gemini、DeepSeek、Grokをサポートしています。常に新しいプラットフォームのサポートを追加しています。"
+      },
+      {
+        "question": "会話データは安全ですか？",
+        "answer": "はい！すべての処理はブラウザ内でローカルに行われます。会話が外部サーバーに送信されることはありません。プライバシーを重視しています。"
+      },
+      {
+        "question": "拡張機能をインストールするにはどうすればいいですか？",
+        "answer": "Chromeウェブストアにアクセスし、「AI Chat Exporter」を検索して、「Chromeに追加」をクリックするだけです。拡張機能が自動的にインストールされます。"
+      },
+      {
+        "question": "どのようなエクスポート形式が利用可能ですか？",
+        "answer": "Markdown (.md)、JSON、PDF、プレーンテキスト (TXT)、CSVスプレッドシート、または共有に最適なスタイル付きPNG画像としてエクスポートできます。"
+      },
+      {
+        "question": "無料で使えますか？",
+        "answer": "はい、AI Chat Exporterは完全に無料で、制限なくご利用いただけます。アカウント登録は不要です。"
+      },
+      {
+        "question": "モバイルブラウザで動作しますか？",
+        "answer": "現在、AI Chat Exporterはデスクトップブラウザ（Chrome、Edge、その他のChromiumベースのブラウザ）用に設計されています。将来的にモバイルサポートが追加される可能性があります。"
+      }
+    ]
+  },
+  "cta": {
+    "title": "AI会話をエクスポートする準備はできましたか？",
+    "subtitle": "チャットバックアップのためにAI Chat Exporterを信頼する数千人のユーザーに参加しましょう。",
+    "button": "今すぐインストール - 無料"
+  },
+  "footer": {
+    "product": "製品",
+    "resources": "リソース",
+    "legal": "法的情報",
+    "followUs": "フォローする",
+    "features": "機能",
+    "howToUse": "使い方",
+    "faq": "よくある質問",
+    "changelog": "変更ログ",
+    "documentation": "ドキュメント",
+    "support": "サポート",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "copyright": "© 2024 AI Chat Exporter. All rights reserved."
+  },
+  "languages": {
+    "en": "English",
+    "zh-CN": "简体中文",
+    "ja": "日本語",
+    "ko": "한국어",
+    "es": "Español",
+    "fr": "Français"
+  }
+}

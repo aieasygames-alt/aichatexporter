@@ -1,0 +1,131 @@
+{
+  "site": {
+    "title": "AI Chat Exporter - Export AI Conversations to Multiple Formats",
+    "description": "One-click export tool for ChatGPT, Claude, Gemini, DeepSeek, and Grok conversations. Export to Markdown, JSON, PDF, TXT, CSV, or PNG image formats.",
+    "keywords": "AI chat exporter, ChatGPT export, Claude export, Gemini export, AI conversation backup, chat history download"
+  },
+  "nav": {
+    "features": "Features",
+    "howToUse": "How to Use",
+    "faq": "FAQ",
+    "install": "Install",
+    "home": "Home"
+  },
+  "hero": {
+    "title": "One-Click Export Your AI Conversations",
+    "subtitle": "Export chat history from ChatGPT, Claude, Gemini, DeepSeek, and Grok to Markdown, JSON, PDF, TXT, CSV, or PNG image formats.",
+    "cta": {
+      "install": "Install Free",
+      "learnMore": "Learn More"
+    },
+    "platforms": "Supports all major AI platforms"
+  },
+  "features": {
+    "title": "Powerful Features",
+    "subtitle": "Everything you need to export and backup your AI conversations",
+    "exportFormats": {
+      "title": "Multiple Export Formats",
+      "description": "Export to Markdown, JSON, PDF, TXT, CSV, or styled PNG images for easy sharing."
+    },
+    "privacy": {
+      "title": "Privacy First",
+      "description": "All processing happens locally in your browser. Your conversations never leave your device."
+    },
+    "multiLanguage": {
+      "title": "Multi-Language Support",
+      "description": "Interface available in English, Chinese, Japanese, Korean, Spanish, and French."
+    },
+    "oneClick": {
+      "title": "One-Click Export",
+      "description": "Simple and intuitive interface. Export your conversations with just one click."
+    }
+  },
+  "formats": {
+    "title": "Supported Export Formats",
+    "subtitle": "Choose the format that best suits your needs"
+  },
+  "steps": {
+    "title": "How to Use",
+    "subtitle": "Get started in just 4 simple steps",
+    "step1": {
+      "title": "Install Extension",
+      "description": "Add AI Chat Exporter to your browser from Chrome Web Store"
+    },
+    "step2": {
+      "title": "Open AI Chat",
+      "description": "Navigate to ChatGPT, Claude, Gemini, or any supported AI platform"
+    },
+    "step3": {
+      "title": "Click Export",
+      "description": "Click the extension icon or use the floating export button"
+    },
+    "step4": {
+      "title": "Choose Format",
+      "description": "Select your preferred format and download the conversation"
+    }
+  },
+  "reviews": {
+    "title": "What Users Say",
+    "subtitle": "Trusted by thousands of users worldwide",
+    "rating": "Rating",
+    "users": "users"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about AI Chat Exporter",
+    "items": [
+      {
+        "question": "Which AI platforms are supported?",
+        "answer": "AI Chat Exporter supports ChatGPT, Claude, Gemini, DeepSeek, and Grok. We're constantly adding support for more platforms."
+      },
+      {
+        "question": "Is my conversation data secure?",
+        "answer": "Yes! All processing happens locally in your browser. Your conversations are never sent to any external servers. We take your privacy seriously."
+      },
+      {
+        "question": "How do I install the extension?",
+        "answer": "Simply visit the Chrome Web Store, search for 'AI Chat Exporter', and click 'Add to Chrome'. The extension will be installed automatically."
+      },
+      {
+        "question": "What export formats are available?",
+        "answer": "You can export to Markdown (.md), JSON, PDF, plain text (TXT), CSV spreadsheet, or as a styled PNG image perfect for sharing."
+      },
+      {
+        "question": "Is it free to use?",
+        "answer": "Yes, AI Chat Exporter is completely free to use with no limitations. No account required."
+      },
+      {
+        "question": "Does it work on mobile browsers?",
+        "answer": "Currently, AI Chat Exporter is designed for desktop browsers (Chrome, Edge, and other Chromium-based browsers). Mobile support may be added in the future."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Export Your AI Conversations?",
+    "subtitle": "Join thousands of users who trust AI Chat Exporter for their chat backup needs.",
+    "button": "Install Now - It's Free"
+  },
+  "footer": {
+    "product": "Product",
+    "resources": "Resources",
+    "legal": "Legal",
+    "followUs": "Follow Us",
+    "features": "Features",
+    "howToUse": "How to Use",
+    "faq": "FAQ",
+    "changelog": "Changelog",
+    "documentation": "Documentation",
+    "support": "Support",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "copyright": "© 2024 AI Chat Exporter. All rights reserved."
+  },
+  "languages": {
+    "en": "English",
+    "zh-CN": "简体中文",
+    "ja": "日本語",
+    "ko": "한국어",
+    "es": "Español",
+    "fr": "Français"
+  }
+}

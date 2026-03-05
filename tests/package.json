@@ -1,0 +1,19 @@
+{
+  "name": "ai-chat-exporter-tests",
+  "version": "1.0.0",
+  "description": "Automated tests for AI Chat Exporter browser extension",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:deepseek": "playwright test deepseek.spec.js",
+    "test:gemini": "playwright test gemini.spec.js",
+    "test:chatgpt": "playwright test chatgpt.spec.js",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.0",
+    "@types/node": "^20.11.0"
+  }
+}

@@ -1,0 +1,159 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+
+const steps = [
+  {
+    number: 1,
+    title: t('steps.step1.title'),
+    description: t('steps.step1.description'),
+    details: [
+      'Visit the Chrome Web Store',
+      'Search for "AI Chat Exporter"',
+      'Click "Add to Chrome" button',
+      'Confirm the installation',
+    ],
+    tip: 'The extension works on Chrome, Edge, Brave, and other Chromium-based browsers.',
+  },
+  {
+    number: 2,
+    title: t('steps.step2.title'),
+    description: t('steps.step2.description'),
+    details: [
+      'Go to chat.openai.com (ChatGPT)',
+      'Or claude.ai (Claude)',
+      'Or gemini.google.com (Gemini)',
+      'Or any other supported AI platform',
+    ],
+    tip: 'The extension icon will light up when you\'re on a supported platform.',
+  },
+  {
+    number: 3,
+    title: t('steps.step3.title'),
+    description: t('steps.step3.description'),
+    details: [
+      'Click the extension icon in your browser toolbar',
+      'Or look for the floating export button on the page',
+      'The popup will show the number of messages detected',
+      'Make sure you have a conversation open',
+    ],
+    tip: 'You can also use keyboard shortcuts for quick access.',
+  },
+  {
+    number: 4,
+    title: t('steps.step4.title'),
+    description: t('steps.step4.description'),
+    details: [
+      'Choose your preferred export format',
+      'Click the "Export" button',
+      'The file will download automatically',
+      'Open and use your exported conversation!',
+    ],
+    tip: 'PNG format is great for sharing on social media with beautiful styling.',
+  },
+];
+---
+
+<Layout
+  title={`${t('nav.howToUse')} - AI Chat Exporter`}
+  description="Step-by-step guide on how to install and use AI Chat Exporter to export your AI conversations."
+  lang={lang}
+>
+  <!-- Hero -->
+  <section class="py-20 text-center">
+    <div class="container-custom">
+      <h1 class="text-4xl sm:text-5xl font-bold mb-6">
+        <span class="gradient-text">{t('steps.title')}</span>
+      </h1>
+      <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+        {t('steps.subtitle')}
+      </p>
+    </div>
+  </section>
+
+  <!-- Steps -->
+  <section class="py-12">
+    <div class="container-custom">
+      <div class="max-w-4xl mx-auto">
+        {steps.map((step, index) => (
+          <div class="relative pl-24 pb-16 last:pb-0">
+            {/* Line connector */}
+            {index < steps.length - 1 && (
+              <div class="absolute left-10 top-20 bottom-0 w-0.5 bg-gradient-to-b from-accent to-accent/0"></div>
+            )}
+
+            {/* Step number */}
+            <div class="absolute left-0 top-0 w-20 h-20 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center">
+              <span class="text-3xl font-bold text-accent">{step.number}</span>
+            </div>
+
+            {/* Content */}
+            <div class="bg-bg-secondary rounded-2xl p-6 border border-white/5">
+              <h2 class="text-2xl font-bold text-white mb-2">{step.title}</h2>
+              <p class="text-gray-400 mb-4">{step.description}</p>
+
+              <ul class="space-y-2 mb-4">
+                {step.details.map((detail) => (
+                  <li class="flex items-center gap-2 text-gray-300">
+                    <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                    {detail}
+                  </li>
+                ))}
+              </ul>
+
+              <div class="bg-accent/5 rounded-lg p-3 border border-accent/10">
+                <div class="flex items-start gap-2">
+                  <svg class="w-5 h-5 text-accent mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span class="text-sm text-gray-400">{step.tip}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Image -->
+  <section class="py-12 bg-bg-secondary/50">
+    <div class="container-custom text-center">
+      <h2 class="text-2xl font-bold mb-8">Visual Guide</h2>
+      <div class="max-w-2xl mx-auto rounded-2xl overflow-hidden border border-white/10">
+        <img
+          src="/assets/screenshots/demo-steps.png"
+          alt="How to use AI Chat Exporter"
+          class="w-full"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20">
+    <div class="container-custom text-center">
+      <h2 class="text-3xl font-bold mb-4">Ready to start?</h2>
+      <p class="text-gray-400 mb-8">Install the extension and export your first conversation in under a minute.</p>
+      <a
+        href="https://chromewebstore.google.com/detail/ai-chat-exporter/placeholder"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-primary text-lg px-8 py-4"
+      >
+        Install Now - It's Free
+      </a>
+    </div>
+  </section>
+</Layout>

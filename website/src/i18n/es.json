@@ -1,0 +1,131 @@
+{
+  "site": {
+    "title": "AI Chat Exporter - Exporta conversaciones de IA",
+    "description": "Herramienta de exportación con un clic para conversaciones de ChatGPT, Claude, Gemini, DeepSeek y Grok. Exporta a Markdown, JSON, PDF, TXT, CSV o PNG.",
+    "keywords": "exportador chat IA, exportar ChatGPT, exportar Claude, exportar Gemini, respaldo conversaciones IA"
+  },
+  "nav": {
+    "features": "Características",
+    "howToUse": "Cómo usar",
+    "faq": "FAQ",
+    "install": "Instalar",
+    "home": "Inicio"
+  },
+  "hero": {
+    "title": "Exporta tus conversaciones de IA con un clic",
+    "subtitle": "Exporta el historial de chat de ChatGPT, Claude, Gemini, DeepSeek y Grok a formatos Markdown, JSON, PDF, TXT, CSV o imagen PNG.",
+    "cta": {
+      "install": "Instalar gratis",
+      "learnMore": "Saber más"
+    },
+    "platforms": "Compatible con las principales plataformas de IA"
+  },
+  "features": {
+    "title": "Características potentes",
+    "subtitle": "Todo lo que necesitas para exportar y respaldar tus conversaciones de IA",
+    "exportFormats": {
+      "title": "Múltiples formatos de exportación",
+      "description": "Exporta a Markdown, JSON, PDF, TXT, CSV o imágenes PNG estilizadas para compartir fácilmente."
+    },
+    "privacy": {
+      "title": "Privacidad primero",
+      "description": "Todo el procesamiento ocurre localmente en tu navegador. Tus conversaciones nunca salen de tu dispositivo."
+    },
+    "multiLanguage": {
+      "title": "Soporte multiidioma",
+      "description": "Interfaz disponible en inglés, chino, japonés, coreano, español y francés."
+    },
+    "oneClick": {
+      "title": "Exportación con un clic",
+      "description": "Interfaz simple e intuitiva. Exporta tus conversaciones con solo un clic."
+    }
+  },
+  "formats": {
+    "title": "Formatos de exportación soportados",
+    "subtitle": "Elige el formato que mejor se adapte a tus necesidades"
+  },
+  "steps": {
+    "title": "Cómo usar",
+    "subtitle": "Comienza en solo 4 simples pasos",
+    "step1": {
+      "title": "Instalar extensión",
+      "description": "Añade AI Chat Exporter a tu navegador desde Chrome Web Store"
+    },
+    "step2": {
+      "title": "Abrir chat de IA",
+      "description": "Navega a ChatGPT, Claude, Gemini o cualquier plataforma de IA soportada"
+    },
+    "step3": {
+      "title": "Clic en exportar",
+      "description": "Haz clic en el icono de la extensión o usa el botón flotante de exportación"
+    },
+    "step4": {
+      "title": "Elegir formato",
+      "description": "Selecciona tu formato preferido y descarga la conversación"
+    }
+  },
+  "reviews": {
+    "title": "Lo que dicen los usuarios",
+    "subtitle": "Confiado por miles de usuarios en todo el mundo",
+    "rating": "Calificación",
+    "users": "usuarios"
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "subtitle": "Encuentra respuestas a preguntas comunes sobre AI Chat Exporter",
+    "items": [
+      {
+        "question": "¿Qué plataformas de IA son compatibles?",
+        "answer": "AI Chat Exporter es compatible con ChatGPT, Claude, Gemini, DeepSeek y Grok. Estamos añadiendo constantemente soporte para más plataformas."
+      },
+      {
+        "question": "¿Mis datos de conversación están seguros?",
+        "answer": "¡Sí! Todo el procesamiento ocurre localmente en tu navegador. Tus conversaciones nunca se envían a ningún servidor externo. Tomamos tu privacidad muy en serio."
+      },
+      {
+        "question": "¿Cómo instalo la extensión?",
+        "answer": "Simplemente visita Chrome Web Store, busca 'AI Chat Exporter' y haz clic en 'Añadir a Chrome'. La extensión se instalará automáticamente."
+      },
+      {
+        "question": "¿Qué formatos de exportación están disponibles?",
+        "answer": "Puedes exportar a Markdown (.md), JSON, PDF, texto plano (TXT), hoja de cálculo CSV o como imagen PNG estilizada perfecta para compartir."
+      },
+      {
+        "question": "¿Es gratuito?",
+        "answer": "Sí, AI Chat Exporter es completamente gratuito sin limitaciones. No se requiere cuenta."
+      },
+      {
+        "question": "¿Funciona en navegadores móviles?",
+        "answer": "Actualmente, AI Chat Exporter está diseñado para navegadores de escritorio (Chrome, Edge y otros navegadores basados en Chromium). El soporte móvil puede añadirse en el futuro."
+      }
+    ]
+  },
+  "cta": {
+    "title": "¿Listo para exportar tus conversaciones de IA?",
+    "subtitle": "Únete a miles de usuarios que confían en AI Chat Exporter para sus necesidades de respaldo de chat.",
+    "button": "Instalar ahora - Es gratis"
+  },
+  "footer": {
+    "product": "Producto",
+    "resources": "Recursos",
+    "legal": "Legal",
+    "followUs": "Síguenos",
+    "features": "Características",
+    "howToUse": "Cómo usar",
+    "faq": "FAQ",
+    "changelog": "Registro de cambios",
+    "documentation": "Documentación",
+    "support": "Soporte",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de servicio",
+    "copyright": "© 2024 AI Chat Exporter. Todos los derechos reservados."
+  },
+  "languages": {
+    "en": "English",
+    "zh-CN": "简体中文",
+    "ja": "日本語",
+    "ko": "한국어",
+    "es": "Español",
+    "fr": "Français"
+  }
+}

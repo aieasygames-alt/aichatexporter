@@ -1,0 +1,131 @@
+{
+  "site": {
+    "title": "AI Chat Exporter - AI 대화 내보내기",
+    "description": "ChatGPT, Claude, Gemini, DeepSeek, Grok 대화를 원클릭으로 내보내기. Markdown, JSON, PDF, TXT, CSV, PNG 이미지 형식 지원.",
+    "keywords": "AI 채팅 내보내기, ChatGPT 내보내기, Claude 내보내기, Gemini 내보내기, AI 대화 백업"
+  },
+  "nav": {
+    "features": "기능",
+    "howToUse": "사용 방법",
+    "faq": "자주 묻는 질문",
+    "install": "설치",
+    "home": "홈"
+  },
+  "hero": {
+    "title": "AI 대화를 원클릭으로 내보내기",
+    "subtitle": "ChatGPT, Claude, Gemini, DeepSeek, Grok의 채팅 기록을 Markdown, JSON, PDF, TXT, CSV 또는 PNG 이미지 형식으로 내보내세요.",
+    "cta": {
+      "install": "무료 설치",
+      "learnMore": "자세히 보기"
+    },
+    "platforms": "모든 주요 AI 플랫폼 지원"
+  },
+  "features": {
+    "title": "강력한 기능",
+    "subtitle": "AI 대화 내보내기 및 백업에 필요한 모든 것",
+    "exportFormats": {
+      "title": "다양한 내보내기 형식",
+      "description": "Markdown, JSON, PDF, TXT, CSV 또는 스타일이 적용된 PNG 이미지로 내보내기. 쉽게 공유할 수 있습니다."
+    },
+    "privacy": {
+      "title": "개인정보 보호 우선",
+      "description": "모든 처리는 브라우저에서 로컬로 이루어집니다. 대화가 기기를 벗어나지 않습니다."
+    },
+    "multiLanguage": {
+      "title": "다국어 지원",
+      "description": "영어, 중국어, 일본어, 한국어, 스페인어, 프랑스어 인터페이스 사용 가능."
+    },
+    "oneClick": {
+      "title": "원클릭 내보내기",
+      "description": "간단하고 직관적인 인터페이스. 원클릭으로 대화 내보내기."
+    }
+  },
+  "formats": {
+    "title": "지원 내보내기 형식",
+    "subtitle": "필요에 맞는 형식을 선택하세요"
+  },
+  "steps": {
+    "title": "사용 방법",
+    "subtitle": "4가지 간단한 단계로 시작하세요",
+    "step1": {
+      "title": "확장 프로그램 설치",
+      "description": "Chrome 웹 스토어에서 AI Chat Exporter를 브라우저에 추가"
+    },
+    "step2": {
+      "title": "AI 채팅 열기",
+      "description": "ChatGPT, Claude, Gemini 또는 지원되는 AI 플랫폼으로 이동"
+    },
+    "step3": {
+      "title": "내보내기 클릭",
+      "description": "확장 프로그램 아이콘 또는 플로팅 내보내기 버튼 클릭"
+    },
+    "step4": {
+      "title": "형식 선택",
+      "description": "원하는 형식을 선택하고 대화 다운로드"
+    }
+  },
+  "reviews": {
+    "title": "사용자 후기",
+    "subtitle": "전 세계 수천 명의 사용자가 신뢰합니다",
+    "rating": "평점",
+    "users": "사용자"
+  },
+  "faq": {
+    "title": "자주 묻는 질문",
+    "subtitle": "AI Chat Exporter에 대한 일반적인 질문의 답변을 찾아보세요",
+    "items": [
+      {
+        "question": "어떤 AI 플랫폼이 지원되나요?",
+        "answer": "AI Chat Exporter는 ChatGPT, Claude, Gemini, DeepSeek, Grok을 지원합니다. 지속적으로 더 많은 플랫폼 지원을 추가하고 있습니다."
+      },
+      {
+        "question": "대화 데이터가 안전한가요?",
+        "answer": "네! 모든 처리는 브라우저에서 로컬로 이루어집니다. 대화가 외부 서버로 전송되지 않습니다. 개인정보를 매우 중요하게 생각합니다."
+      },
+      {
+        "question": "확장 프로그램을 어떻게 설치하나요?",
+        "answer": "Chrome 웹 스토어를 방문하여 'AI Chat Exporter'를 검색하고 'Chrome에 추가'를 클릭하세요. 확장 프로그램이 자동으로 설치됩니다."
+      },
+      {
+        "question": "어떤 내보내기 형식을 사용할 수 있나요?",
+        "answer": "Markdown (.md), JSON, PDF, 일반 텍스트 (TXT), CSV 스프레드시트 또는 공유에 적합한 스타일이 적용된 PNG 이미지로 내보낼 수 있습니다."
+      },
+      {
+        "question": "무료인가요?",
+        "answer": "네, AI Chat Exporter는 제한 없이 완전히 무료로 사용할 수 있습니다. 계정 등록이 필요하지 않습니다."
+      },
+      {
+        "question": "모바일 브라우저에서 작동하나요?",
+        "answer": "현재 AI Chat Exporter는 데스크톱 브라우저(Chrome, Edge 및 기타 Chromium 기반 브라우저)용으로 설계되었습니다. 향후 모바일 지원이 추가될 수 있습니다."
+      }
+    ]
+  },
+  "cta": {
+    "title": "AI 대화를 내보낼 준비가 되셨나요?",
+    "subtitle": "채팅 백업을 위해 AI Chat Exporter를 신뢰하는 수천 명의 사용자와 함께하세요.",
+    "button": "지금 설치 - 무료"
+  },
+  "footer": {
+    "product": "제품",
+    "resources": "리소스",
+    "legal": "법적 정보",
+    "followUs": "팔로우",
+    "features": "기능",
+    "howToUse": "사용 방법",
+    "faq": "자주 묻는 질문",
+    "changelog": "변경 로그",
+    "documentation": "문서",
+    "support": "지원",
+    "privacy": "개인정보 처리방침",
+    "terms": "이용약관",
+    "copyright": "© 2024 AI Chat Exporter. All rights reserved."
+  },
+  "languages": {
+    "en": "English",
+    "zh-CN": "简体中文",
+    "ja": "日本語",
+    "ko": "한국어",
+    "es": "Español",
+    "fr": "Français"
+  }
+}
