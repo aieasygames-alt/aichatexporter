@@ -22,13 +22,7 @@ export default defineConfig({
       },
     }),
   ],
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'zh-CN', 'ja', 'ko', 'es', 'fr'],
-    routing: {
-      prefixDefaultLocale: true,
-    },
-  },
+  // 不使用 Astro 内置 i18n，改用自定义重定向
   build: {
     inlineStylesheets: 'auto',
   },
