@@ -5,12 +5,6 @@
 
 import type { ChatMessage, LanguageCode, TranslationKey } from '../types';
 
-interface _MessageStart {
-  element: HTMLElement;
-  isUser: boolean;
-  top: number;
-}
-
 interface FloatingPopupModule {
   isOpen: boolean;
   overlay: HTMLElement | null;
