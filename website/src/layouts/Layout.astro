@@ -88,17 +88,13 @@ const alternateUrls = Object.keys(languages).map((l) => ({
     })} />
 
     <!-- Google Analytics -->
-    {import.meta.env.PUBLIC_GA_ID && (
-      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_ID}`}></script>
-    )}
-    {import.meta.env.PUBLIC_GA_ID && (
-      <script is:inline set:html={`
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', '${import.meta.env.PUBLIC_GA_ID}');
-      `} />
-    )}
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-NRW5HKRG00"></script>
+    <script is:inline set:html={`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-NRW5HKRG00');
+    `} />
   </head>
   <body class="min-h-screen flex flex-col">
     <Navbar lang={lang} />
