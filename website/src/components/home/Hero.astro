@@ -75,117 +75,28 @@ const platforms = [
         </div>
       </div>
 
-      <!-- Right: Demo Video -->
+      <!-- Right: Screenshot -->
       <div class="relative flex justify-center lg:justify-end">
-        <div class="relative animate-float cursor-pointer group" onclick="openVideoModal()">
+        <div class="relative animate-float">
           <!-- Glow effect -->
           <div class="absolute -inset-4 bg-gradient-to-r from-accent/20 via-chatgpt/20 to-claude/20 blur-3xl opacity-50"></div>
 
-          <!-- Video Demo -->
+          <!-- Screenshot -->
           <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-bg-secondary">
-            <video
-              id="heroVideo"
-              class="w-full max-w-lg"
-              autoplay
-              loop
-              muted
-              playsinline
-              width="512"
-              height="384"
-            >
-              <source src="/assets/videos/demo.webm" type="video/webm" />
-              <source src="/assets/videos/demo.mp4" type="video/mp4" />
-              <!-- Fallback to screenshot if video not supported -->
-              <picture>
-                <source srcset="/assets/screenshots/hero-screenshot.webp" type="image/webp" />
-                <img
-                  src="/assets/screenshots/hero-screenshot.png"
-                  alt="AI Chat Exporter Screenshot"
-                  class="w-full max-w-lg"
-                  loading="eager"
-                  width="512"
-                  height="384"
-                />
-              </picture>
-            </video>
-
-            <!-- Expand icon overlay -->
-            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
-              <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                </svg>
-              </div>
-            </div>
-
-            <!-- Video controls overlay -->
-            <div class="absolute bottom-3 right-3 flex items-center gap-2 bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1.5">
-              <span class="text-xs text-white/70">Demo</span>
-              <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-            </div>
+            <picture>
+              <source srcset="/assets/screenshots/hero-screenshot.webp" type="image/webp" />
+              <img
+                src="/assets/screenshots/hero-screenshot.png"
+                alt="AI Chat Exporter Screenshot"
+                class="w-full max-w-lg"
+                loading="eager"
+                width="512"
+                height="384"
+              />
+            </picture>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- Video Modal -->
-<div id="videoModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onclick="closeVideoModal(event)">
-  <div class="relative w-full max-w-5xl aspect-video bg-bg-secondary rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-    <!-- Close button -->
-    <button onclick="closeVideoModal(event)" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/70 transition-colors">
-      <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
-
-    <!-- Modal Video -->
-    <video
-      id="modalVideo"
-      class="w-full h-full"
-      loop
-      muted
-      playsinline
-      controls
-    >
-      <source src="/assets/videos/demo.webm" type="video/webm" />
-      <source src="/assets/videos/demo.mp4" type="video/mp4" />
-    </video>
-  </div>
-</div>
-
-<script>
-  function openVideoModal() {
-    const modal = document.getElementById('videoModal');
-    const modalVideo = document.getElementById('modalVideo');
-    const heroVideo = document.getElementById('heroVideo');
-
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    modalVideo.play();
-    heroVideo.pause();
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeVideoModal(event) {
-    if (event.target.id === 'videoModal' || event.currentTarget.tagName === 'BUTTON') {
-      const modal = document.getElementById('videoModal');
-      const modalVideo = document.getElementById('modalVideo');
-      const heroVideo = document.getElementById('heroVideo');
-
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-      modalVideo.pause();
-      heroVideo.play();
-      document.body.style.overflow = '';
-    }
-  }
-
-  // Close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeVideoModal({ target: { id: 'videoModal' } });
-    }
-  });
-</script>
