@@ -9,7 +9,9 @@
     "howToUse": "How to Use",
     "faq": "FAQ",
     "install": "Install",
-    "home": "Home"
+    "home": "Home",
+    "tips": "Tips & Tricks",
+    "platforms": "Supported Platforms"
   },
   "hero": {
     "title": "One-Click Export Your AI Conversations",
@@ -105,6 +107,122 @@
         "answer": "Currently, AI Chat Exporter is designed for desktop browsers (Chrome, Edge, and other Chromium-based browsers). Mobile support may be added in the future."
       }
     ]
+  },
+  "tips": {
+    "title": "Tips & Tricks",
+    "subtitle": "Get the most out of AI Chat Exporter with these helpful tips and advanced techniques",
+    "items": {
+      "keyboard": {
+        "title": "Keyboard Shortcuts",
+        "description": "Speed up your workflow with keyboard shortcuts",
+        "step1": "Press Alt+E (Windows) or Option+E (Mac) to quickly open the export dialog",
+        "step2": "Use Tab to navigate between format options",
+        "step3": "Press Enter to confirm and start the download"
+      },
+      "batch": {
+        "title": "Batch Export",
+        "description": "Export multiple conversations at once",
+        "step1": "Open the extension popup while on the chat list page",
+        "step2": "Select multiple conversations using checkboxes",
+        "step3": "Choose your format and click Export All"
+      },
+      "filename": {
+        "title": "Custom Filenames",
+        "description": "Organize your exports with custom naming",
+        "step1": "Click the settings icon in the export dialog",
+        "step2": "Enable custom filename template with date, time, or conversation title"
+      },
+      "markdown": {
+        "title": "Markdown Formatting",
+        "description": "Get perfectly formatted Markdown files",
+        "step1": "Code blocks are preserved with syntax highlighting",
+        "step2": "Images and links are converted to proper Markdown format",
+        "step3": "Use any Markdown editor to view and edit your exports"
+      },
+      "png": {
+        "title": "PNG Styling Options",
+        "description": "Create beautiful shareable images",
+        "step1": "Choose from multiple theme options (Light, Dark, Custom)",
+        "step2": "Adjust width and padding for perfect social media sharing"
+      },
+      "backup": {
+        "title": "Backup Strategy",
+        "description": "Keep your conversations safe",
+        "step1": "Export important conversations to JSON for full data backup",
+        "step2": "Use Markdown for readable archives",
+        "step3": "Store exports in cloud storage for cross-device access"
+      }
+    },
+    "advanced": {
+      "title": "Advanced Usage",
+      "json": {
+        "title": "JSON Processing",
+        "description": "Import exported JSON into your own applications or scripts for custom processing"
+      },
+      "csv": {
+        "title": "Data Analysis",
+        "description": "Export to CSV and analyze your conversation patterns in Excel or Google Sheets"
+      },
+      "api": {
+        "title": "API Integration",
+        "description": "Use exported data to train custom models or integrate with other tools"
+      }
+    },
+    "proTip": {
+      "title": "Pro Tip",
+      "description": "Enable auto-export in settings to automatically save copies of all your conversations. Never lose an important chat again!"
+    }
+  },
+  "platforms": {
+    "title": "Supported Platforms",
+    "subtitle": "AI Chat Exporter works seamlessly with all major AI chat platforms",
+    "supportedFormats": "Supported Formats",
+    "comingSoon": "More platforms coming soon!",
+    "howToUse": {
+      "title": "How to Export",
+      "step1": {
+        "title": "Install Extension",
+        "description": "Add AI Chat Exporter to your browser"
+      },
+      "step2": {
+        "title": "Open Platform",
+        "description": "Navigate to any supported AI platform"
+      },
+      "step3": {
+        "title": "Click Export",
+        "description": "Click the extension icon and choose format"
+      }
+    },
+    "chatgpt": {
+      "description": "ChatGPT by OpenAI is the most popular AI assistant. Export your GPT-3.5, GPT-4, and custom GPT conversations with full formatting support.",
+      "feature1": "Full conversation history export",
+      "feature2": "Custom GPT conversations support",
+      "feature3": "Code block syntax highlighting"
+    },
+    "claude": {
+      "description": "Claude by Anthropic is known for its thoughtful and nuanced responses. Export your Claude conversations including Artifacts content.",
+      "feature1": "Artifacts content included",
+      "feature2": "Long conversation support",
+      "feature3": "Multi-turn dialogue preservation"
+    },
+    "gemini": {
+      "description": "Gemini by Google offers multimodal AI capabilities. Export your Gemini conversations with image references preserved.",
+      "feature1": "Multimodal content support",
+      "feature2": "Google Workspace integration data",
+      "feature3": "Image reference preservation"
+    },
+    "deepseek": {
+      "description": "DeepSeek is a powerful open-source AI model. Export your technical and coding conversations with precision.",
+      "feature1": "Technical content optimized",
+      "feature2": "Code analysis preservation",
+      "feature3": "Reasoning chain export"
+    },
+    "grok": {
+      "description": "Grok by xAI offers real-time knowledge and witty responses. Export your Grok conversations with personality intact.",
+      "feature1": "Real-time information export",
+      "feature2": "Humor and personality preserved",
+      "feature3": "X (Twitter) context included"
+    }
   },
   "cta": {
     "title": "Ready to Export Your AI Conversations?",

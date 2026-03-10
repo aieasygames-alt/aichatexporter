@@ -1,0 +1,173 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+
+const tips = [
+  {
+    id: 'keyboard-shortcuts',
+    icon: '⌨️',
+    title: t('tips.items.keyboard.title'),
+    description: t('tips.items.keyboard.description'),
+    steps: [
+      t('tips.items.keyboard.step1'),
+      t('tips.items.keyboard.step2'),
+      t('tips.items.keyboard.step3'),
+    ],
+  },
+  {
+    id: 'batch-export',
+    icon: '📦',
+    title: t('tips.items.batch.title'),
+    description: t('tips.items.batch.description'),
+    steps: [
+      t('tips.items.batch.step1'),
+      t('tips.items.batch.step2'),
+      t('tips.items.batch.step3'),
+    ],
+  },
+  {
+    id: 'custom-filename',
+    icon: '📝',
+    title: t('tips.items.filename.title'),
+    description: t('tips.items.filename.description'),
+    steps: [
+      t('tips.items.filename.step1'),
+      t('tips.items.filename.step2'),
+    ],
+  },
+  {
+    id: 'markdown-tips',
+    icon: '📄',
+    title: t('tips.items.markdown.title'),
+    description: t('tips.items.markdown.description'),
+    steps: [
+      t('tips.items.markdown.step1'),
+      t('tips.items.markdown.step2'),
+      t('tips.items.markdown.step3'),
+    ],
+  },
+  {
+    id: 'png-styling',
+    icon: '🎨',
+    title: t('tips.items.png.title'),
+    description: t('tips.items.png.description'),
+    steps: [
+      t('tips.items.png.step1'),
+      t('tips.items.png.step2'),
+    ],
+  },
+  {
+    id: 'backup-strategy',
+    icon: '💾',
+    title: t('tips.items.backup.title'),
+    description: t('tips.items.backup.description'),
+    steps: [
+      t('tips.items.backup.step1'),
+      t('tips.items.backup.step2'),
+      t('tips.items.backup.step3'),
+    ],
+  },
+];
+
+const advancedTips = [
+  {
+    id: 'json-processing',
+    icon: '🔧',
+    title: t('tips.advanced.json.title'),
+    description: t('tips.advanced.json.description'),
+  },
+  {
+    id: 'csv-analysis',
+    icon: '📊',
+    title: t('tips.advanced.csv.title'),
+    description: t('tips.advanced.csv.description'),
+  },
+  {
+    id: 'api-integration',
+    icon: '🔗',
+    title: t('tips.advanced.api.title'),
+    description: t('tips.advanced.api.description'),
+  },
+];
+---
+
+<Layout
+  title={`${t('tips.title')} - AI Chat Exporter`}
+  description={t('tips.subtitle')}
+  lang={lang}
+>
+  <section class="py-16 lg:py-24">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+          <span class="gradient-text">{t('tips.title')}</span>
+        </h1>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+          {t('tips.subtitle')}
+        </p>
+      </div>
+
+      <!-- Tips Grid -->
+      <div class="grid md:grid-cols-2 gap-6 mb-16">
+        {tips.map((tip) => (
+          <div class="card p-6 hover:border-accent/30 transition-colors">
+            <div class="flex items-start gap-4">
+              <div class="text-3xl">{tip.icon}</div>
+              <div class="flex-1">
+                <h3 class="text-xl font-semibold mb-2">{tip.title}</h3>
+                <p class="text-gray-400 mb-4">{tip.description}</p>
+                <ul class="space-y-2">
+                  {tip.steps.map((step, i) => (
+                    <li class="flex items-start gap-2 text-sm text-gray-300">
+                      <span class="w-5 h-5 rounded-full bg-accent/20 text-accent flex items-center justify-center text-xs flex-shrink-0 mt-0.5">
+                        {i + 1}
+                      </span>
+                      {step}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Advanced Section -->
+      <div class="mt-20">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-8 text-center">
+          <span class="gradient-text">{t('tips.advanced.title')}</span>
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          {advancedTips.map((tip) => (
+            <div class="card p-6 text-center hover:border-accent/30 transition-colors">
+              <div class="text-4xl mb-4">{tip.icon}</div>
+              <h3 class="text-lg font-semibold mb-2">{tip.title}</h3>
+              <p class="text-gray-400 text-sm">{tip.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Pro Tips Banner -->
+      <div class="mt-16 p-8 rounded-2xl bg-gradient-to-r from-accent/10 via-chatgpt/10 to-claude/10 border border-white/5">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+          <div class="text-5xl">💡</div>
+          <div class="flex-1 text-center md:text-left">
+            <h3 class="text-xl font-semibold mb-2">{t('tips.proTip.title')}</h3>
+            <p class="text-gray-400">{t('tips.proTip.description')}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

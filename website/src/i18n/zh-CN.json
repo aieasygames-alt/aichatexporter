@@ -9,7 +9,9 @@
     "howToUse": "使用教程",
     "faq": "常见问题",
     "install": "安装",
-    "home": "首页"
+    "home": "首页",
+    "tips": "使用技巧",
+    "platforms": "支持平台"
   },
   "hero": {
     "title": "一键导出你的AI对话记录",
@@ -105,6 +107,122 @@
         "answer": "目前，AI Chat Exporter专为桌面浏览器设计（Chrome、Edge和其他基于Chromium的浏览器）。未来可能会添加移动端支持。"
       }
     ]
+  },
+  "tips": {
+    "title": "使用技巧",
+    "subtitle": "通过这些实用技巧和高级技巧充分利用AI Chat Exporter",
+    "items": {
+      "keyboard": {
+        "title": "键盘快捷键",
+        "description": "使用键盘快捷键加速你的工作流程",
+        "step1": "按 Alt+E (Windows) 或 Option+E (Mac) 快速打开导出对话框",
+        "step2": "使用 Tab 键在格式选项之间切换",
+        "step3": "按 Enter 键确认并开始下载"
+      },
+      "batch": {
+        "title": "批量导出",
+        "description": "一次导出多个对话",
+        "step1": "在聊天列表页面打开扩展弹出窗口",
+        "step2": "使用复选框选择多个对话",
+        "step3": "选择格式并点击全部导出"
+      },
+      "filename": {
+        "title": "自定义文件名",
+        "description": "使用自定义命名组织你的导出文件",
+        "step1": "点击导出对话框中的设置图标",
+        "step2": "启用包含日期、时间或对话标题的自定义文件名模板"
+      },
+      "markdown": {
+        "title": "Markdown 格式化",
+        "description": "获取完美格式的 Markdown 文件",
+        "step1": "代码块保留语法高亮",
+        "step2": "图片和链接转换为正确的 Markdown 格式",
+        "step3": "使用任何 Markdown 编辑器查看和编辑导出内容"
+      },
+      "png": {
+        "title": "PNG 样式选项",
+        "description": "创建精美的可分享图片",
+        "step1": "从多种主题选项中选择（亮色、暗色、自定义）",
+        "step2": "调整宽度和内边距以适应社交媒体分享"
+      },
+      "backup": {
+        "title": "备份策略",
+        "description": "保护你的对话安全",
+        "step1": "将重要对话导出为 JSON 进行完整数据备份",
+        "step2": "使用 Markdown 进行可读归档",
+        "step3": "将导出内容存储在云存储中以便跨设备访问"
+      }
+    },
+    "advanced": {
+      "title": "高级用法",
+      "json": {
+        "title": "JSON 处理",
+        "description": "将导出的 JSON 导入你自己的应用程序或脚本进行自定义处理"
+      },
+      "csv": {
+        "title": "数据分析",
+        "description": "导出为 CSV 并在 Excel 或 Google Sheets 中分析你的对话模式"
+      },
+      "api": {
+        "title": "API 集成",
+        "description": "使用导出的数据训练自定义模型或与其他工具集成"
+      }
+    },
+    "proTip": {
+      "title": "专业提示",
+      "description": "在设置中启用自动导出，自动保存所有对话的副本。再也不丢失重要聊天！"
+    }
+  },
+  "platforms": {
+    "title": "支持平台",
+    "subtitle": "AI Chat Exporter 与所有主流 AI 聊天平台无缝协作",
+    "supportedFormats": "支持的格式",
+    "comingSoon": "更多平台即将推出！",
+    "howToUse": {
+      "title": "如何导出",
+      "step1": {
+        "title": "安装扩展",
+        "description": "将 AI Chat Exporter 添加到你的浏览器"
+      },
+      "step2": {
+        "title": "打开平台",
+        "description": "导航到任何支持的 AI 平台"
+      },
+      "step3": {
+        "title": "点击导出",
+        "description": "点击扩展图标并选择格式"
+      }
+    },
+    "chatgpt": {
+      "description": "OpenAI 的 ChatGPT 是最受欢迎的 AI 助手。导出你的 GPT-3.5、GPT-4 和自定义 GPT 对话，完整保留格式。",
+      "feature1": "完整对话历史导出",
+      "feature2": "自定义 GPT 对话支持",
+      "feature3": "代码块语法高亮"
+    },
+    "claude": {
+      "description": "Anthropic 的 Claude 以深思熟虑和细腻的回复著称。导出你的 Claude 对话，包括 Artifacts 内容。",
+      "feature1": "包含 Artifacts 内容",
+      "feature2": "长对话支持",
+      "feature3": "多轮对话保留"
+    },
+    "gemini": {
+      "description": "Google 的 Gemini 提供多模态 AI 能力。导出你的 Gemini 对话，保留图片引用。",
+      "feature1": "多模态内容支持",
+      "feature2": "Google Workspace 集成数据",
+      "feature3": "图片引用保留"
+    },
+    "deepseek": {
+      "description": "DeepSeek 是一个强大的开源 AI 模型。精确导出你的技术和编程对话。",
+      "feature1": "技术内容优化",
+      "feature2": "代码分析保留",
+      "feature3": "推理链导出"
+    },
+    "grok": {
+      "description": "xAI 的 Grok 提供实时知识和机智回复。导出你的 Grok 对话，保留个性风格。",
+      "feature1": "实时信息导出",
+      "feature2": "幽默和个性保留",
+      "feature3": "包含 X (Twitter) 上下文"
+    }
   },
   "cta": {
     "title": "准备好导出你的AI对话了吗？",

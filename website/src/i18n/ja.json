@@ -9,7 +9,9 @@
     "howToUse": "使い方",
     "faq": "よくある質問",
     "install": "インストール",
-    "home": "ホーム"
+    "home": "ホーム",
+    "tips": "使い方のコツ",
+    "platforms": "対応プラットフォーム"
   },
   "hero": {
     "title": "AI会話をワンクリックでエクスポート",
@@ -105,6 +107,122 @@
         "answer": "現在、AI Chat Exporterはデスクトップブラウザ（Chrome、Edge、その他のChromiumベースのブラウザ）用に設計されています。将来的にモバイルサポートが追加される可能性があります。"
       }
     ]
+  },
+  "tips": {
+    "title": "使い方のコツ",
+    "subtitle": "これらの便利なヒントと高度なテクニックでAI Chat Exporterを最大限に活用しましょう",
+    "items": {
+      "keyboard": {
+        "title": "キーボードショートカット",
+        "description": "キーボードショートカットでワークフローを加速",
+        "step1": "Alt+E (Windows) または Option+E (Mac) を押してエクスポートダイアログを素早く開く",
+        "step2": "Tabキーでフォーマットオプション間を移動",
+        "step3": "Enterキーで確認してダウンロード開始"
+      },
+      "batch": {
+        "title": "一括エクスポート",
+        "description": "複数の会話を一度にエクスポート",
+        "step1": "チャットリストページで拡張機能ポップアップを開く",
+        "step2": "チェックボックスで複数の会話を選択",
+        "step3": "フォーマットを選択して「すべてエクスポート」をクリック"
+      },
+      "filename": {
+        "title": "カスタムファイル名",
+        "description": "カスタム命名でエクスポートを整理",
+        "step1": "エクスポートダイアログの設定アイコンをクリック",
+        "step2": "日付、時刻、会話タイトルを含むカスタムファイル名テンプレートを有効化"
+      },
+      "markdown": {
+        "title": "Markdownフォーマット",
+        "description": "完璧にフォーマットされたMarkdownファイルを取得",
+        "step1": "コードブロックはシンタックスハイライト付きで保存",
+        "step2": "画像とリンクは適切なMarkdown形式に変換",
+        "step3": "任意のMarkdownエディタでエクスポートを表示・編集"
+      },
+      "png": {
+        "title": "PNGスタイルオプション",
+        "description": "美しい共有可能な画像を作成",
+        "step1": "複数のテーマオプションから選択（ライト、ダーク、カスタム）",
+        "step2": "ソーシャルメディア共有に最適な幅とパディングを調整"
+      },
+      "backup": {
+        "title": "バックアップ戦略",
+        "description": "会話を安全に保つ",
+        "step1": "重要な会話をJSONでエクスポートして完全なデータバックアップ",
+        "step2": "読みやすいアーカイブにMarkdownを使用",
+        "step3": "クロスデバイスアクセスのためにクラウドストレージにエクスポートを保存"
+      }
+    },
+    "advanced": {
+      "title": "高度な使い方",
+      "json": {
+        "title": "JSON処理",
+        "description": "エクスポートしたJSONを独自のアプリやスクリプトにインポートしてカスタム処理"
+      },
+      "csv": {
+        "title": "データ分析",
+        "description": "CSVでエクスポートしてExcelやGoogle Sheetsで会話パターンを分析"
+      },
+      "api": {
+        "title": "API統合",
+        "description": "エクスポートしたデータを使用してカスタムモデルをトレーニングまたは他のツールと統合"
+      }
+    },
+    "proTip": {
+      "title": "プロのヒント",
+      "description": "設定で自動エクスポートを有効にして、すべての会話のコピーを自動的に保存。重要なチャットを二度と失わない！"
+    }
+  },
+  "platforms": {
+    "title": "対応プラットフォーム",
+    "subtitle": "AI Chat Exporterはすべての主要なAIチャットプラットフォームとシームレスに連携",
+    "supportedFormats": "対応フォーマット",
+    "comingSoon": "さらなるプラットフォームを追加予定！",
+    "howToUse": {
+      "title": "エクスポート方法",
+      "step1": {
+        "title": "拡張機能をインストール",
+        "description": "AI Chat Exporterをブラウザに追加"
+      },
+      "step2": {
+        "title": "プラットフォームを開く",
+        "description": "サポートされているAIプラットフォームに移動"
+      },
+      "step3": {
+        "title": "エクスポートをクリック",
+        "description": "拡張機能アイコンをクリックしてフォーマットを選択"
+      }
+    },
+    "chatgpt": {
+      "description": "OpenAIのChatGPTは最も人気のあるAIアシスタント。GPT-3.5、GPT-4、カスタムGPTの会話を完全なフォーマットサポートでエクスポート。",
+      "feature1": "完全な会話履歴エクスポート",
+      "feature2": "カスタムGPT会話サポート",
+      "feature3": "コードブロックのシンタックスハイライト"
+    },
+    "claude": {
+      "description": "AnthropicのClaudeは思慮深くニュアンスのある応答で知られています。Artifactsコンテンツを含むClaude会話をエクスポート。",
+      "feature1": "Artifactsコンテンツを含む",
+      "feature2": "長い会話をサポート",
+      "feature3": "マルチターン対話の保存"
+    },
+    "gemini": {
+      "description": "GoogleのGeminiはマルチモーダルAI機能を提供。画像参照を保持したGemini会話をエクスポート。",
+      "feature1": "マルチモーダルコンテンツサポート",
+      "feature2": "Google Workspace統合データ",
+      "feature3": "画像参照の保存"
+    },
+    "deepseek": {
+      "description": "DeepSeekは強力なオープンソースAIモデル。技術的およびコーディング会話を精密にエクスポート。",
+      "feature1": "技術的コンテンツ最適化",
+      "feature2": "コード分析の保存",
+      "feature3": "推論チェーンのエクスポート"
+    },
+    "grok": {
+      "description": "xAIのGrokはリアルタイムの知識とウィットに富んだ応答を提供。個性を保ったGrok会話をエクスポート。",
+      "feature1": "リアルタイム情報のエクスポート",
+      "feature2": "ユーモアと個性を保存",
+      "feature3": "X (Twitter) コンテキストを含む"
+    }
   },
   "cta": {
     "title": "AI会話をエクスポートする準備はできましたか？",

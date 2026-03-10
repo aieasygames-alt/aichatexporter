@@ -9,7 +9,9 @@
     "howToUse": "Cómo usar",
     "faq": "FAQ",
     "install": "Instalar",
-    "home": "Inicio"
+    "home": "Inicio",
+    "tips": "Consejos",
+    "platforms": "Plataformas"
   },
   "hero": {
     "title": "Exporta tus conversaciones de IA con un clic",
@@ -105,6 +107,122 @@
         "answer": "Actualmente, AI Chat Exporter está diseñado para navegadores de escritorio (Chrome, Edge y otros navegadores basados en Chromium). El soporte móvil puede añadirse en el futuro."
       }
     ]
+  },
+  "tips": {
+    "title": "Consejos y Trucos",
+    "subtitle": "Aprovecha al máximo AI Chat Exporter con estos consejos útiles y técnicas avanzadas",
+    "items": {
+      "keyboard": {
+        "title": "Atajos de Teclado",
+        "description": "Acelera tu flujo de trabajo con atajos de teclado",
+        "step1": "Presiona Alt+E (Windows) u Option+E (Mac) para abrir rápidamente el diálogo de exportación",
+        "step2": "Usa Tab para navegar entre las opciones de formato",
+        "step3": "Presiona Enter para confirmar e iniciar la descarga"
+      },
+      "batch": {
+        "title": "Exportación por Lotes",
+        "description": "Exporta múltiples conversaciones a la vez",
+        "step1": "Abre el popup de la extensión mientras estás en la página de lista de chats",
+        "step2": "Selecciona múltiples conversaciones usando casillas de verificación",
+        "step3": "Elige tu formato y haz clic en Exportar Todo"
+      },
+      "filename": {
+        "title": "Nombres de Archivo Personalizados",
+        "description": "Organiza tus exportaciones con nombres personalizados",
+        "step1": "Haz clic en el icono de configuración en el diálogo de exportación",
+        "step2": "Habilita la plantilla de nombre de archivo personalizado con fecha, hora o título de conversación"
+      },
+      "markdown": {
+        "title": "Formato Markdown",
+        "description": "Obtén archivos Markdown perfectamente formateados",
+        "step1": "Los bloques de código se conservan con resaltado de sintaxis",
+        "step2": "Las imágenes y enlaces se convierten al formato Markdown adecuado",
+        "step3": "Usa cualquier editor Markdown para ver y editar tus exportaciones"
+      },
+      "png": {
+        "title": "Opciones de Estilo PNG",
+        "description": "Crea imágenes hermosas para compartir",
+        "step1": "Elige entre múltiples opciones de tema (Claro, Oscuro, Personalizado)",
+        "step2": "Ajusta el ancho y el relleno para compartir perfectamente en redes sociales"
+      },
+      "backup": {
+        "title": "Estrategia de Respaldo",
+        "description": "Mantén tus conversaciones seguras",
+        "step1": "Exporta conversaciones importantes a JSON para respaldo completo de datos",
+        "step2": "Usa Markdown para archivos legibles",
+        "step3": "Almacena exportaciones en almacenamiento en la nube para acceso multi-dispositivo"
+      }
+    },
+    "advanced": {
+      "title": "Uso Avanzado",
+      "json": {
+        "title": "Procesamiento JSON",
+        "description": "Importa JSON exportado a tus propias aplicaciones o scripts para procesamiento personalizado"
+      },
+      "csv": {
+        "title": "Análisis de Datos",
+        "description": "Exporta a CSV y analiza tus patrones de conversación en Excel o Google Sheets"
+      },
+      "api": {
+        "title": "Integración API",
+        "description": "Usa datos exportados para entrenar modelos personalizados o integrar con otras herramientas"
+      }
+    },
+    "proTip": {
+      "title": "Consejo Pro",
+      "description": "Habilita la auto-exportación en configuración para guardar automáticamente copias de todas tus conversaciones. ¡Nunca pierdas un chat importante!"
+    }
+  },
+  "platforms": {
+    "title": "Plataformas Soportadas",
+    "subtitle": "AI Chat Exporter funciona perfectamente con todas las principales plataformas de chat IA",
+    "supportedFormats": "Formatos Soportados",
+    "comingSoon": "¡Más plataformas próximamente!",
+    "howToUse": {
+      "title": "Cómo Exportar",
+      "step1": {
+        "title": "Instalar Extensión",
+        "description": "Añade AI Chat Exporter a tu navegador"
+      },
+      "step2": {
+        "title": "Abrir Plataforma",
+        "description": "Navega a cualquier plataforma IA soportada"
+      },
+      "step3": {
+        "title": "Clic en Exportar",
+        "description": "Haz clic en el icono de la extensión y elige formato"
+      }
+    },
+    "chatgpt": {
+      "description": "ChatGPT de OpenAI es el asistente IA más popular. Exporta tus conversaciones GPT-3.5, GPT-4 y GPT personalizados con soporte completo de formato.",
+      "feature1": "Exportación completa del historial de conversación",
+      "feature2": "Soporte para conversaciones GPT personalizadas",
+      "feature3": "Resaltado de sintaxis en bloques de código"
+    },
+    "claude": {
+      "description": "Claude de Anthropic es conocido por sus respuestas reflexivas y matizadas. Exporta tus conversaciones de Claude incluyendo contenido de Artifacts.",
+      "feature1": "Contenido de Artifacts incluido",
+      "feature2": "Soporte para conversaciones largas",
+      "feature3": "Preservación de diálogos multi-turno"
+    },
+    "gemini": {
+      "description": "Gemini de Google ofrece capacidades de IA multimodal. Exporta tus conversaciones de Gemini con referencias de imagen preservadas.",
+      "feature1": "Soporte de contenido multimodal",
+      "feature2": "Datos de integración Google Workspace",
+      "feature3": "Preservación de referencias de imagen"
+    },
+    "deepseek": {
+      "description": "DeepSeek es un modelo de IA de código abierto potente. Exporta tus conversaciones técnicas y de codificación con precisión.",
+      "feature1": "Contenido técnico optimizado",
+      "feature2": "Preservación de análisis de código",
+      "feature3": "Exportación de cadena de razonamiento"
+    },
+    "grok": {
+      "description": "Grok de xAI ofrece conocimiento en tiempo real y respuestas ingeniosas. Exporta tus conversaciones de Grok con la personalidad intacta.",
+      "feature1": "Exportación de información en tiempo real",
+      "feature2": "Humor y personalidad preservados",
+      "feature3": "Contexto de X (Twitter) incluido"
+    }
   },
   "cta": {
     "title": "¿Listo para exportar tus conversaciones de IA?",

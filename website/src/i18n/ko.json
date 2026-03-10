@@ -9,7 +9,9 @@
     "howToUse": "사용 방법",
     "faq": "자주 묻는 질문",
     "install": "설치",
-    "home": "홈"
+    "home": "홈",
+    "tips": "사용 팁",
+    "platforms": "지원 플랫폼"
   },
   "hero": {
     "title": "AI 대화를 원클릭으로 내보내기",
@@ -105,6 +107,122 @@
         "answer": "현재 AI Chat Exporter는 데스크톱 브라우저(Chrome, Edge 및 기타 Chromium 기반 브라우저)용으로 설계되었습니다. 향후 모바일 지원이 추가될 수 있습니다."
       }
     ]
+  },
+  "tips": {
+    "title": "사용 팁",
+    "subtitle": "유용한 팁과 고급 기술로 AI Chat Exporter를 최대한 활용하세요",
+    "items": {
+      "keyboard": {
+        "title": "키보드 단축키",
+        "description": "키보드 단축키로 워크플로우 가속화",
+        "step1": "Alt+E (Windows) 또는 Option+E (Mac)을 눌러 내보내기 대화 상자를 빠르게 열기",
+        "step2": "Tab 키로 형식 옵션 간 이동",
+        "step3": "Enter 키로 확인하고 다운로드 시작"
+      },
+      "batch": {
+        "title": "일괄 내보내기",
+        "description": "여러 대화를 한 번에 내보내기",
+        "step1": "채팅 목록 페이지에서 확장 프로그램 팝업 열기",
+        "step2": "체크박스로 여러 대화 선택",
+        "step3": "형식 선택 후 모두 내보내기 클릭"
+      },
+      "filename": {
+        "title": "사용자 정의 파일명",
+        "description": "사용자 정의 명명으로 내보내기 정리",
+        "step1": "내보내기 대화 상자의 설정 아이콘 클릭",
+        "step2": "날짜, 시간 또는 대화 제목이 포함된 사용자 정의 파일명 템플릿 활성화"
+      },
+      "markdown": {
+        "title": "Markdown 형식",
+        "description": "완벽하게 형식화된 Markdown 파일 얻기",
+        "step1": "코드 블록은 구문 강조와 함께 보존",
+        "step2": "이미지와 링크가 적절한 Markdown 형식으로 변환",
+        "step3": "모든 Markdown 편집기로 내보내기 보기 및 편집"
+      },
+      "png": {
+        "title": "PNG 스타일 옵션",
+        "description": "아름다운 공유 가능한 이미지 만들기",
+        "step1": "여러 테마 옵션中选择 (라이트, 다크, 사용자 정의)",
+        "step2": "소셜 미디어 공유에 완벽한 너비와 패딩 조정"
+      },
+      "backup": {
+        "title": "백업 전략",
+        "description": "대화를 안전하게 보호",
+        "step1": "중요한 대화를 JSON으로 내보내기하여 전체 데이터 백업",
+        "step2": "읽기 쉬운 아카이브에 Markdown 사용",
+        "step3": "크로스 기기 액세스를 위해 클라우드 스토리지에 내보내기 저장"
+      }
+    },
+    "advanced": {
+      "title": "고급 사용법",
+      "json": {
+        "title": "JSON 처리",
+        "description": "내보낸 JSON을 자체 애플리케이션이나 스크립트로 가져와 사용자 정의 처리"
+      },
+      "csv": {
+        "title": "데이터 분석",
+        "description": "CSV로 내보내고 Excel 또는 Google Sheets에서 대화 패턴 분석"
+      },
+      "api": {
+        "title": "API 통합",
+        "description": "내보낸 데이터를 사용하여 사용자 정의 모델 훈련 또는 다른 도구와 통합"
+      }
+    },
+    "proTip": {
+      "title": "프로 팁",
+      "description": "설정에서 자동 내보내기를 활성화하여 모든 대화의 사본을 자동으로 저장. 중요한 채팅을 다시는 잃지 마세요!"
+    }
+  },
+  "platforms": {
+    "title": "지원 플랫폼",
+    "subtitle": "AI Chat Exporter는 모든 주요 AI 채팅 플랫폼과 원활하게 작동",
+    "supportedFormats": "지원 형식",
+    "comingSoon": "더 많은 플랫폼이 곧 제공됩니다!",
+    "howToUse": {
+      "title": "내보내기 방법",
+      "step1": {
+        "title": "확장 프로그램 설치",
+        "description": "AI Chat Exporter를 브라우저에 추가"
+      },
+      "step2": {
+        "title": "플랫폼 열기",
+        "description": "지원되는 AI 플랫폼으로 이동"
+      },
+      "step3": {
+        "title": "내보내기 클릭",
+        "description": "확장 프로그램 아이콘을 클릭하고 형식 선택"
+      }
+    },
+    "chatgpt": {
+      "description": "OpenAI의 ChatGPT는 가장 인기 있는 AI 어시스턴트입니다. GPT-3.5, GPT-4 및 사용자 정의 GPT 대화를 완전한 형식 지원으로 내보내세요.",
+      "feature1": "전체 대화 기록 내보내기",
+      "feature2": "사용자 정의 GPT 대화 지원",
+      "feature3": "코드 블록 구문 강조"
+    },
+    "claude": {
+      "description": "Anthropic의 Claude는 사려 깊고 섬세한 응답으로 유명합니다. Artifacts 콘텐츠를 포함한 Claude 대화를 내보내세요.",
+      "feature1": "Artifacts 콘텐츠 포함",
+      "feature2": "긴 대화 지원",
+      "feature3": "다중 턴 대화 보존"
+    },
+    "gemini": {
+      "description": "Google의 Gemini는 멀티모달 AI 기능을 제공합니다. 이미지 참조가 보존된 Gemini 대화를 내보내세요.",
+      "feature1": "멀티모달 콘텐츠 지원",
+      "feature2": "Google Workspace 통합 데이터",
+      "feature3": "이미지 참조 보존"
+    },
+    "deepseek": {
+      "description": "DeepSeek은 강력한 오픈 소스 AI 모델입니다. 기술 및 코딩 대화를 정밀하게 내보내세요.",
+      "feature1": "기술 콘텐츠 최적화",
+      "feature2": "코드 분석 보존",
+      "feature3": "추론 체인 내보내기"
+    },
+    "grok": {
+      "description": "xAI의 Grok은 실시간 지식과 재치 있는 응답을 제공합니다. 개성이 유지된 Grok 대화를 내보내세요.",
+      "feature1": "실시간 정보 내보내기",
+      "feature2": "유머와 개성 보존",
+      "feature3": "X (Twitter) 컨텍스트 포함"
+    }
   },
   "cta": {
     "title": "AI 대화를 내보낼 준비가 되셨나요?",

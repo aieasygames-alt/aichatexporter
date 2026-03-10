@@ -1,0 +1,200 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+
+const platforms = [
+  {
+    id: 'chatgpt',
+    name: 'ChatGPT',
+    logo: '/assets/platforms/chatgpt',
+    url: 'https://chat.openai.com',
+    description: t('platforms.chatgpt.description'),
+    features: [
+      t('platforms.chatgpt.feature1'),
+      t('platforms.chatgpt.feature2'),
+      t('platforms.chatgpt.feature3'),
+    ],
+    supportedFormats: ['Markdown', 'JSON', 'PDF', 'TXT', 'CSV', 'PNG'],
+    color: 'from-green-500/20 to-green-600/20',
+  },
+  {
+    id: 'claude',
+    name: 'Claude',
+    logo: '/assets/platforms/claude',
+    url: 'https://claude.ai',
+    description: t('platforms.claude.description'),
+    features: [
+      t('platforms.claude.feature1'),
+      t('platforms.claude.feature2'),
+      t('platforms.claude.feature3'),
+    ],
+    supportedFormats: ['Markdown', 'JSON', 'PDF', 'TXT', 'CSV', 'PNG'],
+    color: 'from-orange-500/20 to-orange-600/20',
+  },
+  {
+    id: 'gemini',
+    name: 'Gemini',
+    logo: '/assets/platforms/gemini',
+    url: 'https://gemini.google.com',
+    description: t('platforms.gemini.description'),
+    features: [
+      t('platforms.gemini.feature1'),
+      t('platforms.gemini.feature2'),
+      t('platforms.gemini.feature3'),
+    ],
+    supportedFormats: ['Markdown', 'JSON', 'PDF', 'TXT', 'CSV', 'PNG'],
+    color: 'from-blue-500/20 to-blue-600/20',
+  },
+  {
+    id: 'deepseek',
+    name: 'DeepSeek',
+    logo: '/assets/platforms/deepseek',
+    url: 'https://chat.deepseek.com',
+    description: t('platforms.deepseek.description'),
+    features: [
+      t('platforms.deepseek.feature1'),
+      t('platforms.deepseek.feature2'),
+      t('platforms.deepseek.feature3'),
+    ],
+    supportedFormats: ['Markdown', 'JSON', 'PDF', 'TXT', 'CSV', 'PNG'],
+    color: 'from-purple-500/20 to-purple-600/20',
+  },
+  {
+    id: 'grok',
+    name: 'Grok',
+    logo: '/assets/platforms/grok',
+    url: 'https://grok.x.com',
+    description: t('platforms.grok.description'),
+    features: [
+      t('platforms.grok.feature1'),
+      t('platforms.grok.feature2'),
+      t('platforms.grok.feature3'),
+    ],
+    supportedFormats: ['Markdown', 'JSON', 'PDF', 'TXT', 'CSV', 'PNG'],
+    color: 'from-red-500/20 to-red-600/20',
+  },
+];
+---
+
+<Layout
+  title={`${t('platforms.title')} - AI Chat Exporter`}
+  description={t('platforms.subtitle')}
+  lang={lang}
+>
+  <section class="py-16 lg:py-24">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+          <span class="gradient-text">{t('platforms.title')}</span>
+        </h1>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+          {t('platforms.subtitle')}
+        </p>
+      </div>
+
+      <!-- Platforms List -->
+      <div class="space-y-8">
+        {platforms.map((platform) => (
+          <div class={`card p-8 bg-gradient-to-r ${platform.color} border-white/10`}>
+            <div class="flex flex-col lg:flex-row gap-8">
+              <!-- Left: Logo and Info -->
+              <div class="flex-1">
+                <div class="flex items-center gap-4 mb-4">
+                  <div class="w-16 h-16 rounded-2xl bg-bg-primary border border-white/10 flex items-center justify-center">
+                    <picture>
+                      <source srcset={`${platform.logo}.webp`} type="image/webp" />
+                      <img
+                        src={`${platform.logo}.png`}
+                        alt={platform.name}
+                        class="w-10 h-10 object-contain"
+                        width="40"
+                        height="40"
+                      />
+                    </picture>
+                  </div>
+                  <div>
+                    <h2 class="text-2xl font-bold">{platform.name}</h2>
+                    <a
+                      href={platform.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-sm text-accent hover:underline"
+                    >
+                      {platform.url}
+                    </a>
+                  </div>
+                </div>
+
+                <p class="text-gray-300 mb-6">{platform.description}</p>
+
+                <!-- Features -->
+                <div class="space-y-2 mb-6">
+                  {platform.features.map((feature) => (
+                    <div class="flex items-center gap-2 text-sm text-gray-300">
+                      <svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                      {feature}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <!-- Right: Supported Formats -->
+              <div class="lg:w-64">
+                <h3 class="text-sm font-medium text-gray-400 mb-3">{t('platforms.supportedFormats')}</h3>
+                <div class="flex flex-wrap gap-2">
+                  {platform.supportedFormats.map((format) => (
+                    <span class="px-3 py-1 rounded-full bg-bg-primary border border-white/10 text-sm">
+                      {format}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Coming Soon -->
+      <div class="mt-16 text-center">
+        <div class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-accent/10 border border-accent/20">
+          <span class="text-xl">🚀</span>
+          <span class="text-accent">{t('platforms.comingSoon')}</span>
+        </div>
+      </div>
+
+      <!-- How to Use -->
+      <div class="mt-16 p-8 rounded-2xl bg-bg-secondary border border-white/5">
+        <h2 class="text-2xl font-bold mb-6 text-center">{t('platforms.howToUse.title')}</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-accent/20 text-accent flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
+            <h3 class="font-semibold mb-2">{t('platforms.howToUse.step1.title')}</h3>
+            <p class="text-sm text-gray-400">{t('platforms.howToUse.step1.description')}</p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-accent/20 text-accent flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
+            <h3 class="font-semibold mb-2">{t('platforms.howToUse.step2.title')}</h3>
+            <p class="text-sm text-gray-400">{t('platforms.howToUse.step2.description')}</p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-accent/20 text-accent flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
+            <h3 class="font-semibold mb-2">{t('platforms.howToUse.step3.title')}</h3>
+            <p class="text-sm text-gray-400">{t('platforms.howToUse.step3.description')}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
