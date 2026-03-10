@@ -44,6 +44,12 @@
     "title": "Supported Export Formats",
     "subtitle": "Choose the format that best suits your needs"
   },
+  "demo": {
+    "title": "See It in Action",
+    "subtitle": "Watch how easy it is to export your AI conversations in just a few clicks",
+    "seconds": "seconds",
+    "tip": "Click to play the demo video"
+  },
   "steps": {
     "title": "How to Use",
     "subtitle": "Get started in just 4 simple steps",

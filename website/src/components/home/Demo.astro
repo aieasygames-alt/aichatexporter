@@ -1,0 +1,106 @@
+---
+import { type Lang, useTranslations } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="py-16 lg:py-24 bg-bg-secondary/50">
+  <div class="container-custom">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4">
+        <span class="gradient-text">{t('demo.title')}</span>
+      </h2>
+      <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+        {t('demo.subtitle')}
+      </p>
+    </div>
+
+    <!-- Video Player -->
+    <div class="relative max-w-4xl mx-auto">
+      <!-- Glow effect -->
+      <div class="absolute -inset-8 bg-gradient-to-r from-accent/10 via-chatgpt/10 to-claude/10 blur-3xl opacity-60"></div>
+
+      <!-- Video Container -->
+      <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-bg-primary">
+        <video
+          id="demoVideo"
+          class="w-full aspect-video"
+          poster="/assets/screenshots/hero-screenshot.png"
+          playsinline
+          controls
+        >
+          <source src="/assets/videos/demo.webm" type="video/webm" />
+          <source src="/assets/videos/demo.mp4" type="video/mp4" />
+          <p class="p-8 text-center text-gray-400">Your browser doesn't support HTML5 video.</p>
+        </video>
+
+        <!-- Play button overlay (shown when paused) -->
+        <div id="playOverlay" class="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer transition-opacity hover:bg-black/30">
+          <div class="w-20 h-20 rounded-full bg-accent/90 flex items-center justify-center shadow-lg shadow-accent/30 transition-transform hover:scale-110">
+            <svg class="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video info -->
+      <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+        <div class="flex items-center gap-4">
+          <span class="flex items-center gap-1">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            ~25 {t('demo.seconds')}
+          </span>
+          <span class="flex items-center gap-1">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            HD
+          </span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span>{t('demo.tip')}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const video = document.getElementById('demoVideo') as HTMLVideoElement;
+  const playOverlay = document.getElementById('playOverlay');
+
+  if (video && playOverlay) {
+    // Click overlay to play
+    playOverlay.addEventListener('click', () => {
+      video.play();
+    });
+
+    // Hide overlay when playing
+    video.addEventListener('play', () => {
+      playOverlay.style.opacity = '0';
+      playOverlay.style.pointerEvents = 'none';
+    });
+
+    // Show overlay when paused
+    video.addEventListener('pause', () => {
+      playOverlay.style.opacity = '1';
+      playOverlay.style.pointerEvents = 'auto';
+    });
+
+    // Show overlay when ended
+    video.addEventListener('ended', () => {
+      playOverlay.style.opacity = '1';
+      playOverlay.style.pointerEvents = 'auto';
+    });
+  }
+</script>

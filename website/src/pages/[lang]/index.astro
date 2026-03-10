@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/home/Hero.astro';
+import Demo from '../../components/home/Demo.astro';
 import Features from '../../components/home/Features.astro';
 import Formats from '../../components/home/Formats.astro';
 import Steps from '../../components/home/Steps.astro';
@@ -25,6 +26,7 @@ const t = useTranslations(lang);
   lang={lang}
 >
   <Hero lang={lang} />
+  <Demo lang={lang} />
   <Features lang={lang} />
   <Formats lang={lang} />
   <Steps lang={lang} />

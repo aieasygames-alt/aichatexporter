@@ -44,6 +44,12 @@
     "title": "Formats d'export supportés",
     "subtitle": "Choisissez le format qui correspond le mieux à vos besoins"
   },
+  "demo": {
+    "title": "Voir la Démo",
+    "subtitle": "Découvrez à quel point il est facile d'exporter vos conversations IA en quelques clics",
+    "seconds": "secondes",
+    "tip": "Cliquez pour lire la vidéo de démonstration"
+  },
   "steps": {
     "title": "Comment utiliser",
     "subtitle": "Commencez en 4 étapes simples",
