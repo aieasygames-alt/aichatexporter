@@ -1,4 +1,15 @@
+# robots.txt for AI Chat Exporter
+# https://aichatexporter.cc
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
 User-agent: *
 Allow: /
 
+# Sitemap
 Sitemap: https://aichatexporter.cc/sitemap-index.xml
+Sitemap: https://aichatexporter.cc/sitemap-0.xml
