@@ -244,6 +244,27 @@
     "terms": "이용약관",
     "copyright": "© 2024 AI Chat Exporter. All rights reserved."
   },
+  "markdownToPdf": {
+    "title": "Markdown을 PDF로 변환",
+    "description": "Markdown을 PDF로 무료 변환하는 온라인 도구. 내보낸 AI 대화 공유에 완벽.",
+    "subtitle": "Markdown을 즉시 PDF로 변환. 무료, 개인정보 보호, 업로드 불필요.",
+    "input": "Markdown 입력",
+    "preview": "미리보기",
+    "clear": "지우기",
+    "paste": "붙여넣기",
+    "theme": "테마",
+    "themeLight": "라이트",
+    "themeDark": "다크",
+    "themeSepia": "세피아",
+    "exportPdf": "PDF로 내보내기",
+    "copyHtml": "HTML 복사",
+    "placeholder": "# 여기에 Markdown을 입력하세요...\n\n예:\n\n## 사용자\n안녕하세요, 도와주실 수 있나요?\n\n## 어시스턴트\n물론이죠! 기꺼이 도와드리겠습니다. 무엇을 도와드릴까요?\n\n```javascript\nconsole.log('코드 블록도 지원됩니다!');\n```\n\n- 목록 항목 1\n- 목록 항목 2\n- 목록 항목 3",
+    "tips": "팁",
+    "tip1": "코드 블록, 표, 이미지를 포함한 완전한 Markdown 구문 지원",
+    "tip2": "PDF용 라이트, 다크, 세피아 테마 중 선택 가능",
+    "tip3": "모든 변환은 브라우저에서 로컬로 이루어집니다 - 콘텐츠가 기기를 벗어나지 않습니다",
+    "backHome": "홈으로 돌아가기"
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",

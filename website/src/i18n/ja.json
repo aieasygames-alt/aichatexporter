@@ -244,6 +244,27 @@
     "terms": "利用規約",
     "copyright": "© 2024 AI Chat Exporter. All rights reserved."
   },
+  "markdownToPdf": {
+    "title": "Markdown から PDF 変換",
+    "description": "MarkdownをPDFに無料で変換するオンラインツール。エクスポートしたAI会話の共有に最適。",
+    "subtitle": "Markdownを即座にPDFに変換。無料、プライベート、アップロード不要。",
+    "input": "Markdown入力",
+    "preview": "プレビュー",
+    "clear": "クリア",
+    "paste": "貼り付け",
+    "theme": "テーマ",
+    "themeLight": "ライト",
+    "themeDark": "ダーク",
+    "themeSepia": "セピア",
+    "exportPdf": "PDFとしてエクスポート",
+    "copyHtml": "HTMLをコピー",
+    "placeholder": "# ここにMarkdownを入力...\n\n例：\n\n## ユーザー\nこんにちは、手伝ってもらえますか？\n\n## アシスタント\nもちろんです！喜んでお手伝いします。何をお手伝いしましょうか？\n\n```javascript\nconsole.log('コードブロックも対応！');\n```\n\n- リスト項目1\n- リスト項目2\n- リスト項目3",
+    "tips": "ヒント",
+    "tip1": "コードブロック、テーブル、画像を含む完全なMarkdown構文をサポート",
+    "tip2": "PDFのためにライト、ダーク、セピアテーマから選択可能",
+    "tip3": "すべての変換はブラウザ内でローカルに行われます - コンテンツがデバイス外に出ることはありません",
+    "backHome": "ホームに戻る"
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",

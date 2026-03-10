@@ -1,0 +1,337 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('markdownToPdf.title')} - AI Chat Exporter`} description={t('markdownToPdf.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          {t('markdownToPdf.title')}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          {t('markdownToPdf.subtitle')}
+        </p>
+      </div>
+
+      <!-- Tool Container -->
+      <div class="max-w-6xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-6">
+          <!-- Input Panel -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('markdownToPdf.input')}</span>
+              <div class="flex gap-2">
+                <button
+                  id="clearBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('markdownToPdf.clear')}
+                </button>
+                <button
+                  id="pasteBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('markdownToPdf.paste')}
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="markdownInput"
+              class="w-full h-[400px] lg:h-[500px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
+              placeholder={t('markdownToPdf.placeholder')}
+            ></textarea>
+          </div>
+
+          <!-- Preview Panel -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('markdownToPdf.preview')}</span>
+              <div class="flex items-center gap-3">
+                <label class="text-xs text-gray-400">{t('markdownToPdf.theme')}:</label>
+                <select
+                  id="themeSelect"
+                  class="text-xs px-2 py-1 rounded bg-white/5 text-gray-300 border border-white/10 focus:outline-none focus:border-accent"
+                >
+                  <option value="light">{t('markdownToPdf.themeLight')}</option>
+                  <option value="dark" selected>{t('markdownToPdf.themeDark')}</option>
+                  <option value="sepia">{t('markdownToPdf.themeSepia')}</option>
+                </select>
+              </div>
+            </div>
+            <div
+              id="previewContainer"
+              class="h-[400px] lg:h-[500px] overflow-auto p-6 prose prose-invert max-w-none"
+            >
+              <div id="previewContent" class="text-gray-300"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
+            id="exportPdfBtn"
+            class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-accent to-chatgpt text-white font-semibold rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            {t('markdownToPdf.exportPdf')}
+          </button>
+          <button
+            id="copyHtmlBtn"
+            class="w-full sm:w-auto px-6 py-3 bg-white/5 text-gray-300 font-medium rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            {t('markdownToPdf.copyHtml')}
+          </button>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('markdownToPdf.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('markdownToPdf.tip1')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('markdownToPdf.tip2')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('markdownToPdf.tip3')}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Back to home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">
+            ← {t('markdownToPdf.backHome')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<!-- Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+
+<script>
+  const markdownInput = document.getElementById('markdownInput') as HTMLTextAreaElement;
+  const previewContent = document.getElementById('previewContent');
+  const previewContainer = document.getElementById('previewContainer');
+  const themeSelect = document.getElementById('themeSelect') as HTMLSelectElement;
+  const clearBtn = document.getElementById('clearBtn');
+  const pasteBtn = document.getElementById('pasteBtn');
+  const exportPdfBtn = document.getElementById('exportPdfBtn');
+  const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+
+  // Configure marked
+  marked.setOptions({
+    breaks: true,
+    gfm: true,
+  });
+
+  // Live preview
+  function updatePreview() {
+    const markdown = markdownInput.value;
+    if (previewContent) {
+      previewContent.innerHTML = marked.parse(markdown);
+    }
+  }
+
+  markdownInput?.addEventListener('input', updatePreview);
+
+  // Theme switch
+  function updateTheme() {
+    if (!previewContainer) return;
+
+    previewContainer.classList.remove('theme-light', 'theme-dark', 'theme-sepia');
+
+    const theme = themeSelect.value;
+    previewContainer.classList.add(`theme-${theme}`);
+
+    if (theme === 'light') {
+      previewContainer.style.backgroundColor = '#ffffff';
+      previewContainer.style.color = '#1a1a1a';
+      previewContainer.classList.remove('prose-invert');
+      previewContainer.classList.add('prose');
+    } else if (theme === 'sepia') {
+      previewContainer.style.backgroundColor = '#f9f5eb';
+      previewContainer.style.color = '#3c3427';
+      previewContainer.classList.remove('prose-invert');
+      previewContainer.classList.add('prose');
+    } else {
+      previewContainer.style.backgroundColor = '#0a0a0a';
+      previewContainer.style.color = '#e5e5e5';
+      previewContainer.classList.add('prose-invert');
+      previewContainer.classList.remove('prose');
+    }
+  }
+
+  themeSelect?.addEventListener('change', updateTheme);
+  updateTheme();
+
+  // Clear button
+  clearBtn?.addEventListener('click', () => {
+    markdownInput.value = '';
+    updatePreview();
+  });
+
+  // Paste button
+  pasteBtn?.addEventListener('click', async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      markdownInput.value = text;
+      updatePreview();
+    } catch (err) {
+      console.error('Failed to paste:', err);
+    }
+  });
+
+  // Export PDF
+  exportPdfBtn?.addEventListener('click', () => {
+    if (!previewContent) return;
+
+    const element = previewContent;
+    const opt = {
+      margin: [15, 15, 15, 15],
+      filename: 'markdown-export.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    // Create a wrapper for PDF export
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = element.innerHTML;
+    wrapper.style.padding = '20px';
+    wrapper.style.fontFamily = 'system-ui, -apple-system, sans-serif';
+    wrapper.style.fontSize = '14px';
+    wrapper.style.lineHeight = '1.6';
+    wrapper.style.color = themeSelect.value === 'dark' ? '#e5e5e5' : '#1a1a1a';
+    wrapper.style.backgroundColor = themeSelect.value === 'dark' ? '#0a0a0a' : '#ffffff';
+
+    html2pdf().set(opt).from(wrapper).save();
+  });
+
+  // Copy HTML
+  copyHtmlBtn?.addEventListener('click', async () => {
+    if (!previewContent) return;
+
+    try {
+      await navigator.clipboard.writeText(previewContent.innerHTML);
+      const originalText = copyHtmlBtn.innerHTML;
+      copyHtmlBtn.innerHTML = `
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        Copied!
+      `;
+      setTimeout(() => {
+        copyHtmlBtn.innerHTML = originalText;
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  });
+
+  // Initial preview
+  updatePreview();
+</script>
+
+<style>
+  .prose pre {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+  }
+
+  .prose code {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .prose pre code {
+    background: transparent;
+    padding: 0;
+  }
+
+  .prose blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 16px;
+    margin-left: 0;
+    color: #9ca3af;
+  }
+
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .prose th,
+  .prose td {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;
+  }
+
+  .prose th {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .prose img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  /* Light theme adjustments */
+  .theme-light .prose code,
+  .theme-sepia .prose code {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .theme-light .prose pre,
+  .theme-sepia .prose pre {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .theme-light .prose th,
+  .theme-sepia .prose th {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .theme-light .prose th,
+  .theme-light .prose td,
+  .theme-sepia .prose th,
+  .theme-sepia .prose td {
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+</style>

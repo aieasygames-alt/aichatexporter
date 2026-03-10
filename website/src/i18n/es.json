@@ -244,6 +244,27 @@
     "terms": "Términos de servicio",
     "copyright": "© 2024 AI Chat Exporter. Todos los derechos reservados."
   },
+  "markdownToPdf": {
+    "title": "Convertidor de Markdown a PDF",
+    "description": "Herramienta gratuita para convertir Markdown a PDF en línea. Perfecto para compartir tus conversaciones de IA exportadas.",
+    "subtitle": "Convierte Markdown a PDF al instante. Gratis, privado, sin necesidad de subir archivos.",
+    "input": "Entrada Markdown",
+    "preview": "Vista previa",
+    "clear": "Limpiar",
+    "paste": "Pegar",
+    "theme": "Tema",
+    "themeLight": "Claro",
+    "themeDark": "Oscuro",
+    "themeSepia": "Sepia",
+    "exportPdf": "Exportar como PDF",
+    "copyHtml": "Copiar HTML",
+    "placeholder": "# Ingresa tu Markdown aquí...\n\nPor ejemplo:\n\n## Usuario\nHola, ¿puedes ayudarme?\n\n## Asistente\n¡Por supuesto! Estoy encantado de ayudarte. ¿En qué necesitas ayuda?\n\n```javascript\nconsole.log('¡Los bloques de código también son compatibles!');\n```\n\n- Elemento de lista 1\n- Elemento de lista 2\n- Elemento de lista 3",
+    "tips": "Consejos",
+    "tip1": "Soporta la sintaxis completa de Markdown, incluyendo bloques de código, tablas e imágenes",
+    "tip2": "Elige entre temas Claro, Oscuro y Sepia para tu PDF",
+    "tip3": "Toda la conversión ocurre localmente en tu navegador - tu contenido nunca sale de tu dispositivo",
+    "backHome": "Volver al inicio"
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",

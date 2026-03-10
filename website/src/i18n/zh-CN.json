@@ -244,6 +244,27 @@
     "terms": "服务条款",
     "copyright": "© 2024 AI Chat Exporter. 保留所有权利。"
   },
+  "markdownToPdf": {
+    "title": "Markdown 转 PDF 转换器",
+    "description": "免费在线将 Markdown 转换为 PDF。非常适合分享你导出的 AI 对话。",
+    "subtitle": "即时将 Markdown 转换为 PDF。免费、私密、无需上传。",
+    "input": "Markdown 输入",
+    "preview": "预览",
+    "clear": "清空",
+    "paste": "粘贴",
+    "theme": "主题",
+    "themeLight": "亮色",
+    "themeDark": "暗色",
+    "themeSepia": "护眼",
+    "exportPdf": "导出为 PDF",
+    "copyHtml": "复制 HTML",
+    "placeholder": "# 在这里输入你的 Markdown...\n\n例如：\n\n## 用户\n你好，能帮我一下吗？\n\n## 助手\n当然可以！我很乐意帮忙。你需要什么帮助？\n\n```javascript\nconsole.log('代码块也支持！');\n```\n\n- 列表项 1\n- 列表项 2\n- 列表项 3",
+    "tips": "使用提示",
+    "tip1": "支持完整的 Markdown 语法，包括代码块、表格和图片",
+    "tip2": "可选择亮色、暗色和护眼主题生成 PDF",
+    "tip3": "所有转换都在浏览器本地完成 - 你的内容永远不会离开设备",
+    "backHome": "返回首页"
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",
