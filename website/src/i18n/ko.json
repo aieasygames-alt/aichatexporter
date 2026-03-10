@@ -265,6 +265,27 @@
     "tip3": "모든 변환은 브라우저에서 로컬로 이루어집니다 - 콘텐츠가 기기를 벗어나지 않습니다",
     "backHome": "홈으로 돌아가기"
   },
+  "jsonToMarkdown": {
+    "title": "JSON을 Markdown으로 변환",
+    "description": "내보낸 JSON 채팅 파일을 읽기 쉬운 Markdown 형식으로 변환하는 무료 온라인 도구.",
+    "subtitle": "내보낸 JSON 대화를 읽기 쉬운 Markdown으로 변환. ChatGPT, Claude 등 지원.",
+    "input": "JSON 입력",
+    "output": "Markdown 출력",
+    "upload": "파일 업로드",
+    "clear": "지우기",
+    "paste": "붙여넣기",
+    "copy": "복사",
+    "download": "다운로드",
+    "convert": "Markdown으로 변환",
+    "placeholder": "{\n  \"title\": \"내 대화\",\n  \"messages\": [\n    {\"role\": \"user\", \"content\": \"안녕하세요!\"},\n    {\"role\": \"assistant\", \"content\": \"안녕하세요! 무엇을 도와드릴까요?\"}\n  ]\n}",
+    "outputPlaceholder": "변환된 Markdown이 여기에 표시됩니다...",
+    "tips": "팁",
+    "tip1": "ChatGPT, Claude 및 기타 AI 플랫폼의 JSON 내보내기 지원",
+    "tip2": ".json 파일을 업로드하거나 JSON 콘텐츠를 직접 붙여넣기",
+    "tip3": "OpenAI의 mapping 형식 자동 처리",
+    "tip4": "쉽게 공유할 수 있도록 .md 파일로 다운로드",
+    "backHome": "홈으로 돌아가기"
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",

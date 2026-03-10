@@ -1,0 +1,346 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('jsonToMarkdown.title')} - AI Chat Exporter`} description={t('jsonToMarkdown.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          {t('jsonToMarkdown.title')}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          {t('jsonToMarkdown.subtitle')}
+        </p>
+      </div>
+
+      <!-- Tool Container -->
+      <div class="max-w-6xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-6">
+          <!-- Input Panel -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('jsonToMarkdown.input')}</span>
+              <div class="flex gap-2">
+                <label class="text-xs px-3 py-1 rounded bg-accent/20 text-accent cursor-pointer hover:bg-accent/30 transition-colors">
+                  {t('jsonToMarkdown.upload')}
+                  <input type="file" id="fileInput" accept=".json" class="hidden" />
+                </label>
+                <button
+                  id="clearBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('jsonToMarkdown.clear')}
+                </button>
+                <button
+                  id="pasteBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('jsonToMarkdown.paste')}
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="jsonInput"
+              class="w-full h-[400px] lg:h-[500px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
+              placeholder={t('jsonToMarkdown.placeholder')}
+            ></textarea>
+          </div>
+
+          <!-- Output Panel -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('jsonToMarkdown.output')}</span>
+              <div class="flex gap-2">
+                <button
+                  id="copyBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors flex items-center gap-1"
+                >
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  {t('jsonToMarkdown.copy')}
+                </button>
+                <button
+                  id="downloadBtn"
+                  class="text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors flex items-center gap-1"
+                >
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  {t('jsonToMarkdown.download')}
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="markdownOutput"
+              class="w-full h-[400px] lg:h-[500px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
+              readonly
+              placeholder={t('jsonToMarkdown.outputPlaceholder')}
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Convert Button -->
+        <div class="mt-6 flex justify-center">
+          <button
+            id="convertBtn"
+            class="px-10 py-3 bg-gradient-to-r from-accent to-chatgpt text-white font-semibold rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            {t('jsonToMarkdown.convert')}
+          </button>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMsg" class="hidden mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm text-center"></div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('jsonToMarkdown.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('jsonToMarkdown.tip1')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('jsonToMarkdown.tip2')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('jsonToMarkdown.tip3')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('jsonToMarkdown.tip4')}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Back to home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">
+            ← {t('jsonToMarkdown.backHome')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const jsonInput = document.getElementById('jsonInput') as HTMLTextAreaElement;
+  const markdownOutput = document.getElementById('markdownOutput') as HTMLTextAreaElement;
+  const convertBtn = document.getElementById('convertBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const pasteBtn = document.getElementById('pasteBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+  const errorMsg = document.getElementById('errorMsg');
+
+  // Supported JSON formats
+  interface Message {
+    role: string;
+    content: string;
+    author?: string;
+    text?: string;
+  }
+
+  interface Conversation {
+    title?: string;
+    messages?: Message[];
+    mapping?: Record<string, { message?: Message }>;
+    conversation_id?: string;
+  }
+
+  function showError(msg: string) {
+    if (errorMsg) {
+      errorMsg.textContent = msg;
+      errorMsg.classList.remove('hidden');
+    }
+  }
+
+  function hideError() {
+    if (errorMsg) {
+      errorMsg.classList.add('hidden');
+    }
+  }
+
+  function convertJsonToMarkdown(json: Conversation | Message[]): string {
+    let markdown = '';
+    let messages: Message[] = [];
+
+    // Handle OpenAI export format (with mapping)
+    if (json.mapping && typeof json.mapping === 'object') {
+      const mapping = json.mapping;
+      const nodeIds = Object.keys(mapping);
+
+      // Sort by creation order if possible
+      const nodes = nodeIds
+        .map(id => mapping[id].message)
+        .filter((m): m is Message => !!m && !!m.content);
+
+      nodes.forEach(node => {
+        const role = node.role || node.author?.role || 'unknown';
+        let content = '';
+
+        if (typeof node.content === 'string') {
+          content = node.content;
+        } else if (node.content?.parts) {
+          content = node.content.parts.join('\n');
+        } else if (node.text) {
+          content = node.text;
+        }
+
+        if (content) {
+          messages.push({ role, content });
+        }
+      });
+    }
+    // Handle array of messages
+    else if (Array.isArray(json)) {
+      messages = json.map(msg => ({
+        role: msg.role || msg.author?.role || 'user',
+        content: msg.content || msg.text || ''
+      }));
+    }
+    // Handle messages array
+    else if (json.messages && Array.isArray(json.messages)) {
+      messages = json.messages.map(msg => ({
+        role: msg.role || msg.author?.role || 'user',
+        content: msg.content || msg.text || ''
+      }));
+    }
+
+    // Add title if available
+    if ('title' in json && json.title) {
+      markdown += `# ${json.title}\n\n`;
+    }
+
+    // Convert messages to markdown
+    messages.forEach(msg => {
+      const roleLabel = getRoleLabel(msg.role);
+      markdown += `## ${roleLabel}\n\n${msg.content}\n\n---\n\n`;
+    });
+
+    return markdown.trim();
+  }
+
+  function getRoleLabel(role: string): string {
+    const roleMap: Record<string, string> = {
+      'user': '👤 User',
+      'assistant': '🤖 Assistant',
+      'system': '⚙️ System',
+      'human': '👤 User',
+      'ai': '🤖 Assistant',
+      'model': '🤖 Assistant'
+    };
+    return roleMap[role.toLowerCase()] || `📢 ${role}`;
+  }
+
+  // Convert button
+  convertBtn?.addEventListener('click', () => {
+    hideError();
+
+    try {
+      const jsonStr = jsonInput.value.trim();
+      if (!jsonStr) {
+        showError('Please enter JSON content');
+        return;
+      }
+
+      const json = JSON.parse(jsonStr);
+      const markdown = convertJsonToMarkdown(json);
+      markdownOutput.value = markdown;
+    } catch (e) {
+      showError('Invalid JSON format. Please check your input.');
+    }
+  });
+
+  // Clear button
+  clearBtn?.addEventListener('click', () => {
+    jsonInput.value = '';
+    markdownOutput.value = '';
+    hideError();
+  });
+
+  // Paste button
+  pasteBtn?.addEventListener('click', async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      jsonInput.value = text;
+    } catch (err) {
+      console.error('Failed to paste:', err);
+    }
+  });
+
+  // Copy button
+  copyBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(markdownOutput.value);
+      const originalHTML = copyBtn.innerHTML;
+      copyBtn.innerHTML = `
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        Copied!
+      `;
+      setTimeout(() => {
+        copyBtn.innerHTML = originalHTML;
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  });
+
+  // Download button
+  downloadBtn?.addEventListener('click', () => {
+    const markdown = markdownOutput.value;
+    if (!markdown) return;
+
+    const blob = new Blob([markdown], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'conversation.md';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  // File upload
+  fileInput?.addEventListener('change', (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      jsonInput.value = event.target?.result as string;
+    };
+    reader.readAsText(file);
+  });
+</script>

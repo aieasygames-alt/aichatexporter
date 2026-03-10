@@ -265,6 +265,27 @@
     "tip3": "All conversion happens locally in your browser - your content never leaves your device",
     "backHome": "Back to Home"
   },
+  "jsonToMarkdown": {
+    "title": "JSON to Markdown Converter",
+    "description": "Free online tool to convert exported JSON chat files to readable Markdown format.",
+    "subtitle": "Convert your exported JSON conversations to readable Markdown. Supports ChatGPT, Claude, and more.",
+    "input": "JSON Input",
+    "output": "Markdown Output",
+    "upload": "Upload File",
+    "clear": "Clear",
+    "paste": "Paste",
+    "copy": "Copy",
+    "download": "Download",
+    "convert": "Convert to Markdown",
+    "placeholder": "{\n  \"title\": \"My Conversation\",\n  \"messages\": [\n    {\"role\": \"user\", \"content\": \"Hello!\"},\n    {\"role\": \"assistant\", \"content\": \"Hi there!\"}\n  ]\n}",
+    "outputPlaceholder": "Converted Markdown will appear here...",
+    "tips": "Tips",
+    "tip1": "Supports JSON exports from ChatGPT, Claude, and other AI platforms",
+    "tip2": "Upload a .json file or paste JSON content directly",
+    "tip3": "The converter handles OpenAI's mapping format automatically",
+    "tip4": "Download the result as a .md file for easy sharing",
+    "backHome": "Back to Home"
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",

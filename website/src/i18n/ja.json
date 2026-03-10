@@ -265,6 +265,27 @@
     "tip3": "すべての変換はブラウザ内でローカルに行われます - コンテンツがデバイス外に出ることはありません",
     "backHome": "ホームに戻る"
   },
+  "jsonToMarkdown": {
+    "title": "JSON から Markdown 変換",
+    "description": "エクスポートしたJSONチャットファイルを読みやすいMarkdown形式に変換する無料オンラインツール。",
+    "subtitle": "エクスポートしたJSON会話を読みやすいMarkdownに変換。ChatGPT、Claudeなどに対応。",
+    "input": "JSON入力",
+    "output": "Markdown出力",
+    "upload": "ファイルをアップロード",
+    "clear": "クリア",
+    "paste": "貼り付け",
+    "copy": "コピー",
+    "download": "ダウンロード",
+    "convert": "Markdownに変換",
+    "placeholder": "{\n  \"title\": \"私の会話\",\n  \"messages\": [\n    {\"role\": \"user\", \"content\": \"こんにちは！\"},\n    {\"role\": \"assistant\", \"content\": \"こんにちは！何かお手伝いしましょうか？\"}\n  ]\n}",
+    "outputPlaceholder": "変換されたMarkdownがここに表示されます...",
+    "tips": "ヒント",
+    "tip1": "ChatGPT、Claude、その他のAIプラットフォームのJSONエクスポートに対応",
+    "tip2": ".jsonファイルをアップロードするか、JSONコンテンツを直接貼り付け",
+    "tip3": "OpenAIのmapping形式を自動的に処理",
+    "tip4": "簡単に共有するために.mdファイルとしてダウンロード",
+    "backHome": "ホームに戻る"
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",
