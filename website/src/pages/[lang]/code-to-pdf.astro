@@ -1,0 +1,432 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('codeToPdf.title')} - AI Chat Exporter`} description={t('codeToPdf.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          {t('codeToPdf.title')}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          {t('codeToPdf.subtitle')}
+        </p>
+      </div>
+
+      <!-- Tool Container -->
+      <div class="max-w-6xl mx-auto">
+        <!-- Options Bar -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4 mb-6">
+          <div class="flex flex-wrap items-center gap-4 justify-center md:justify-between">
+            <div class="flex flex-wrap items-center gap-4">
+              <!-- Language Selector -->
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-400">{t('codeToPdf.language')}:</label>
+                <select
+                  id="languageSelect"
+                  class="px-3 py-1.5 rounded-lg bg-white/5 text-gray-300 border border-white/10 focus:outline-none focus:border-accent text-sm"
+                >
+                  <option value="auto">Auto Detect</option>
+                  <option value="javascript">JavaScript</option>
+                  <option value="typescript">TypeScript</option>
+                  <option value="python">Python</option>
+                  <option value="java">Java</option>
+                  <option value="csharp">C#</option>
+                  <option value="cpp">C++</option>
+                  <option value="c">C</option>
+                  <option value="go">Go</option>
+                  <option value="rust">Rust</option>
+                  <option value="php">PHP</option>
+                  <option value="ruby">Ruby</option>
+                  <option value="swift">Swift</option>
+                  <option value="kotlin">Kotlin</option>
+                  <option value="html">HTML</option>
+                  <option value="css">CSS</option>
+                  <option value="sql">SQL</option>
+                  <option value="bash">Bash</option>
+                  <option value="json">JSON</option>
+                  <option value="yaml">YAML</option>
+                  <option value="markdown">Markdown</option>
+                </select>
+              </div>
+
+              <!-- Theme Selector -->
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-400">{t('codeToPdf.theme')}:</label>
+                <select
+                  id="themeSelect"
+                  class="px-3 py-1.5 rounded-lg bg-white/5 text-gray-300 border border-white/10 focus:outline-none focus:border-accent text-sm"
+                >
+                  <option value="atom-one-dark">Atom One Dark</option>
+                  <option value="atom-one-light">Atom One Light</option>
+                  <option value="github-dark">GitHub Dark</option>
+                  <option value="github">GitHub Light</option>
+                  <option value="monokai">Monokai</option>
+                  <option value="dracula">Dracula</option>
+                  <option value="vs2015">VS2015 Dark</option>
+                  <option value="stackoverflow-light">Stack Overflow</option>
+                </select>
+              </div>
+
+              <!-- Font Size -->
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-400">{t('codeToPdf.fontSize')}:</label>
+                <select
+                  id="fontSizeSelect"
+                  class="px-3 py-1.5 rounded-lg bg-white/5 text-gray-300 border border-white/10 focus:outline-none focus:border-accent text-sm"
+                >
+                  <option value="12">12px</option>
+                  <option value="14" selected>14px</option>
+                  <option value="16">16px</option>
+                  <option value="18">18px</option>
+                  <option value="20">20px</option>
+                </select>
+              </div>
+
+              <!-- Line Numbers -->
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-400">{t('codeToPdf.lineNumbers')}:</label>
+                <input type="checkbox" id="lineNumbersCheck" class="w-4 h-4 accent-accent" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+          <!-- Input Panel -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('codeToPdf.input')}</span>
+              <div class="flex gap-2">
+                <button
+                  id="clearBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('codeToPdf.clear')}
+                </button>
+                <button
+                  id="pasteBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('codeToPdf.paste')}
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="codeInput"
+              class="w-full h-[450px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
+              placeholder={t('codeToPdf.placeholder')}
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <!-- Preview Panel -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('codeToPdf.preview')}</span>
+              <div id="detectedLang" class="text-xs text-accent"></div>
+            </div>
+            <div id="previewContainer" class="h-[450px] overflow-auto p-4 bg-[#282c34]">
+              <pre id="codePreview" class="hljs rounded-lg p-4"><code id="highlightedCode"></code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button
+            id="exportPdfBtn"
+            class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-accent to-chatgpt text-white font-semibold rounded-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            {t('codeToPdf.exportPdf')}
+          </button>
+          <button
+            id="exportImageBtn"
+            class="w-full sm:w-auto px-6 py-3 bg-white/5 text-gray-300 font-medium rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            {t('codeToPdf.exportImage')}
+          </button>
+          <button
+            id="copyBtn"
+            class="w-full sm:w-auto px-6 py-3 bg-white/5 text-gray-300 font-medium rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            {t('codeToPdf.copy')}
+          </button>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('codeToPdf.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('codeToPdf.tip1')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('codeToPdf.tip2')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('codeToPdf.tip3')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('codeToPdf.tip4')}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Back to home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">
+            ← {t('codeToPdf.backHome')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<!-- Highlight.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css" id="hljs-theme">
+<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+
+<script>
+  const codeInput = document.getElementById('codeInput') as HTMLTextAreaElement;
+  const highlightedCode = document.getElementById('highlightedCode');
+  const codePreview = document.getElementById('codePreview');
+  const previewContainer = document.getElementById('previewContainer');
+  const languageSelect = document.getElementById('languageSelect') as HTMLSelectElement;
+  const themeSelect = document.getElementById('themeSelect') as HTMLSelectElement;
+  const fontSizeSelect = document.getElementById('fontSizeSelect') as HTMLSelectElement;
+  const lineNumbersCheck = document.getElementById('lineNumbersCheck') as HTMLInputElement;
+  const detectedLang = document.getElementById('detectedLang');
+  const clearBtn = document.getElementById('clearBtn');
+  const pasteBtn = document.getElementById('pasteBtn');
+  const exportPdfBtn = document.getElementById('exportPdfBtn');
+  const exportImageBtn = document.getElementById('exportImageBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const hljsTheme = document.getElementById('hljs-theme') as HTMLLinkElement;
+
+  // Theme mapping
+  const themes: Record<string, { url: string, bg: string }> = {
+    'atom-one-dark': { url: 'atom-one-dark.min.css', bg: '#282c34' },
+    'atom-one-light': { url: 'atom-one-light.min.css', bg: '#fafafa' },
+    'github-dark': { url: 'github-dark.min.css', bg: '#24292e' },
+    'github': { url: 'github.min.css', bg: '#ffffff' },
+    'monokai': { url: 'monokai.min.css', bg: '#272822' },
+    'dracula': { url: 'dracula.min.css', bg: '#282a36' },
+    'vs2015': { url: 'vs2015.min.css', bg: '#1e1e1e' },
+    'stackoverflow-light': { url: 'stackoverflow-light.min.css', bg: '#f6f6f6' },
+  };
+
+  // Update preview
+  function updatePreview() {
+    if (!highlightedCode || !codePreview) return;
+
+    const code = codeInput.value;
+    const language = languageSelect.value;
+    const fontSize = fontSizeSelect.value;
+    const showLineNumbers = lineNumbersCheck.checked;
+
+    // Apply font size
+    codePreview.style.fontSize = `${fontSize}px`;
+
+    // Highlight code
+    let result;
+    if (language === 'auto') {
+      result = hljs.highlightAuto(code);
+      if (detectedLang) {
+        detectedLang.textContent = result.language ? `Detected: ${result.language}` : '';
+      }
+    } else {
+      result = hljs.highlight(code, { language });
+      if (detectedLang) {
+        detectedLang.textContent = language;
+      }
+    }
+
+    // Add line numbers if enabled
+    if (showLineNumbers) {
+      const lines = result.value.split('\n');
+      const numberedCode = lines.map((line: string, i: number) => {
+        return `<span class="line-number" style="display: inline-block; width: 40px; color: #636d83; text-align: right; padding-right: 16px; user-select: none;">${i + 1}</span>${line}`;
+      }).join('\n');
+      highlightedCode.innerHTML = numberedCode;
+    } else {
+      highlightedCode.innerHTML = result.value;
+    }
+  }
+
+  // Update theme
+  function updateTheme() {
+    const theme = themes[themeSelect.value];
+    if (theme) {
+      hljsTheme.href = `https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/${theme.url}`;
+      if (previewContainer) {
+        previewContainer.style.backgroundColor = theme.bg;
+      }
+    }
+  }
+
+  // Event listeners
+  codeInput?.addEventListener('input', updatePreview);
+  languageSelect?.addEventListener('change', updatePreview);
+  themeSelect?.addEventListener('change', () => {
+    updateTheme();
+    updatePreview();
+  });
+  fontSizeSelect?.addEventListener('change', updatePreview);
+  lineNumbersCheck?.addEventListener('change', updatePreview);
+
+  // Clear button
+  clearBtn?.addEventListener('click', () => {
+    codeInput.value = '';
+    updatePreview();
+  });
+
+  // Paste button
+  pasteBtn?.addEventListener('click', async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      codeInput.value = text;
+      updatePreview();
+    } catch (err) {
+      console.error('Failed to paste:', err);
+    }
+  });
+
+  // Copy button
+  copyBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(codeInput.value);
+      const originalHTML = copyBtn.innerHTML;
+      copyBtn.innerHTML = `
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        Copied!
+      `;
+      setTimeout(() => {
+        copyBtn.innerHTML = originalHTML;
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  });
+
+  // Export PDF
+  exportPdfBtn?.addEventListener('click', () => {
+    if (!codePreview) return;
+
+    const language = languageSelect.value === 'auto' ? (detectedLang?.textContent?.replace('Detected: ', '') || 'code') : languageSelect.value;
+    const theme = themes[themeSelect.value];
+
+    // Create wrapper
+    const wrapper = document.createElement('div');
+    wrapper.style.padding = '20px';
+    wrapper.style.backgroundColor = theme.bg;
+    wrapper.innerHTML = `
+      <div style="font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: ${fontSizeSelect.value}px; line-height: 1.6;">
+        ${codePreview.innerHTML}
+      </div>
+    `;
+
+    const opt = {
+      margin: [10, 10, 10, 10],
+      filename: `code-${language}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, backgroundColor: theme.bg },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(wrapper).save();
+  });
+
+  // Export Image
+  exportImageBtn?.addEventListener('click', async () => {
+    if (!codePreview) return;
+
+    const language = languageSelect.value === 'auto' ? (detectedLang?.textContent?.replace('Detected: ', '') || 'code') : languageSelect.value;
+    const theme = themes[themeSelect.value];
+
+    // Create wrapper for image
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'fixed';
+    wrapper.style.left = '-9999px';
+    wrapper.style.padding = '24px';
+    wrapper.style.backgroundColor = theme.bg;
+    wrapper.style.borderRadius = '8px';
+    wrapper.innerHTML = `
+      <div style="font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; font-size: ${fontSizeSelect.value}px; line-height: 1.6;">
+        ${codePreview.innerHTML}
+      </div>
+    `;
+    document.body.appendChild(wrapper);
+
+    try {
+      const canvas = await html2canvas(wrapper, {
+        backgroundColor: theme.bg,
+        scale: 2
+      });
+
+      const link = document.createElement('a');
+      link.download = `code-${language}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } finally {
+      document.body.removeChild(wrapper);
+    }
+  });
+
+  // Initialize
+  updateTheme();
+  updatePreview();
+</script>
+
+<style>
+  .hljs {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  #previewContainer {
+    transition: background-color 0.3s ease;
+  }
+
+  .line-number {
+    opacity: 0.5;
+  }
+</style>
