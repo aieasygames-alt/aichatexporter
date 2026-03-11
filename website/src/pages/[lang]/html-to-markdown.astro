@@ -1,0 +1,291 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('htmlToMarkdown.title')} - AI Chat Exporter`} description={t('htmlToMarkdown.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          {t('htmlToMarkdown.title')}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          {t('htmlToMarkdown.subtitle')}
+        </p>
+      </div>
+
+      <!-- Tool Container -->
+      <div class="max-w-6xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-6">
+          <!-- Input Panel -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('htmlToMarkdown.input')}</span>
+              <div class="flex gap-2">
+                <label class="text-xs px-3 py-1 rounded bg-accent/20 text-accent cursor-pointer hover:bg-accent/30 transition-colors">
+                  {t('htmlToMarkdown.upload')}
+                  <input type="file" id="fileInput" accept=".html,.htm" class="hidden" />
+                </label>
+                <button
+                  id="clearBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('htmlToMarkdown.clear')}
+                </button>
+                <button
+                  id="pasteBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('htmlToMarkdown.paste')}
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="htmlInput"
+              class="w-full h-[400px] lg:h-[500px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
+              placeholder={t('htmlToMarkdown.placeholder')}
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <!-- Output Panel -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('htmlToMarkdown.output')}</span>
+              <div class="flex gap-2">
+                <button
+                  id="copyBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors flex items-center gap-1"
+                >
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  {t('htmlToMarkdown.copy')}
+                </button>
+                <button
+                  id="downloadBtn"
+                  class="text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors flex items-center gap-1"
+                >
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  {t('htmlToMarkdown.download')}
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="markdownOutput"
+              class="w-full h-[400px] lg:h-[500px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
+              readonly
+              placeholder={t('htmlToMarkdown.outputPlaceholder')}
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Convert Button -->
+        <div class="mt-6 flex justify-center">
+          <button
+            id="convertBtn"
+            class="px-10 py-3 bg-gradient-to-r from-accent to-chatgpt text-white font-semibold rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            {t('htmlToMarkdown.convert')}
+          </button>
+        </div>
+
+        <!-- Options -->
+        <div class="mt-6 bg-bg-secondary rounded-xl border border-white/10 p-4">
+          <div class="flex flex-wrap items-center gap-6 justify-center">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="headingStyle" class="w-4 h-4 accent-accent" checked />
+              <label class="text-sm text-gray-300">{t('htmlToMarkdown.headingStyle')}</label>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="bulletMarker" class="w-4 h-4 accent-accent" checked />
+              <label class="text-sm text-gray-300">{t('htmlToMarkdown.bulletMarker')}</label>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="codeBlockStyle" class="w-4 h-4 accent-accent" checked />
+              <label class="text-sm text-gray-300">{t('htmlToMarkdown.codeBlockStyle')}</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('htmlToMarkdown.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('htmlToMarkdown.tip1')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('htmlToMarkdown.tip2')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('htmlToMarkdown.tip3')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('htmlToMarkdown.tip4')}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Back to home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">
+            ← {t('htmlToMarkdown.backHome')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<!-- Turndown.js for HTML to Markdown conversion -->
+<script src="https://cdn.jsdelivr.net/npm/turndown@7.2.0/dist/turndown.min.js"></script>
+
+<script>
+  const htmlInput = document.getElementById('htmlInput') as HTMLTextAreaElement;
+  const markdownOutput = document.getElementById('markdownOutput') as HTMLTextAreaElement;
+  const convertBtn = document.getElementById('convertBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const pasteBtn = document.getElementById('pasteBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+  const headingStyle = document.getElementById('headingStyle') as HTMLInputElement;
+  const bulletMarker = document.getElementById('bulletMarker') as HTMLInputElement;
+  const codeBlockStyle = document.getElementById('codeBlockStyle') as HTMLInputElement;
+
+  // Initialize Turndown
+  function getTurndownService() {
+    const td = new TurndownService({
+      headingStyle: headingStyle.checked ? 'atx' : 'setext',
+      bulletListMarker: bulletMarker.checked ? '-' : '*',
+      codeBlockStyle: codeBlockStyle.checked ? 'fenced' : 'indented',
+    });
+
+    // Add custom rules
+    td.addRule('strikethrough', {
+      filter: ['s', 'del'],
+      replacement: (content: string) => `~~${content}~~`
+    });
+
+    td.addRule('taskList', {
+      filter: (node: Element) => {
+        return node.nodeName === 'INPUT' && node.getAttribute('type') === 'checkbox';
+      },
+      replacement: (content: string, node: HTMLInputElement) => {
+        return node.checked ? '[x] ' : '[ ] ';
+      }
+    });
+
+    return td;
+  }
+
+  // Convert button
+  convertBtn?.addEventListener('click', () => {
+    try {
+      const html = htmlInput.value.trim();
+      if (!html) {
+        markdownOutput.value = '';
+        return;
+      }
+
+      const turndownService = getTurndownService();
+      const markdown = turndownService.turndown(html);
+      markdownOutput.value = markdown;
+    } catch (e) {
+      console.error('Conversion error:', e);
+      markdownOutput.value = 'Error converting HTML. Please check your input.';
+    }
+  });
+
+  // Clear button
+  clearBtn?.addEventListener('click', () => {
+    htmlInput.value = '';
+    markdownOutput.value = '';
+  });
+
+  // Paste button
+  pasteBtn?.addEventListener('click', async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      htmlInput.value = text;
+    } catch (err) {
+      console.error('Failed to paste:', err);
+    }
+  });
+
+  // Copy button
+  copyBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(markdownOutput.value);
+      const originalHTML = copyBtn.innerHTML;
+      copyBtn.innerHTML = `
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        Copied!
+      `;
+      setTimeout(() => {
+        copyBtn.innerHTML = originalHTML;
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  });
+
+  // Download button
+  downloadBtn?.addEventListener('click', () => {
+    const markdown = markdownOutput.value;
+    if (!markdown) return;
+
+    const blob = new Blob([markdown], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'converted.md';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  // File upload
+  fileInput?.addEventListener('change', (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      htmlInput.value = event.target?.result as string;
+    };
+    reader.readAsText(file);
+  });
+</script>

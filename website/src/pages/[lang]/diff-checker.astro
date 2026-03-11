@@ -1,0 +1,380 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('diffChecker.title')} - AI Chat Exporter`} description={t('diffChecker.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          {t('diffChecker.title')}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          {t('diffChecker.subtitle')}
+        </p>
+      </div>
+
+      <!-- Tool Container -->
+      <div class="max-w-6xl mx-auto">
+        <!-- Options -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4 mb-6">
+          <div class="flex flex-wrap items-center gap-4 justify-center md:justify-between">
+            <div class="flex flex-wrap items-center gap-4">
+              <!-- Mode Selector -->
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-400">{t('diffChecker.mode')}:</label>
+                <select
+                  id="modeSelect"
+                  class="px-3 py-1.5 rounded-lg bg-white/5 text-gray-300 border border-white/10 focus:outline-none focus:border-accent text-sm"
+                >
+                  <option value="split">{t('diffChecker.splitMode')}</option>
+                  <option value="unified">{t('diffChecker.unifiedMode')}</option>
+                </select>
+              </div>
+
+              <!-- Ignore Case -->
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-400">{t('diffChecker.ignoreCase')}:</label>
+                <input type="checkbox" id="ignoreCaseCheck" class="w-4 h-4 accent-accent" />
+              </div>
+
+              <!-- Ignore Whitespace -->
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-400">{t('diffChecker.ignoreWhitespace')}:</label>
+                <input type="checkbox" id="ignoreWhitespaceCheck" class="w-4 h-4 accent-accent" />
+              </div>
+            </div>
+
+            <button
+              id="swapBtn"
+              class="px-4 py-1.5 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 transition-colors text-sm flex items-center gap-2"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
+              {t('diffChecker.swap')}
+            </button>
+          </div>
+        </div>
+
+        <!-- Diff Panels -->
+        <div class="grid lg:grid-cols-2 gap-6">
+          <!-- Original Text -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-red-400">{t('diffChecker.original')}</span>
+              <div class="flex gap-2">
+                <label class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 cursor-pointer hover:bg-white/10 transition-colors">
+                  {t('diffChecker.upload')}
+                  <input type="file" id="fileOriginal" accept=".txt,.md,.json,.js,.ts,.py" class="hidden" />
+                </label>
+                <button
+                  id="clearOriginalBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('diffChecker.clear')}
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="originalText"
+              class="w-full h-[400px] lg:h-[500px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
+              placeholder={t('diffChecker.originalPlaceholder')}
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <!-- Modified Text -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-green-400">{t('diffChecker.modified')}</span>
+              <div class="flex gap-2">
+                <label class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 cursor-pointer hover:bg-white/10 transition-colors">
+                  {t('diffChecker.upload')}
+                  <input type="file" id="fileModified" accept=".txt,.md,.json,.js,.ts,.py" class="hidden" />
+                </label>
+                <button
+                  id="clearModifiedBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('diffChecker.clear')}
+                </button>
+              </div>
+            </div>
+            <textarea
+              id="modifiedText"
+              class="w-full h-[400px] lg:h-[500px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
+              placeholder={t('diffChecker.modifiedPlaceholder')}
+              spellcheck="false"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Compare Button -->
+        <div class="mt-6 flex justify-center">
+          <button
+            id="compareBtn"
+            class="px-10 py-3 bg-gradient-to-r from-accent to-chatgpt text-white font-semibold rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            {t('diffChecker.compare')}
+          </button>
+        </div>
+
+        <!-- Diff Result -->
+        <div id="diffResult" class="hidden mt-8">
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('diffChecker.result')}</span>
+              <div id="diffStats" class="text-xs text-gray-400"></div>
+            </div>
+            <div id="diffOutput" class="p-4 font-mono text-sm leading-relaxed overflow-auto max-h-[600px]"></div>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div id="statsCards" class="hidden mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-bg-secondary rounded-xl border border-white/10 p-4 text-center">
+            <div id="addedLines" class="text-2xl font-bold text-green-400">0</div>
+            <div class="text-xs text-gray-400 mt-1">{t('diffChecker.added')}</div>
+          </div>
+          <div class="bg-bg-secondary rounded-xl border border-white/10 p-4 text-center">
+            <div id="removedLines" class="text-2xl font-bold text-red-400">0</div>
+            <div class="text-xs text-gray-400 mt-1">{t('diffChecker.removed')}</div>
+          </div>
+          <div class="bg-bg-secondary rounded-xl border border-white/10 p-4 text-center">
+            <div id="modifiedLines" class="text-2xl font-bold text-yellow-400">0</div>
+            <div class="text-xs text-gray-400 mt-1">{t('diffChecker.modifiedLabel')}</div>
+          </div>
+          <div class="bg-bg-secondary rounded-xl border border-white/10 p-4 text-center">
+            <div id="unchangedLines" class="text-2xl font-bold text-gray-400">0</div>
+            <div class="text-xs text-gray-400 mt-1">{t('diffChecker.unchanged')}</div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('diffChecker.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('diffChecker.tip1')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('diffChecker.tip2')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('diffChecker.tip3')}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Back to home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">
+            ← {t('diffChecker.backHome')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const originalText = document.getElementById('originalText') as HTMLTextAreaElement;
+  const modifiedText = document.getElementById('modifiedText') as HTMLTextAreaElement;
+  const modeSelect = document.getElementById('modeSelect') as HTMLSelectElement;
+  const ignoreCaseCheck = document.getElementById('ignoreCaseCheck') as HTMLInputElement;
+  const ignoreWhitespaceCheck = document.getElementById('ignoreWhitespaceCheck') as HTMLInputElement;
+  const compareBtn = document.getElementById('compareBtn');
+  const swapBtn = document.getElementById('swapBtn');
+  const clearOriginalBtn = document.getElementById('clearOriginalBtn');
+  const clearModifiedBtn = document.getElementById('clearModifiedBtn');
+  const fileOriginal = document.getElementById('fileOriginal') as HTMLInputElement;
+  const fileModified = document.getElementById('fileModified') as HTMLInputElement;
+  const diffResult = document.getElementById('diffResult');
+  const diffOutput = document.getElementById('diffOutput');
+  const diffStats = document.getElementById('diffStats');
+  const statsCards = document.getElementById('statsCards');
+
+  // Diff algorithm (Myers' diff)
+  function diff(oldLines: string[], newLines: string[], ignoreCase: boolean, ignoreWhitespace: boolean): Array<{type: 'added' | 'removed' | 'unchanged', line: string, oldNum?: number, newNum?: number}> {
+    const result: Array<{type: 'added' | 'removed' | 'unchanged', line: string, oldNum?: number, newNum?: number}> = [];
+
+    const normalize = (str: string) => {
+      let s = ignoreCase ? str.toLowerCase() : str;
+      s = ignoreWhitespace ? s.replace(/\s+/g, ' ').trim() : s;
+      return s;
+    };
+
+    const normalizedOld = oldLines.map(normalize);
+    const normalizedNew = newLines.map(normalize);
+
+    // Simple LCS-based diff
+    const lcs: number[][] = [];
+    for (let i = 0; i <= oldLines.length; i++) {
+      lcs[i] = [];
+      for (let j = 0; j <= newLines.length; j++) {
+        if (i === 0 || j === 0) {
+          lcs[i][j] = 0;
+        } else if (normalizedOld[i - 1] === normalizedNew[j - 1]) {
+          lcs[i][j] = lcs[i - 1][j - 1] + 1;
+        } else {
+          lcs[i][j] = Math.max(lcs[i - 1][j], lcs[i][j - 1]);
+        }
+      }
+    }
+
+    // Backtrack to find diff
+    let i = oldLines.length;
+    let j = newLines.length;
+    const tempResult: Array<{type: 'added' | 'removed' | 'unchanged', line: string, oldNum?: number, newNum?: number}> = [];
+
+    while (i > 0 || j > 0) {
+      if (i > 0 && j > 0 && normalizedOld[i - 1] === normalizedNew[j - 1]) {
+        tempResult.push({ type: 'unchanged', line: oldLines[i - 1], oldNum: i, newNum: j });
+        i--;
+        j--;
+      } else if (j > 0 && (i === 0 || lcs[i][j - 1] >= lcs[i - 1][j])) {
+        tempResult.push({ type: 'added', line: newLines[j - 1], newNum: j });
+        j--;
+      } else if (i > 0) {
+        tempResult.push({ type: 'removed', line: oldLines[i - 1], oldNum: i });
+        i--;
+      }
+    }
+
+    return tempResult.reverse();
+  }
+
+  // Render diff
+  function renderDiff(diffResult: Array<{type: 'added' | 'removed' | 'unchanged', line: string, oldNum?: number, newNum?: number}>, mode: string) {
+    if (!diffOutput) return '';
+
+    let html = '';
+    let added = 0, removed = 0, unchanged = 0;
+
+    if (mode === 'unified') {
+      // Unified mode
+      diffResult.forEach(item => {
+        const escapedLine = escapeHtml(item.line);
+        if (item.type === 'added') {
+          html += `<div class="flex bg-green-500/10 border-l-2 border-green-500"><span class="w-12 text-right pr-3 text-gray-500 select-none">${item.newNum || ''}</span><span class="w-8 text-green-400 text-center">+</span><span class="flex-1 text-green-300">${escapedLine}</span></div>`;
+          added++;
+        } else if (item.type === 'removed') {
+          html += `<div class="flex bg-red-500/10 border-l-2 border-red-500"><span class="w-12 text-right pr-3 text-gray-500 select-none">${item.oldNum || ''}</span><span class="w-8 text-red-400 text-center">-</span><span class="flex-1 text-red-300 line-through">${escapedLine}</span></div>`;
+          removed++;
+        } else {
+          html += `<div class="flex hover:bg-white/5"><span class="w-12 text-right pr-3 text-gray-500 select-none">${item.oldNum}</span><span class="w-8 text-gray-600 text-center"> </span><span class="flex-1 text-gray-300">${escapedLine}</span></div>`;
+          unchanged++;
+        }
+      });
+    } else {
+      // Split mode (simplified - show side by side effect)
+      diffResult.forEach(item => {
+        const escapedLine = escapeHtml(item.line);
+        if (item.type === 'added') {
+          html += `<div class="flex bg-green-500/10 border-l-2 border-green-500"><span class="w-16 text-right pr-3 text-gray-500 select-none text-xs">${item.newNum || ''}</span><span class="flex-1 text-green-300">+ ${escapedLine}</span></div>`;
+          added++;
+        } else if (item.type === 'removed') {
+          html += `<div class="flex bg-red-500/10 border-l-2 border-red-500"><span class="w-16 text-right pr-3 text-gray-500 select-none text-xs">${item.oldNum || ''}</span><span class="flex-1 text-red-300">- ${escapedLine}</span></div>`;
+          removed++;
+        } else {
+          html += `<div class="flex hover:bg-white/5"><span class="w-16 text-right pr-3 text-gray-500 select-none text-xs">${item.oldNum}</span><span class="flex-1 text-gray-300">  ${escapedLine}</span></div>`;
+          unchanged++;
+        }
+      });
+    }
+
+    diffOutput.innerHTML = html;
+
+    // Update stats
+    document.getElementById('addedLines')!.textContent = added.toString();
+    document.getElementById('removedLines')!.textContent = removed.toString();
+    document.getElementById('modifiedLines')!.textContent = Math.max(added, removed).toString();
+    document.getElementById('unchangedLines')!.textContent = unchanged.toString();
+
+    if (diffStats) {
+      diffStats.textContent = `+${added} -${removed} ~${unchanged}`;
+    }
+  }
+
+  function escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Compare button
+  compareBtn?.addEventListener('click', () => {
+    const oldLines = originalText.value.split('\n');
+    const newLines = modifiedText.value.split('\n');
+    const ignoreCase = ignoreCaseCheck.checked;
+    const ignoreWhitespace = ignoreWhitespaceCheck.checked;
+    const mode = modeSelect.value;
+
+    const result = diff(oldLines, newLines, ignoreCase, ignoreWhitespace);
+    renderDiff(result, mode);
+
+    if (diffResult) diffResult.classList.remove('hidden');
+    if (statsCards) statsCards.classList.remove('hidden');
+  });
+
+  // Swap button
+  swapBtn?.addEventListener('click', () => {
+    const temp = originalText.value;
+    originalText.value = modifiedText.value;
+    modifiedText.value = temp;
+  });
+
+  // Clear buttons
+  clearOriginalBtn?.addEventListener('click', () => {
+    originalText.value = '';
+  });
+
+  clearModifiedBtn?.addEventListener('click', () => {
+    modifiedText.value = '';
+  });
+
+  // File uploads
+  fileOriginal?.addEventListener('change', (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      originalText.value = event.target?.result as string;
+    };
+    reader.readAsText(file);
+  });
+
+  fileModified?.addEventListener('change', (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      modifiedText.value = event.target?.result as string;
+    };
+    reader.readAsText(file);
+  });
+</script>
