@@ -11,7 +11,19 @@
     "install": "安装",
     "home": "首页",
     "tips": "使用技巧",
-    "platforms": "支持平台"
+    "platforms": "支持平台",
+    "tools": "在线工具"
+  },
+  "tools": {
+    "markdownToPdf": "Markdown转PDF",
+    "jsonToMarkdown": "JSON转Markdown",
+    "codeToPdf": "代码转PDF",
+    "diffChecker": "文本对比",
+    "htmlToMarkdown": "HTML转Markdown",
+    "csvToJson": "CSV转JSON",
+    "markdownTable": "表格生成器",
+    "textCase": "大小写转换",
+    "urlEncoder": "URL编码工具"
   },
   "hero": {
     "title": "一键导出你的AI对话记录",

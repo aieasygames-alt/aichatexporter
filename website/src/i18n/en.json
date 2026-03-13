@@ -11,7 +11,19 @@
     "install": "Install",
     "home": "Home",
     "tips": "Tips & Tricks",
-    "platforms": "Supported Platforms"
+    "platforms": "Supported Platforms",
+    "tools": "Tools"
+  },
+  "tools": {
+    "markdownToPdf": "Markdown to PDF",
+    "jsonToMarkdown": "JSON to Markdown",
+    "codeToPdf": "Code to PDF",
+    "diffChecker": "Diff Checker",
+    "htmlToMarkdown": "HTML to Markdown",
+    "csvToJson": "CSV to JSON",
+    "markdownTable": "Markdown Table",
+    "textCase": "Text Case",
+    "urlEncoder": "URL Encoder"
   },
   "hero": {
     "title": "One-Click Export Your AI Conversations",

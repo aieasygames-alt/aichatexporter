@@ -11,7 +11,19 @@
     "install": "インストール",
     "home": "ホーム",
     "tips": "使い方のコツ",
-    "platforms": "対応プラットフォーム"
+    "platforms": "対応プラットフォーム",
+    "tools": "オンラインツール"
+  },
+  "tools": {
+    "markdownToPdf": "Markdown→PDF",
+    "jsonToMarkdown": "JSON→Markdown",
+    "codeToPdf": "コード→PDF",
+    "diffChecker": "テキスト比較",
+    "htmlToMarkdown": "HTML→Markdown",
+    "csvToJson": "CSV↔JSON",
+    "markdownTable": "テーブル生成",
+    "textCase": "大文字小文字変換",
+    "urlEncoder": "URLエンコード"
   },
   "hero": {
     "title": "AI会話をワンクリックでエクスポート",

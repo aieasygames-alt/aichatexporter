@@ -11,7 +11,19 @@
     "install": "설치",
     "home": "홈",
     "tips": "사용 팁",
-    "platforms": "지원 플랫폼"
+    "platforms": "지원 플랫폼",
+    "tools": "온라인 도구"
+  },
+  "tools": {
+    "markdownToPdf": "Markdown→PDF",
+    "jsonToMarkdown": "JSON→Markdown",
+    "codeToPdf": "코드→PDF",
+    "diffChecker": "텍스트 비교",
+    "htmlToMarkdown": "HTML→Markdown",
+    "csvToJson": "CSV↔JSON",
+    "markdownTable": "표 생성기",
+    "textCase": "대소문자 변환",
+    "urlEncoder": "URL 인코딩"
   },
   "hero": {
     "title": "AI 대화를 원클릭으로 내보내기",

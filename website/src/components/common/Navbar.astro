@@ -15,6 +15,18 @@ const navLinks = [
   { href: `/${lang}/how-to-use`, label: t('nav.howToUse') },
   { href: `/${lang}/faq`, label: t('nav.faq') },
 ];
+
+const toolLinks = [
+  { href: `/${lang}/markdown-to-pdf`, label: t('tools.markdownToPdf'), icon: 'pdf' },
+  { href: `/${lang}/json-to-markdown`, label: t('tools.jsonToMarkdown'), icon: 'json' },
+  { href: `/${lang}/code-to-pdf`, label: t('tools.codeToPdf'), icon: 'code' },
+  { href: `/${lang}/diff-checker`, label: t('tools.diffChecker'), icon: 'diff' },
+  { href: `/${lang}/html-to-markdown`, label: t('tools.htmlToMarkdown'), icon: 'html' },
+  { href: `/${lang}/csv-to-json`, label: t('tools.csvToJson'), icon: 'csv' },
+  { href: `/${lang}/markdown-table`, label: t('tools.markdownTable'), icon: 'table' },
+  { href: `/${lang}/text-case`, label: t('tools.textCase'), icon: 'case' },
+  { href: `/${lang}/url-encoder`, label: t('tools.urlEncoder'), icon: 'url' },
+];
 ---
 
 <nav class="fixed top-0 left-0 right-0 z-50 bg-bg-primary/80 backdrop-blur-lg border-b border-white/5">
@@ -45,6 +57,39 @@ const navLinks = [
             {link.label}
           </a>
         ))}
+
+        <!-- Tools Dropdown -->
+        <div class="relative group">
+          <button class="flex items-center gap-1 text-sm font-medium transition-colors hover:text-accent text-gray-400">
+            {t('nav.tools')}
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Tools Dropdown Menu -->
+          <div class="absolute left-0 top-full mt-2 py-2 w-56 bg-bg-secondary rounded-xl border border-white/10 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            {toolLinks.map((tool) => (
+              <a
+                href={tool.href}
+                class="flex items-center gap-3 px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+              >
+                <span class="w-6 h-6 rounded bg-white/5 flex items-center justify-center text-xs">
+                  {tool.icon === 'pdf' && '📄'}
+                  {tool.icon === 'json' && '📋'}
+                  {tool.icon === 'code' && '💻'}
+                  {tool.icon === 'diff' && '⚖️'}
+                  {tool.icon === 'html' && '🌐'}
+                  {tool.icon === 'csv' && '📊'}
+                  {tool.icon === 'table' && '📝'}
+                  {tool.icon === 'case' && 'Aa'}
+                  {tool.icon === 'url' && '🔗'}
+                </span>
+                {tool.label}
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
 
       <!-- Right side -->
@@ -119,6 +164,31 @@ const navLinks = [
           {link.label}
         </a>
       ))}
+
+      <!-- Tools Section in Mobile -->
+      <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+        {t('nav.tools')}
+      </div>
+      {toolLinks.map((tool) => (
+        <a
+          href={tool.href}
+          class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+        >
+          <span class="w-5 h-5 rounded bg-white/5 flex items-center justify-center text-xs">
+            {tool.icon === 'pdf' && '📄'}
+            {tool.icon === 'json' && '📋'}
+            {tool.icon === 'code' && '💻'}
+            {tool.icon === 'diff' && '⚖️'}
+            {tool.icon === 'html' && '🌐'}
+            {tool.icon === 'csv' && '📊'}
+            {tool.icon === 'table' && '📝'}
+            {tool.icon === 'case' && 'Aa'}
+            {tool.icon === 'url' && '🔗'}
+          </span>
+          {tool.label}
+        </a>
+      ))}
+
       <a
         href="https://chromewebstore.google.com/detail/ai-chat-exporter/placeholder"
         target="_blank"

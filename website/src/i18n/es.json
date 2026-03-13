@@ -11,7 +11,19 @@
     "install": "Instalar",
     "home": "Inicio",
     "tips": "Consejos",
-    "platforms": "Plataformas"
+    "platforms": "Plataformas",
+    "tools": "Herramientas"
+  },
+  "tools": {
+    "markdownToPdf": "Markdown a PDF",
+    "jsonToMarkdown": "JSON a Markdown",
+    "codeToPdf": "Código a PDF",
+    "diffChecker": "Comparar texto",
+    "htmlToMarkdown": "HTML a Markdown",
+    "csvToJson": "CSV a JSON",
+    "markdownTable": "Generador de tablas",
+    "textCase": "Convertir mayúsculas",
+    "urlEncoder": "Codificador URL"
   },
   "hero": {
     "title": "Exporta tus conversaciones de IA con un clic",
