@@ -1,0 +1,172 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('urlEncoder.title')} - AI Chat Exporter`} description={t('urlEncoder.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{t('urlEncoder.title')}</h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">{t('urlEncoder.subtitle')}</p>
+      </div>
+
+      <div class="max-w-5xl mx-auto">
+        <!-- Tab Buttons -->
+        <div class="flex justify-center mb-6">
+          <div class="inline-flex bg-bg-secondary rounded-xl p-1 border border-white/10">
+            <button id="tabUrl" class="tab-btn px-6 py-2 rounded-lg text-sm font-medium transition-colors bg-accent text-white">{t('urlEncoder.urlTab')}</button>
+            <button id="tabBase64" class="tab-btn px-6 py-2 rounded-lg text-sm font-medium transition-colors text-gray-400 hover:text-white">{t('urlEncoder.base64Tab')}</button>
+          </div>
+        </div>
+
+        <!-- URL Encoder/Decoder -->
+        <div id="urlPanel" class="tool-panel">
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('urlEncoder.plainText')}</span>
+                <div class="flex gap-2">
+                  <button id="clearUrlBtn" class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('urlEncoder.clear')}</button>
+                </div>
+              </div>
+              <textarea id="plainUrlInput" class="w-full h-[200px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm" placeholder={t('urlEncoder.plainPlaceholder')}></textarea>
+            </div>
+
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('urlEncoder.encodedText')}</span>
+                <div class="flex gap-2">
+                  <button id="copyUrlBtn" class="text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors">{t('urlEncoder.copy')}</button>
+                </div>
+              </div>
+              <textarea id="encodedUrlOutput" class="w-full h-[200px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm" readonly></textarea>
+            </div>
+          </div>
+
+          <div class="mt-4 flex justify-center gap-4">
+            <button id="encodeUrlBtn" class="px-6 py-2.5 bg-gradient-to-r from-accent to-chatgpt text-white font-semibold rounded-xl hover:opacity-90 transition-opacity">{t('urlEncoder.encode')}</button>
+            <button id="decodeUrlBtn" class="px-6 py-2.5 bg-white/5 text-gray-300 font-medium rounded-xl hover:bg-white/10 transition-colors">{t('urlEncoder.decode')}</button>
+          </div>
+        </div>
+
+        <!-- Base64 Encoder/Decoder -->
+        <div id="base64Panel" class="tool-panel hidden">
+          <div class="grid lg:grid-cols-2 gap-6">
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('urlEncoder.plainText')}</span>
+                <div class="flex gap-2">
+                  <button id="clearBase64Btn" class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('urlEncoder.clear')}</button>
+                </div>
+              </div>
+              <textarea id="plainBase64Input" class="w-full h-[200px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm" placeholder={t('urlEncoder.base64Placeholder')}></textarea>
+            </div>
+
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('urlEncoder.base64Text')}</span>
+                <div class="flex gap-2">
+                  <button id="copyBase64Btn" class="text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors">{t('urlEncoder.copy')}</button>
+                </div>
+              </div>
+              <textarea id="encodedBase64Output" class="w-full h-[200px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm" readonly></textarea>
+            </div>
+          </div>
+
+          <div class="mt-4 flex justify-center gap-4">
+            <button id="encodeBase64Btn" class="px-6 py-2.5 bg-gradient-to-r from-accent to-chatgpt text-white font-semibold rounded-xl hover:opacity-90 transition-opacity">{t('urlEncoder.encode')}</button>
+            <button id="decodeBase64Btn" class="px-6 py-2.5 bg-white/5 text-gray-300 font-medium rounded-xl hover:bg-white/10 transition-colors">{t('urlEncoder.decode')}</button>
+          </div>
+        </div>
+
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('urlEncoder.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('urlEncoder.tip1')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('urlEncoder.tip2')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('urlEncoder.tip3')}</li>
+          </ul>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">← {t('urlEncoder.backHome')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Tab switching
+  const tabUrl = document.getElementById('tabUrl')!;
+  const tabBase64 = document.getElementById('tabBase64')!;
+  const urlPanel = document.getElementById('urlPanel')!;
+  const base64Panel = document.getElementById('base64Panel')!;
+
+  function switchTab(tab: 'url' | 'base64') {
+    if (tab === 'url') {
+      tabUrl.classList.add('bg-accent', 'text-white');
+      tabUrl.classList.remove('text-gray-400');
+      tabBase64.classList.remove('bg-accent', 'text-white');
+      tabBase64.classList.add('text-gray-400');
+      urlPanel.classList.remove('hidden');
+      base64Panel.classList.add('hidden');
+    } else {
+      tabBase64.classList.add('bg-accent', 'text-white');
+      tabBase64.classList.remove('text-gray-400');
+      tabUrl.classList.remove('bg-accent', 'text-white');
+      tabUrl.classList.add('text-gray-400');
+      base64Panel.classList.remove('hidden');
+      urlPanel.classList.add('hidden');
+    }
+  }
+
+  tabUrl.addEventListener('click', () => switchTab('url'));
+  tabBase64.addEventListener('click', () => switchTab('base64'));
+
+  // URL Encoder/Decoder
+  const plainUrlInput = document.getElementById('plainUrlInput') as HTMLTextAreaElement;
+  const encodedUrlOutput = document.getElementById('encodedUrlOutput') as HTMLTextAreaElement;
+
+  document.getElementById('encodeUrlBtn')?.addEventListener('click', () => {
+    encodedUrlOutput.value = encodeURIComponent(plainUrlInput.value);
+  });
+  document.getElementById('decodeUrlBtn')?.addEventListener('click', () => {
+    try { plainUrlInput.value = decodeURIComponent(encodedUrlOutput.value); } catch { plainUrlInput.value = 'Invalid encoded string'; }
+  });
+  document.getElementById('clearUrlBtn')?.addEventListener('click', () => { plainUrlInput.value = ''; encodedUrlOutput.value = ''; });
+  document.getElementById('copyUrlBtn')?.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(encodedUrlOutput.value);
+    const btn = document.getElementById('copyUrlBtn')!;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+
+  // Base64 Encoder/Decoder
+  const plainBase64Input = document.getElementById('plainBase64Input') as HTMLTextAreaElement;
+  const encodedBase64Output = document.getElementById('encodedBase64Output') as HTMLTextAreaElement;
+
+  document.getElementById('encodeBase64Btn')?.addEventListener('click', () => {
+    encodedBase64Output.value = btoa(unescape(encodeURIComponent(plainBase64Input.value)));
+  });
+  document.getElementById('decodeBase64Btn')?.addEventListener('click', () => {
+    try { plainBase64Input.value = decodeURIComponent(escape(atob(encodedBase64Output.value))); } catch { plainBase64Input.value = 'Invalid Base64 string'; }
+  });
+  document.getElementById('clearBase64Btn')?.addEventListener('click', () => { plainBase64Input.value = ''; encodedBase64Output.value = ''; });
+  document.getElementById('copyBase64Btn')?.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(encodedBase64Output.value);
+    const btn = document.getElementById('copyBase64Btn')!;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+</script>

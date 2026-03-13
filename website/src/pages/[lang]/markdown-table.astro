@@ -1,0 +1,199 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('markdownTable.title')} - AI Chat Exporter`} description={t('markdownTable.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{t('markdownTable.title')}</h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">{t('markdownTable.subtitle')}</p>
+      </div>
+
+      <div class="max-w-5xl mx-auto">
+        <!-- Controls -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4 mb-6">
+          <div class="flex flex-wrap items-center gap-4 justify-center md:justify-between">
+            <div class="flex flex-wrap items-center gap-4">
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-400">{t('markdownTable.columns')}:</label>
+                <button id="removeCol" class="w-8 h-8 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10">-</button>
+                <span id="colCount" class="w-8 text-center text-gray-300">3</span>
+                <button id="addCol" class="w-8 h-8 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10">+</button>
+              </div>
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-400">{t('markdownTable.rows')}:</label>
+                <button id="removeRow" class="w-8 h-8 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10">-</button>
+                <span id="rowCount" class="w-8 text-center text-gray-300">3</span>
+                <button id="addRow" class="w-8 h-8 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10">+</button>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button id="pasteExcelBtn" class="px-4 py-2 rounded-lg bg-accent/20 text-accent hover:bg-accent/30 text-sm">{t('markdownTable.pasteExcel')}</button>
+              <button id="clearTableBtn" class="px-4 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 text-sm">{t('markdownTable.clear')}</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Editor -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden mb-6">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+            <span class="text-sm font-medium text-gray-300">{t('markdownTable.editor')}</span>
+          </div>
+          <div class="p-4 overflow-auto">
+            <table id="tableEditor" class="w-full border-collapse">
+              <thead id="tableHeader"></thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Markdown Output -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+            <span class="text-sm font-medium text-gray-300">{t('markdownTable.output')}</span>
+            <div class="flex gap-2">
+              <button id="copyBtn" class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('markdownTable.copy')}</button>
+            </div>
+          </div>
+          <textarea id="markdownOutput" class="w-full h-[200px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm" readonly></textarea>
+        </div>
+
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('markdownTable.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('markdownTable.tip1')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('markdownTable.tip2')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('markdownTable.tip3')}</li>
+          </ul>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">← {t('markdownTable.backHome')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<!-- Hidden textarea for paste -->
+<textarea id="pasteArea" class="fixed -left-[9999px] opacity-0"></textarea>
+
+<script>
+  let cols = 3;
+  let rows = 3;
+  const tableHeader = document.getElementById('tableHeader');
+  const tableBody = document.getElementById('tableBody');
+  const markdownOutput = document.getElementById('markdownOutput') as HTMLTextAreaElement;
+  const colCount = document.getElementById('colCount')!;
+  const rowCount = document.getElementById('rowCount')!;
+
+  function renderTable() {
+    // Header
+    let headerHtml = '<tr>';
+    for (let c = 0; c < cols; c++) {
+      headerHtml += `<th class="border border-white/10 p-2"><input type="text" class="w-full bg-transparent text-gray-300 text-center focus:outline-none focus:bg-white/5 rounded px-2 py-1" data-type="header" data-col="${c}" placeholder="Header ${c + 1}" /></th>`;
+    }
+    headerHtml += '</tr>';
+    tableHeader!.innerHTML = headerHtml;
+
+    // Body
+    let bodyHtml = '';
+    for (let r = 0; r < rows; r++) {
+      bodyHtml += '<tr>';
+      for (let c = 0; c < cols; c++) {
+        bodyHtml += `<td class="border border-white/10 p-2"><input type="text" class="w-full bg-transparent text-gray-200 text-center focus:outline-none focus:bg-white/5 rounded px-2 py-1" data-type="cell" data-row="${r}" data-col="${c}" /></td>`;
+      }
+      bodyHtml += '</tr>';
+    }
+    tableBody!.innerHTML = bodyHtml;
+
+    colCount.textContent = cols.toString();
+    rowCount.textContent = rows.toString();
+
+    // Add event listeners
+    document.querySelectorAll('input[data-type]').forEach(input => {
+      input.addEventListener('input', updateMarkdown);
+    });
+  }
+
+  function updateMarkdown() {
+    const headerInputs = document.querySelectorAll('input[data-type="header"]') as NodeListOf<HTMLInputElement>;
+    const headers = Array.from(headerInputs).map(i => i.value || ' ');
+    const divider = headers.map(() => '---');
+
+    let md = `| ${headers.join(' | ')} |\n| ${divider.join(' | ')} |\n`;
+
+    for (let r = 0; r < rows; r++) {
+      const rowValues: string[] = [];
+      for (let c = 0; c < cols; c++) {
+        const input = document.querySelector(`input[data-type="cell"][data-row="${r}"][data-col="${c}"]`) as HTMLInputElement;
+        rowValues.push(input?.value || ' ');
+      }
+      md += `| ${rowValues.join(' | ')} |\n`;
+    }
+
+    markdownOutput.value = md.trim();
+  }
+
+  document.getElementById('addCol')?.addEventListener('click', () => { cols++; renderTable(); updateMarkdown(); });
+  document.getElementById('removeCol')?.addEventListener('click', () => { if (cols > 1) { cols--; renderTable(); updateMarkdown(); } });
+  document.getElementById('addRow')?.addEventListener('click', () => { rows++; renderTable(); updateMarkdown(); });
+  document.getElementById('removeRow')?.addEventListener('click', () => { if (rows > 1) { rows--; renderTable(); updateMarkdown(); } });
+  document.getElementById('clearTableBtn')?.addEventListener('click', () => { renderTable(); updateMarkdown(); });
+  document.getElementById('copyBtn')?.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(markdownOutput.value);
+    const btn = document.getElementById('copyBtn')!;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+
+  // Paste from Excel
+  document.getElementById('pasteExcelBtn')?.addEventListener('click', async () => {
+    const text = await navigator.clipboard.readText();
+    const lines = text.trim().split('\n');
+    if (lines.length === 0) return;
+
+    const firstLine = lines[0].split('\t');
+    cols = firstLine.length;
+    rows = lines.length - 1;
+
+    renderTable();
+
+    // Fill header
+    firstLine.forEach((val, c) => {
+      const input = document.querySelector(`input[data-type="header"][data-col="${c}"]`) as HTMLInputElement;
+      if (input) input.value = val;
+    });
+
+    // Fill body
+    lines.slice(1).forEach((line, r) => {
+      line.split('\t').forEach((val, c) => {
+        const input = document.querySelector(`input[data-type="cell"][data-row="${r}"][data-col="${c}"]`) as HTMLInputElement;
+        if (input) input.value = val;
+      });
+    });
+
+    updateMarkdown();
+  });
+
+  // Initialize
+  renderTable();
+  updateMarkdown();
+</script>
+
+<style>
+  #tableEditor input:focus {
+    background: rgba(255, 255, 255, 0.05);
+  }
+</style>

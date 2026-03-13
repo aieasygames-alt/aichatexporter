@@ -1,0 +1,167 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('textCase.title')} - AI Chat Exporter`} description={t('textCase.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{t('textCase.title')}</h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">{t('textCase.subtitle')}</p>
+      </div>
+
+      <div class="max-w-5xl mx-auto">
+        <!-- Quick Convert Buttons -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-6">
+          <button data-case="upper" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">UPPERCASE</button>
+          <button data-case="lower" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">lowercase</button>
+          <button data-case="title" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">Title Case</button>
+          <button data-case="sentence" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">Sentence case</button>
+          <button data-case="camel" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">camelCase</button>
+          <button data-case="snake" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">snake_case</button>
+          <button data-case="kebab" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">kebab-case</button>
+          <button data-case="pascal" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">PascalCase</button>
+          <button data-case="constant" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">CONSTANT_CASE</button>
+          <button data-case="dot" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">dot.case</button>
+          <button data-case="toggle" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">tOGGLE cASE</button>
+          <button data-case="capitalize" class="case-btn px-4 py-3 rounded-xl bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-medium">Capitalize Each</button>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+          <!-- Input -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('textCase.input')}</span>
+              <div class="flex gap-2">
+                <button id="clearBtn" class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('textCase.clear')}</button>
+                <button id="pasteBtn" class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('textCase.paste')}</button>
+              </div>
+            </div>
+            <textarea id="textInput" class="w-full h-[350px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none text-base leading-relaxed" placeholder={t('textCase.placeholder')}></textarea>
+          </div>
+
+          <!-- Output -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('textCase.output')}</span>
+              <div class="flex gap-2">
+                <button id="copyBtn" class="text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors">{t('textCase.copy')}</button>
+              </div>
+            </div>
+            <textarea id="textOutput" class="w-full h-[350px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none text-base leading-relaxed" readonly></textarea>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="mt-6 grid grid-cols-4 gap-4">
+          <div class="bg-bg-secondary rounded-xl border border-white/10 p-4 text-center">
+            <div id="charCount" class="text-2xl font-bold text-accent">0</div>
+            <div class="text-xs text-gray-400 mt-1">{t('textCase.characters')}</div>
+          </div>
+          <div class="bg-bg-secondary rounded-xl border border-white/10 p-4 text-center">
+            <div id="wordCount" class="text-2xl font-bold text-accent">0</div>
+            <div class="text-xs text-gray-400 mt-1">{t('textCase.words')}</div>
+          </div>
+          <div class="bg-bg-secondary rounded-xl border border-white/10 p-4 text-center">
+            <div id="lineCount" class="text-2xl font-bold text-accent">0</div>
+            <div class="text-xs text-gray-400 mt-1">{t('textCase.lines')}</div>
+          </div>
+          <div class="bg-bg-secondary rounded-xl border border-white/10 p-4 text-center">
+            <div id="sentenceCount" class="text-2xl font-bold text-accent">0</div>
+            <div class="text-xs text-gray-400 mt-1">{t('textCase.sentences')}</div>
+          </div>
+        </div>
+
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('textCase.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('textCase.tip1')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('textCase.tip2')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('textCase.tip3')}</li>
+          </ul>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">← {t('textCase.backHome')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const textInput = document.getElementById('textInput') as HTMLTextAreaElement;
+  const textOutput = document.getElementById('textOutput') as HTMLTextAreaElement;
+  const clearBtn = document.getElementById('clearBtn');
+  const pasteBtn = document.getElementById('pasteBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const caseBtns = document.querySelectorAll('.case-btn');
+
+  function updateStats() {
+    const text = textInput.value;
+    document.getElementById('charCount')!.textContent = text.length.toString();
+    document.getElementById('wordCount')!.textContent = text.trim() ? text.trim().split(/\s+/).length.toString() : '0';
+    document.getElementById('lineCount')!.textContent = text ? text.split('\n').length.toString() : '0';
+    document.getElementById('sentenceCount')!.textContent = text.trim() ? text.split(/[.!?]+/).filter(s => s.trim()).length.toString() : '0';
+  }
+
+  function toTitleCase(str: string) { return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); }
+  function toSentenceCase(str: string) { return str.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()); }
+  function toCamelCase(str: string) {
+    return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (_, c) => c.toUpperCase());
+  }
+  function toPascalCase(str: string) {
+    const camel = toCamelCase(str);
+    return camel.charAt(0).toUpperCase() + camel.slice(1);
+  }
+  function toSnakeCase(str: string) { return str.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, ''); }
+  function toKebabCase(str: string) { return str.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+  function toDotCase(str: string) { return str.toLowerCase().replace(/[^a-zA-Z0-9]+/g, '.').replace(/^\.|\.$/g, ''); }
+  function toConstantCase(str: string) { return str.toUpperCase().replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_|_$/g, ''); }
+  function toToggleCase(str: string) { return str.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join(''); }
+  function toCapitalizeEach(str: string) { return str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' '); }
+
+  const converters: Record<string, (s: string) => string> = {
+    upper: s => s.toUpperCase(),
+    lower: s => s.toLowerCase(),
+    title: toTitleCase,
+    sentence: toSentenceCase,
+    camel: toCamelCase,
+    pascal: toPascalCase,
+    snake: toSnakeCase,
+    kebab: toKebabCase,
+    dot: toDotCase,
+    constant: toConstantCase,
+    toggle: toToggleCase,
+    capitalize: toCapitalizeEach,
+  };
+
+  caseBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const caseType = btn.getAttribute('data-case')!;
+      const converter = converters[caseType];
+      if (converter) textOutput.value = converter(textInput.value);
+    });
+  });
+
+  textInput.addEventListener('input', updateStats);
+  clearBtn?.addEventListener('click', () => { textInput.value = ''; textOutput.value = ''; updateStats(); });
+  pasteBtn?.addEventListener('click', async () => { textInput.value = await navigator.clipboard.readText(); updateStats(); });
+  copyBtn?.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(textOutput.value);
+    copyBtn.textContent = 'Copied!';
+    setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+  });
+
+  updateStats();
+</script>

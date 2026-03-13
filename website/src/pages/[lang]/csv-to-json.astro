@@ -1,0 +1,164 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('csvToJson.title')} - AI Chat Exporter`} description={t('csvToJson.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{t('csvToJson.title')}</h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">{t('csvToJson.subtitle')}</p>
+      </div>
+
+      <div class="max-w-6xl mx-auto">
+        <!-- Options -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4 mb-6">
+          <div class="flex flex-wrap items-center gap-6 justify-center">
+            <div class="flex items-center gap-2">
+              <label class="text-sm text-gray-400">{t('csvToJson.delimiter')}:</label>
+              <select id="delimiterSelect" class="px-3 py-1.5 rounded-lg bg-white/5 text-gray-300 border border-white/10 focus:outline-none focus:border-accent text-sm">
+                <option value=",">, (Comma)</option>
+                <option value=";">; (Semicolon)</option>
+                <option value="\t">Tab</option>
+                <option value="|">| (Pipe)</option>
+              </select>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="headerCheck" checked class="w-4 h-4 accent-accent" />
+              <label class="text-sm text-gray-300">{t('csvToJson.hasHeader')}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+          <!-- CSV Input -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('csvToJson.csvInput')}</span>
+              <div class="flex gap-2">
+                <label class="text-xs px-3 py-1 rounded bg-accent/20 text-accent cursor-pointer hover:bg-accent/30 transition-colors">
+                  {t('csvToJson.upload')}
+                  <input type="file" id="fileInput" accept=".csv" class="hidden" />
+                </label>
+                <button id="clearBtn" class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('csvToJson.clear')}</button>
+              </div>
+            </div>
+            <textarea id="csvInput" class="w-full h-[400px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm" placeholder={t('csvToJson.csvPlaceholder')}></textarea>
+          </div>
+
+          <!-- JSON Output -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('csvToJson.jsonOutput')}</span>
+              <div class="flex gap-2">
+                <button id="copyBtn" class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('csvToJson.copy')}</button>
+                <button id="downloadBtn" class="text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors">{t('csvToJson.download')}</button>
+              </div>
+            </div>
+            <textarea id="jsonOutput" class="w-full h-[400px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm" readonly placeholder={t('csvToJson.jsonPlaceholder')}></textarea>
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-center">
+          <button id="convertBtn" class="px-10 py-3 bg-gradient-to-r from-accent to-chatgpt text-white font-semibold rounded-xl hover:opacity-90 transition-opacity flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            {t('csvToJson.convert')}
+          </button>
+        </div>
+
+        <div id="errorMsg" class="hidden mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm text-center"></div>
+
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('csvToJson.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('csvToJson.tip1')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('csvToJson.tip2')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('csvToJson.tip3')}</li>
+          </ul>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">← {t('csvToJson.backHome')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const csvInput = document.getElementById('csvInput') as HTMLTextAreaElement;
+  const jsonOutput = document.getElementById('jsonOutput') as HTMLTextAreaElement;
+  const delimiterSelect = document.getElementById('delimiterSelect') as HTMLSelectElement;
+  const headerCheck = document.getElementById('headerCheck') as HTMLInputElement;
+  const convertBtn = document.getElementById('convertBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+  const errorMsg = document.getElementById('errorMsg');
+
+  function showError(msg: string) { if (errorMsg) { errorMsg.textContent = msg; errorMsg.classList.remove('hidden'); } }
+  function hideError() { if (errorMsg) errorMsg.classList.add('hidden'); }
+
+  function parseCSV(csv: string, delimiter: string, hasHeader: boolean) {
+    const lines = csv.trim().split('\n');
+    if (lines.length === 0) return [];
+
+    const headers = hasHeader ? lines[0].split(delimiter).map(h => h.trim().replace(/^"|"$/g, '')) : null;
+    const dataLines = hasHeader ? lines.slice(1) : lines;
+
+    return dataLines.map((line, idx) => {
+      const values = line.split(delimiter).map(v => v.trim().replace(/^"|"$/g, ''));
+      if (headers) {
+        const obj: Record<string, string> = {};
+        headers.forEach((h, i) => obj[h] = values[i] || '');
+        return obj;
+      }
+      return values;
+    });
+  }
+
+  convertBtn?.addEventListener('click', () => {
+    hideError();
+    try {
+      const csv = csvInput.value.trim();
+      if (!csv) { jsonOutput.value = ''; return; }
+      const delimiter = delimiterSelect.value === '\\t' ? '\t' : delimiterSelect.value;
+      const result = parseCSV(csv, delimiter, headerCheck.checked);
+      jsonOutput.value = JSON.stringify(result, null, 2);
+    } catch (e) {
+      showError('Failed to parse CSV. Please check your input.');
+    }
+  });
+
+  clearBtn?.addEventListener('click', () => { csvInput.value = ''; jsonOutput.value = ''; hideError(); });
+  copyBtn?.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(jsonOutput.value);
+    copyBtn.textContent = 'Copied!';
+    setTimeout(() => copyBtn.textContent = 'Copy', 2000);
+  });
+  downloadBtn?.addEventListener('click', () => {
+    const blob = new Blob([jsonOutput.value], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'converted.json';
+    a.click();
+  });
+  fileInput?.addEventListener('change', (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => { csvInput.value = ev.target?.result as string; };
+    reader.readAsText(file);
+  });
+</script>
