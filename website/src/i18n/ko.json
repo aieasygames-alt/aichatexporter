@@ -480,6 +480,107 @@
     "tip3": "Base64는 바이너리 데이터를 텍스트로 인코딩하는 데 유용",
     "tip4": "교환으로 출력을 입력으로 이동"
   },
+  "platformExport": {
+    "features": {
+      "exportAll": "모든 대화 내보내기",
+      "exportAllDesc": "원클릭으로 단일 또는 여러 채팅 대화 내보내기",
+      "multipleFormats": "다양한 내보내기 형식",
+      "multipleFormatsDesc": "Markdown, JSON, PDF, TXT, CSV, PNG 중 선택",
+      "codeHighlight": "구문 강조",
+      "codeHighlightDesc": "코드 블록이 아름답게 포맷됩니다",
+      "preserveImages": "이미지 보존",
+      "preserveImagesDesc": "대화의 이미지를 그대로 내보내기"
+    },
+    "steps": {
+      "install": "확장 프로그램 설치",
+      "installDesc": "AI Chat Exporter를 Chrome에 추가",
+      "open": "플랫폼 열기",
+      "click": "내보내기 버튼 클릭",
+      "clickDesc": "채팅 인터페이스에서 내보내기 버튼 찾기",
+      "choose": "형식 선택",
+      "chooseDesc": "원하는 내보내기 형식을 선택하고 다운로드"
+    }
+  },
+  "chatgptExport": {
+    "title": "ChatGPT 대화 내보내기 - AI Chat Exporter",
+    "description": "ChatGPT 대화를 Markdown, JSON, PDF, TXT, CSV, PNG 형식으로 내보내기. 원클릭으로 ChatGPT 채팅 기록 백업.",
+    "h1": "ChatGPT 대화 내보내기",
+    "subtitle": "ChatGPT 채팅 기록을 원클릭으로 여러 형식으로 내보내기. AI 대화를 쉽게 백업, 공유 또는 보관.",
+    "install": "무료 확장 프로그램 설치",
+    "learnMore": "자세히 보기",
+    "demoQuestion": "머신러닝이 어떻게 작동하는지 설명해 주시겠어요?",
+    "demoAnswer": "머신러닝은 인공지능의 하위 집합으로, 컴퓨터가 데이터에서 학습할 수 있게 합니다...",
+    "exporting": "대화 내보내는 중...",
+    "formatsTitle": "지원되는 내보내기 형식",
+    "stepsTitle": "ChatGPT 채팅 내보내는 방법",
+    "featuresTitle": "주요 기능",
+    "ctaTitle": "ChatGPT 대화를 내보낼 준비가 되셨나요?",
+    "ctaDesc": "AI Chat Exporter로 AI 채팅을 백업하는 수천 명의 사용자와 함께하세요",
+    "ctaButton": "지금 설치 - 무료",
+    "steps": {
+      "openDesc": "chatgpt.com에 접속하여 로그인"
+    }
+  },
+  "claudeExport": {
+    "title": "Claude 대화 내보내기 - AI Chat Exporter",
+    "description": "Claude AI 대화를 Markdown, JSON, PDF, TXT, CSV, PNG 형식으로 내보내기. 원클릭으로 Claude 채팅 기록 백업.",
+    "h1": "Claude AI 대화 내보내기",
+    "subtitle": "Claude 채팅을 여러 형식으로 저장. AI 대화 백업, 공유 또는 보관에 완벽.",
+    "install": "무료 확장 프로그램 설치",
+    "learnMore": "자세히 보기",
+    "demoQuestion": "Constitutional AI의 장점은 무엇인가요?",
+    "demoAnswer": "Constitutional AI는 원칙과 가치를 모델에 직접 내장하는 AI 안전 접근법입니다...",
+    "exporting": "대화 내보내는 중...",
+    "formatsTitle": "지원되는 내보내기 형식",
+    "stepsTitle": "Claude 채팅 내보내는 방법",
+    "featuresTitle": "주요 기능",
+    "ctaTitle": "Claude 대화를 내보낼 준비가 되셨나요?",
+    "ctaDesc": "AI Chat Exporter로 AI 채팅을 백업하는 수천 명의 사용자와 함께하세요",
+    "ctaButton": "지금 설치 - 무료",
+    "steps": {
+      "openDesc": "claude.ai에 접속하여 로그인"
+    }
+  },
+  "geminiExport": {
+    "title": "Gemini 대화 내보내기 - AI Chat Exporter",
+    "description": "Google Gemini 대화를 Markdown, JSON, PDF, TXT, CSV, PNG 형식으로 내보내기. 원클릭으로 Gemini 채팅 기록 백업.",
+    "h1": "Google Gemini 대화 내보내기",
+    "subtitle": "Gemini 채팅을 즉시 백업. 여러 형식으로 내보내어 쉽게 공유하고 보관.",
+    "install": "무료 확장 프로그램 설치",
+    "learnMore": "자세히 보기",
+    "demoQuestion": "Gemini가 다른 AI 모델과 다른 점은 무엇인가요?",
+    "demoAnswer": "Gemini는 Google의 가장 강력한 AI 모델로, 처음부터 멀티모달로 설계되었습니다...",
+    "exporting": "대화 내보내는 중...",
+    "formatsTitle": "지원되는 내보내기 형식",
+    "stepsTitle": "Gemini 채팅 내보내는 방법",
+    "featuresTitle": "주요 기능",
+    "ctaTitle": "Gemini 대화를 내보낼 준비가 되셨나요?",
+    "ctaDesc": "AI Chat Exporter로 AI 채팅을 백업하는 수천 명의 사용자와 함께하세요",
+    "ctaButton": "지금 설치 - 무료",
+    "steps": {
+      "openDesc": "gemini.google.com에 접속하여 로그인"
+    }
+  },
+  "deepseekExport": {
+    "title": "DeepSeek 대화 내보내기 - AI Chat Exporter",
+    "description": "DeepSeek AI 대화를 Markdown, JSON, PDF, TXT, CSV, PNG 형식으로 내보내기. 원클릭으로 DeepSeek 채팅 기록 백업.",
+    "h1": "DeepSeek AI 대화 내보내기",
+    "subtitle": "DeepSeek 채팅을 여러 형식으로 저장. AI 대화 백업, 공유 또는 보관에 완벽.",
+    "install": "무료 확장 프로그램 설치",
+    "learnMore": "자세히 보기",
+    "demoQuestion": "DeepSeek의 AI 개발 접근법은 무엇인가요?",
+    "demoAnswer": "DeepSeek는 효율적이고 강력한 AI 모델 개발에 집중하며 오픈 연구에 전념합니다...",
+    "exporting": "대화 내보내는 중...",
+    "formatsTitle": "지원되는 내보내기 형식",
+    "stepsTitle": "DeepSeek 채팅 내보내는 방법",
+    "featuresTitle": "주요 기능",
+    "ctaTitle": "DeepSeek 대화를 내보낼 준비가 되셨나요?",
+    "ctaDesc": "AI Chat Exporter로 AI 채팅을 백업하는 수천 명의 사용자와 함께하세요",
+    "ctaButton": "지금 설치 - 무료",
+    "steps": {
+      "openDesc": "chat.deepseek.com에 접속하여 로그인"
+    }
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",

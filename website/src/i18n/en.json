@@ -459,5 +459,106 @@
     "ko": "한국어",
     "es": "Español",
     "fr": "Français"
+  },
+  "platformExport": {
+    "features": {
+      "exportAll": "Export All Conversations",
+      "exportAllDesc": "Export single or multiple chat conversations with one click",
+      "multipleFormats": "Multiple Export Formats",
+      "multipleFormatsDesc": "Choose from Markdown, JSON, PDF, TXT, CSV, or PNG",
+      "codeHighlight": "Syntax Highlighting",
+      "codeHighlightDesc": "Code blocks are beautifully formatted with syntax highlighting",
+      "preserveImages": "Preserve Images",
+      "preserveImagesDesc": "Export images from conversations intact"
+    },
+    "steps": {
+      "install": "Install Extension",
+      "installDesc": "Add AI Chat Exporter to Chrome browser",
+      "open": "Open Platform",
+      "click": "Click Export Button",
+      "clickDesc": "Find the export button in the chat interface",
+      "choose": "Choose Format",
+      "chooseDesc": "Select your preferred export format and download"
+    }
+  },
+  "chatgptExport": {
+    "title": "Export ChatGPT Conversations - AI Chat Exporter",
+    "description": "Export ChatGPT conversations to Markdown, JSON, PDF, TXT, CSV, or PNG. One-click backup tool for ChatGPT chat history.",
+    "h1": "Export ChatGPT Conversations",
+    "subtitle": "One-click export of your ChatGPT chat history to multiple formats. Backup, share, or archive your AI conversations easily.",
+    "install": "Install Free Extension",
+    "learnMore": "Learn More",
+    "demoQuestion": "Can you explain how machine learning works?",
+    "demoAnswer": "Machine learning is a subset of artificial intelligence that enables computers to learn from data...",
+    "exporting": "Exporting conversation...",
+    "formatsTitle": "Supported Export Formats",
+    "stepsTitle": "How to Export ChatGPT Chats",
+    "featuresTitle": "Key Features",
+    "ctaTitle": "Ready to Export Your ChatGPT Conversations?",
+    "ctaDesc": "Join thousands of users who backup their AI chats with AI Chat Exporter",
+    "ctaButton": "Install Now - It's Free",
+    "steps": {
+      "openDesc": "Go to chatgpt.com and log in"
+    }
+  },
+  "claudeExport": {
+    "title": "Export Claude Conversations - AI Chat Exporter",
+    "description": "Export Claude AI conversations to Markdown, JSON, PDF, TXT, CSV, or PNG. One-click backup tool for Claude chat history.",
+    "h1": "Export Claude AI Conversations",
+    "subtitle": "Save your Claude chats in multiple formats. Perfect for backup, sharing, or archiving your AI conversations.",
+    "install": "Install Free Extension",
+    "learnMore": "Learn More",
+    "demoQuestion": "What are the benefits of constitutional AI?",
+    "demoAnswer": "Constitutional AI is an approach to AI safety that embeds principles and values directly into the model...",
+    "exporting": "Exporting conversation...",
+    "formatsTitle": "Supported Export Formats",
+    "stepsTitle": "How to Export Claude Chats",
+    "featuresTitle": "Key Features",
+    "ctaTitle": "Ready to Export Your Claude Conversations?",
+    "ctaDesc": "Join thousands of users who backup their AI chats with AI Chat Exporter",
+    "ctaButton": "Install Now - It's Free",
+    "steps": {
+      "openDesc": "Go to claude.ai and log in"
+    }
+  },
+  "geminiExport": {
+    "title": "Export Gemini Conversations - AI Chat Exporter",
+    "description": "Export Google Gemini conversations to Markdown, JSON, PDF, TXT, CSV, or PNG. One-click backup tool for Gemini chat history.",
+    "h1": "Export Google Gemini Conversations",
+    "subtitle": "Backup your Gemini chats instantly. Export to multiple formats for easy sharing and archiving.",
+    "install": "Install Free Extension",
+    "learnMore": "Learn More",
+    "demoQuestion": "What makes Gemini different from other AI models?",
+    "demoAnswer": "Gemini is Google's most capable AI model, designed to be multimodal from the ground up...",
+    "exporting": "Exporting conversation...",
+    "formatsTitle": "Supported Export Formats",
+    "stepsTitle": "How to Export Gemini Chats",
+    "featuresTitle": "Key Features",
+    "ctaTitle": "Ready to Export Your Gemini Conversations?",
+    "ctaDesc": "Join thousands of users who backup their AI chats with AI Chat Exporter",
+    "ctaButton": "Install Now - It's Free",
+    "steps": {
+      "openDesc": "Go to gemini.google.com and log in"
+    }
+  },
+  "deepseekExport": {
+    "title": "Export DeepSeek Conversations - AI Chat Exporter",
+    "description": "Export DeepSeek AI conversations to Markdown, JSON, PDF, TXT, CSV, or PNG. One-click backup tool for DeepSeek chat history.",
+    "h1": "Export DeepSeek AI Conversations",
+    "subtitle": "Save your DeepSeek chats in multiple formats. Perfect for backup, sharing, or archiving your AI conversations.",
+    "install": "Install Free Extension",
+    "learnMore": "Learn More",
+    "demoQuestion": "What is DeepSeek's approach to AI development?",
+    "demoAnswer": "DeepSeek focuses on developing efficient and powerful AI models with a commitment to open research...",
+    "exporting": "Exporting conversation...",
+    "formatsTitle": "Supported Export Formats",
+    "stepsTitle": "How to Export DeepSeek Chats",
+    "featuresTitle": "Key Features",
+    "ctaTitle": "Ready to Export Your DeepSeek Conversations?",
+    "ctaDesc": "Join thousands of users who backup their AI chats with AI Chat Exporter",
+    "ctaButton": "Install Now - It's Free",
+    "steps": {
+      "openDesc": "Go to chat.deepseek.com and log in"
+    }
   }
 }

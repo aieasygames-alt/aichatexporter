@@ -1,0 +1,158 @@
+---
+import { type Lang, useTranslations, languages } from '../../i18n';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/common/Navbar.astro';
+import Footer from '../../components/common/Footer.astro';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+
+const platform = {
+  name: 'DeepSeek',
+  color: '#6366f1',
+  features: [
+    { title: t('platformExport.features.exportAll'), desc: t('platformExport.features.exportAllDesc') },
+    { title: t('platformExport.features.multipleFormats'), desc: t('platformExport.features.multipleFormatsDesc') },
+    { title: t('platformExport.features.codeHighlight'), desc: t('platformExport.features.codeHighlightDesc') },
+    { title: t('platformExport.features.preserveImages'), desc: t('platformExport.features.preserveImagesDesc') },
+  ],
+  steps: [
+    { num: 1, title: t('platformExport.steps.install'), desc: t('platformExport.steps.installDesc') },
+    { num: 2, title: t('platformExport.steps.open'), desc: t('deepseekExport.steps.openDesc') },
+    { num: 3, title: t('platformExport.steps.click'), desc: t('platformExport.steps.clickDesc') },
+    { num: 4, title: t('platformExport.steps.choose'), desc: t('platformExport.steps.chooseDesc') },
+  ],
+  formats: ['Markdown', 'JSON', 'PDF', 'TXT', 'CSV', 'PNG'],
+};
+---
+
+<Layout title={t('deepseekExport.title')} description={t('deepseekExport.description')}>
+  <Navbar lang={lang} />
+
+  <!-- Hero Section -->
+  <section class="py-20 px-4">
+    <div class="container-custom">
+      <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="flex-1">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#6366f1]/10 text-[#6366f1] text-sm font-medium mb-6">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            DeepSeek AI
+          </div>
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+            {t('deepseekExport.h1')}
+          </h1>
+          <p class="text-xl text-gray-400 mb-8">
+            {t('deepseekExport.subtitle')}
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="https://chromewebstore.google.com/detail/ai-chat-exporter/placeholder" target="_blank" rel="noopener" class="btn-primary">
+              {t('deepseekExport.install')}
+            </a>
+            <a href={`/${lang}/how-to-use`} class="btn-secondary">
+              {t('deepseekExport.learnMore')}
+            </a>
+          </div>
+        </div>
+        <div class="flex-1">
+          <div class="relative">
+            <div class="absolute inset-0 bg-[#6366f1]/20 blur-3xl rounded-full"></div>
+            <div class="relative bg-bg-secondary rounded-2xl border border-white/10 p-6">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                <span class="text-sm text-gray-500 ml-2">DeepSeek</span>
+              </div>
+              <div class="space-y-4">
+                <div class="p-4 bg-white/5 rounded-lg">
+                  <p class="text-sm text-gray-400 mb-2">{t('deepseekExport.demoQuestion')}</p>
+                  <p class="text-white">{t('deepseekExport.demoAnswer')}</p>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-500">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                  </svg>
+                  {t('deepseekExport.exporting')}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Export Formats -->
+  <section class="py-16 px-4 bg-bg-secondary/50">
+    <div class="container-custom">
+      <h2 class="text-2xl font-bold text-white text-center mb-8">{t('deepseekExport.formatsTitle')}</h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        {platform.formats.map((format) => (
+          <div class="px-6 py-3 bg-white/5 rounded-lg border border-white/10 text-white font-medium">
+            {format}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Steps -->
+  <section class="py-20 px-4">
+    <div class="container-custom">
+      <h2 class="text-3xl font-bold text-white text-center mb-12">{t('deepseekExport.stepsTitle')}</h2>
+      <div class="grid md:grid-cols-4 gap-8">
+        {platform.steps.map((step) => (
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-[#6366f1]/20 text-[#6366f1] flex items-center justify-center text-xl font-bold mx-auto mb-4">
+              {step.num}
+            </div>
+            <h3 class="text-lg font-semibold text-white mb-2">{step.title}</h3>
+            <p class="text-gray-400 text-sm">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-20 px-4 bg-bg-secondary/50">
+    <div class="container-custom">
+      <h2 class="text-3xl font-bold text-white text-center mb-12">{t('deepseekExport.featuresTitle')}</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {platform.features.map((feature) => (
+          <div class="p-6 bg-bg-primary rounded-xl border border-white/5">
+            <h3 class="text-lg font-semibold text-white mb-2">{feature.title}</h3>
+            <p class="text-gray-400 text-sm">{feature.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 px-4">
+    <div class="container-custom">
+      <div class="bg-gradient-to-r from-[#6366f1]/20 to-[#6366f1]/5 rounded-2xl p-12 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">{t('deepseekExport.ctaTitle')}</h2>
+        <p class="text-gray-400 mb-8 max-w-2xl mx-auto">{t('deepseekExport.ctaDesc')}</p>
+        <a href="https://chromewebstore.google.com/detail/ai-chat-exporter/placeholder" target="_blank" rel="noopener" class="btn-primary inline-flex">
+          {t('deepseekExport.ctaButton')}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer lang={lang} />
+</Layout>

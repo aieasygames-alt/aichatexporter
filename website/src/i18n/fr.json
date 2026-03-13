@@ -480,6 +480,107 @@
     "tip3": "Base64 est utile pour encoder des données binaires en texte",
     "tip4": "Utilisez Échanger pour déplacer la sortie vers l'entrée"
   },
+  "platformExport": {
+    "features": {
+      "exportAll": "Exporter toutes les conversations",
+      "exportAllDesc": "Exportez des conversations uniques ou multiples en un clic",
+      "multipleFormats": "Formats d'export multiples",
+      "multipleFormatsDesc": "Choisissez parmi Markdown, JSON, PDF, TXT, CSV ou PNG",
+      "codeHighlight": "Coloration syntaxique",
+      "codeHighlightDesc": "Les blocs de code sont magnifiquement formatés",
+      "preserveImages": "Préserver les images",
+      "preserveImagesDesc": "Exportez les images des conversations intactes"
+    },
+    "steps": {
+      "install": "Installer l'extension",
+      "installDesc": "Ajoutez AI Chat Exporter à Chrome",
+      "open": "Ouvrir la plateforme",
+      "click": "Cliquer sur exporter",
+      "clickDesc": "Trouvez le bouton d'export dans l'interface",
+      "choose": "Choisir le format",
+      "chooseDesc": "Sélectionnez votre format préféré et téléchargez"
+    }
+  },
+  "chatgptExport": {
+    "title": "Exporter les conversations ChatGPT - AI Chat Exporter",
+    "description": "Exportez les conversations ChatGPT en Markdown, JSON, PDF, TXT, CSV ou PNG. Outil de sauvegarde en un clic pour ChatGPT.",
+    "h1": "Exporter les conversations ChatGPT",
+    "subtitle": "Exportez l'historique ChatGPT en un clic vers plusieurs formats. Sauvegardez, partagez ou archivez facilement vos conversations IA.",
+    "install": "Installer l'extension gratuite",
+    "learnMore": "En savoir plus",
+    "demoQuestion": "Pouvez-vous expliquer comment fonctionne l'apprentissage automatique ?",
+    "demoAnswer": "L'apprentissage automatique est un sous-ensemble de l'intelligence artificielle qui permet aux ordinateurs d'apprendre à partir de données...",
+    "exporting": "Exportation de la conversation...",
+    "formatsTitle": "Formats d'exportation pris en charge",
+    "stepsTitle": "Comment exporter les chats ChatGPT",
+    "featuresTitle": "Fonctionnalités principales",
+    "ctaTitle": "Prêt à exporter vos conversations ChatGPT ?",
+    "ctaDesc": "Rejoignez des milliers d'utilisateurs qui sauvegardent leurs chats IA avec AI Chat Exporter",
+    "ctaButton": "Installer maintenant - Gratuit",
+    "steps": {
+      "openDesc": "Allez sur chatgpt.com et connectez-vous"
+    }
+  },
+  "claudeExport": {
+    "title": "Exporter les conversations Claude - AI Chat Exporter",
+    "description": "Exportez les conversations Claude AI en Markdown, JSON, PDF, TXT, CSV ou PNG. Outil de sauvegarde en un clic pour Claude.",
+    "h1": "Exporter les conversations Claude AI",
+    "subtitle": "Sauvegardez vos chats Claude dans plusieurs formats. Parfait pour sauvegarder, partager ou archiver vos conversations IA.",
+    "install": "Installer l'extension gratuite",
+    "learnMore": "En savoir plus",
+    "demoQuestion": "Quels sont les avantages de l'IA constitutionnelle ?",
+    "demoAnswer": "L'IA constitutionnelle est une approche de sécurité IA qui intègre des principes et des valeurs directement dans le modèle...",
+    "exporting": "Exportation de la conversation...",
+    "formatsTitle": "Formats d'exportation pris en charge",
+    "stepsTitle": "Comment exporter les chats Claude",
+    "featuresTitle": "Fonctionnalités principales",
+    "ctaTitle": "Prêt à exporter vos conversations Claude ?",
+    "ctaDesc": "Rejoignez des milliers d'utilisateurs qui sauvegardent leurs chats IA avec AI Chat Exporter",
+    "ctaButton": "Installer maintenant - Gratuit",
+    "steps": {
+      "openDesc": "Allez sur claude.ai et connectez-vous"
+    }
+  },
+  "geminiExport": {
+    "title": "Exporter les conversations Gemini - AI Chat Exporter",
+    "description": "Exportez les conversations Google Gemini en Markdown, JSON, PDF, TXT, CSV ou PNG. Outil de sauvegarde en un clic pour Gemini.",
+    "h1": "Exporter les conversations Google Gemini",
+    "subtitle": "Sauvegardez vos chats Gemini instantanément. Exportez dans plusieurs formats pour partager et archiver facilement.",
+    "install": "Installer l'extension gratuite",
+    "learnMore": "En savoir plus",
+    "demoQuestion": "Qu'est-ce qui différencie Gemini des autres modèles IA ?",
+    "demoAnswer": "Gemini est le modèle IA le plus performant de Google, conçu dès le départ pour être multimodal...",
+    "exporting": "Exportation de la conversation...",
+    "formatsTitle": "Formats d'exportation pris en charge",
+    "stepsTitle": "Comment exporter les chats Gemini",
+    "featuresTitle": "Fonctionnalités principales",
+    "ctaTitle": "Prêt à exporter vos conversations Gemini ?",
+    "ctaDesc": "Rejoignez des milliers d'utilisateurs qui sauvegardent leurs chats IA avec AI Chat Exporter",
+    "ctaButton": "Installer maintenant - Gratuit",
+    "steps": {
+      "openDesc": "Allez sur gemini.google.com et connectez-vous"
+    }
+  },
+  "deepseekExport": {
+    "title": "Exporter les conversations DeepSeek - AI Chat Exporter",
+    "description": "Exportez les conversations DeepSeek AI en Markdown, JSON, PDF, TXT, CSV ou PNG. Outil de sauvegarde en un clic pour DeepSeek.",
+    "h1": "Exporter les conversations DeepSeek AI",
+    "subtitle": "Sauvegardez vos chats DeepSeek dans plusieurs formats. Parfait pour sauvegarder, partager ou archiver vos conversations IA.",
+    "install": "Installer l'extension gratuite",
+    "learnMore": "En savoir plus",
+    "demoQuestion": "Quelle est l'approche de DeepSeek vers le développement IA ?",
+    "demoAnswer": "DeepSeek se concentre sur le développement de modèles IA efficaces et puissants avec un engagement envers la recherche ouverte...",
+    "exporting": "Exportation de la conversation...",
+    "formatsTitle": "Formats d'exportation pris en charge",
+    "stepsTitle": "Comment exporter les chats DeepSeek",
+    "featuresTitle": "Fonctionnalités principales",
+    "ctaTitle": "Prêt à exporter vos conversations DeepSeek ?",
+    "ctaDesc": "Rejoignez des milliers d'utilisateurs qui sauvegardent leurs chats IA avec AI Chat Exporter",
+    "ctaButton": "Installer maintenant - Gratuit",
+    "steps": {
+      "openDesc": "Allez sur chat.deepseek.com et connectez-vous"
+    }
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",

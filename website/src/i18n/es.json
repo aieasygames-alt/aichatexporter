@@ -480,6 +480,107 @@
     "tip3": "Base64 es útil para codificar datos binarios como texto",
     "tip4": "Usa Intercambiar para mover la salida a la entrada"
   },
+  "platformExport": {
+    "features": {
+      "exportAll": "Exportar todas las conversaciones",
+      "exportAllDesc": "Exporta conversaciones individuales o múltiples con un clic",
+      "multipleFormats": "Múltiples formatos de exportación",
+      "multipleFormatsDesc": "Elige entre Markdown, JSON, PDF, TXT, CSV o PNG",
+      "codeHighlight": "Resaltado de sintaxis",
+      "codeHighlightDesc": "Los bloques de código se formatean beautifulmente",
+      "preserveImages": "Preservar imágenes",
+      "preserveImagesDesc": "Exporta las imágenes de las conversaciones intactas"
+    },
+    "steps": {
+      "install": "Instalar extensión",
+      "installDesc": "Añade AI Chat Exporter a Chrome",
+      "open": "Abrir plataforma",
+      "click": "Clic en exportar",
+      "clickDesc": "Encuentra el botón de exportar en la interfaz",
+      "choose": "Elegir formato",
+      "chooseDesc": "Selecciona tu formato preferido y descarga"
+    }
+  },
+  "chatgptExport": {
+    "title": "Exportar conversaciones de ChatGPT - AI Chat Exporter",
+    "description": "Exporta conversaciones de ChatGPT a Markdown, JSON, PDF, TXT, CSV o PNG. Herramienta de respaldo con un clic para ChatGPT.",
+    "h1": "Exportar conversaciones de ChatGPT",
+    "subtitle": "Exporta el historial de ChatGPT con un clic a múltiples formatos. Respalda, comparte o archiva tus conversaciones de IA fácilmente.",
+    "install": "Instalar extensión gratis",
+    "learnMore": "Más información",
+    "demoQuestion": "¿Puedes explicar cómo funciona el aprendizaje automático?",
+    "demoAnswer": "El aprendizaje automático es un subconjunto de la inteligencia artificial que permite a las computadoras aprender de los datos...",
+    "exporting": "Exportando conversación...",
+    "formatsTitle": "Formatos de exportación soportados",
+    "stepsTitle": "Cómo exportar chats de ChatGPT",
+    "featuresTitle": "Características principales",
+    "ctaTitle": "¿Listo para exportar tus conversaciones de ChatGPT?",
+    "ctaDesc": "Únete a miles de usuarios que respaldan sus chats de IA con AI Chat Exporter",
+    "ctaButton": "Instalar ahora - Gratis",
+    "steps": {
+      "openDesc": "Ve a chatgpt.com e inicia sesión"
+    }
+  },
+  "claudeExport": {
+    "title": "Exportar conversaciones de Claude - AI Chat Exporter",
+    "description": "Exporta conversaciones de Claude AI a Markdown, JSON, PDF, TXT, CSV o PNG. Herramienta de respaldo con un clic para Claude.",
+    "h1": "Exportar conversaciones de Claude AI",
+    "subtitle": "Guarda tus chats de Claude en múltiples formatos. Perfecto para respaldar, compartir o archivar tus conversaciones de IA.",
+    "install": "Instalar extensión gratis",
+    "learnMore": "Más información",
+    "demoQuestion": "¿Cuáles son los beneficios de la IA constitucional?",
+    "demoAnswer": "La IA constitucional es un enfoque de seguridad de IA que incorpora principios y valores directamente en el modelo...",
+    "exporting": "Exportando conversación...",
+    "formatsTitle": "Formatos de exportación soportados",
+    "stepsTitle": "Cómo exportar chats de Claude",
+    "featuresTitle": "Características principales",
+    "ctaTitle": "¿Listo para exportar tus conversaciones de Claude?",
+    "ctaDesc": "Únete a miles de usuarios que respaldan sus chats de IA con AI Chat Exporter",
+    "ctaButton": "Instalar ahora - Gratis",
+    "steps": {
+      "openDesc": "Ve a claude.ai e inicia sesión"
+    }
+  },
+  "geminiExport": {
+    "title": "Exportar conversaciones de Gemini - AI Chat Exporter",
+    "description": "Exporta conversaciones de Google Gemini a Markdown, JSON, PDF, TXT, CSV o PNG. Herramienta de respaldo con un clic para Gemini.",
+    "h1": "Exportar conversaciones de Google Gemini",
+    "subtitle": "Respalda tus chats de Gemini al instante. Exporta a múltiples formatos para compartir y archivar fácilmente.",
+    "install": "Instalar extensión gratis",
+    "learnMore": "Más información",
+    "demoQuestion": "¿Qué hace diferente a Gemini de otros modelos de IA?",
+    "demoAnswer": "Gemini es el modelo de IA más capaz de Google, diseñado para ser multimodal desde cero...",
+    "exporting": "Exportando conversación...",
+    "formatsTitle": "Formatos de exportación soportados",
+    "stepsTitle": "Cómo exportar chats de Gemini",
+    "featuresTitle": "Características principales",
+    "ctaTitle": "¿Listo para exportar tus conversaciones de Gemini?",
+    "ctaDesc": "Únete a miles de usuarios que respaldan sus chats de IA con AI Chat Exporter",
+    "ctaButton": "Instalar ahora - Gratis",
+    "steps": {
+      "openDesc": "Ve a gemini.google.com e inicia sesión"
+    }
+  },
+  "deepseekExport": {
+    "title": "Exportar conversaciones de DeepSeek - AI Chat Exporter",
+    "description": "Exporta conversaciones de DeepSeek AI a Markdown, JSON, PDF, TXT, CSV o PNG. Herramienta de respaldo con un clic para DeepSeek.",
+    "h1": "Exportar conversaciones de DeepSeek AI",
+    "subtitle": "Guarda tus chats de DeepSeek en múltiples formatos. Perfecto para respaldar, compartir o archivar tus conversaciones de IA.",
+    "install": "Instalar extensión gratis",
+    "learnMore": "Más información",
+    "demoQuestion": "¿Cuál es el enfoque de DeepSeek hacia el desarrollo de IA?",
+    "demoAnswer": "DeepSeek se enfoca en desarrollar modelos de IA eficientes y potentes con un compromiso con la investigación abierta...",
+    "exporting": "Exportando conversación...",
+    "formatsTitle": "Formatos de exportación soportados",
+    "stepsTitle": "Cómo exportar chats de DeepSeek",
+    "featuresTitle": "Características principales",
+    "ctaTitle": "¿Listo para exportar tus conversaciones de DeepSeek?",
+    "ctaDesc": "Únete a miles de usuarios que respaldan sus chats de IA con AI Chat Exporter",
+    "ctaButton": "Instalar ahora - Gratis",
+    "steps": {
+      "openDesc": "Ve a chat.deepseek.com e inicia sesión"
+    }
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",

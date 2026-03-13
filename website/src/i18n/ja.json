@@ -480,6 +480,107 @@
     "tip3": "Base64はバイナリデータをテキストとしてエンコードするのに便利",
     "tip4": "入れ替えで出力を入力に移動"
   },
+  "platformExport": {
+    "features": {
+      "exportAll": "すべての会話をエクスポート",
+      "exportAllDesc": "ワンクリックで単一または複数のチャット会話をエクスポート",
+      "multipleFormats": "複数のエクスポート形式",
+      "multipleFormatsDesc": "Markdown、JSON、PDF、TXT、CSV、PNGから選択",
+      "codeHighlight": "シンタックスハイライト",
+      "codeHighlightDesc": "コードブロックは美しくフォーマットされます",
+      "preserveImages": "画像を保持",
+      "preserveImagesDesc": "会話の画像をそのままエクスポート"
+    },
+    "steps": {
+      "install": "拡張機能をインストール",
+      "installDesc": "AI Chat ExporterをChromeに追加",
+      "open": "プラットフォームを開く",
+      "click": "エクスポートボタンをクリック",
+      "clickDesc": "チャットインターフェースでエクスポートボタンを見つける",
+      "choose": "形式を選択",
+      "chooseDesc": "希望のエクスポート形式を選択してダウンロード"
+    }
+  },
+  "chatgptExport": {
+    "title": "ChatGPT会話をエクスポート - AI Chat Exporter",
+    "description": "ChatGPTの会話をMarkdown、JSON、PDF、TXT、CSV、PNG形式でエクスポート。ワンクリックでChatGPTチャット履歴をバックアップ。",
+    "h1": "ChatGPT会話をエクスポート",
+    "subtitle": "ChatGPTチャット履歴をワンクリックで複数形式にエクスポート。AI会話を簡単にバックアップ、共有、アーカイブ。",
+    "install": "無料で拡張機能をインストール",
+    "learnMore": "詳細を見る",
+    "demoQuestion": "機械学習がどのように機能するか説明できますか？",
+    "demoAnswer": "機械学習は人工知能のサブセットで、コンピュータがデータから学習できるようにします...",
+    "exporting": "会話をエクスポート中...",
+    "formatsTitle": "サポートされるエクスポート形式",
+    "stepsTitle": "ChatGPTチャットのエクスポート方法",
+    "featuresTitle": "主な機能",
+    "ctaTitle": "ChatGPT会話をエクスポートする準備はできましたか？",
+    "ctaDesc": "AI Chat ExporterでAIチャットをバックアップしている数千人のユーザーに参加",
+    "ctaButton": "今すぐインストール - 無料",
+    "steps": {
+      "openDesc": "chatgpt.comにアクセスしてログイン"
+    }
+  },
+  "claudeExport": {
+    "title": "Claude会話をエクスポート - AI Chat Exporter",
+    "description": "Claude AIの会話をMarkdown、JSON、PDF、TXT、CSV、PNG形式でエクスポート。ワンクリックでClaudeチャット履歴をバックアップ。",
+    "h1": "Claude AI会話をエクスポート",
+    "subtitle": "Claudeチャットを複数形式で保存。AI会話のバックアップ、共有、アーカイブに最適。",
+    "install": "無料で拡張機能をインストール",
+    "learnMore": "詳細を見る",
+    "demoQuestion": "憲法AIの利点は何ですか？",
+    "demoAnswer": "憲法AIは、原則と価値観をモデルに直接組み込むAI安全性へのアプローチです...",
+    "exporting": "会話をエクスポート中...",
+    "formatsTitle": "サポートされるエクスポート形式",
+    "stepsTitle": "Claudeチャットのエクスポート方法",
+    "featuresTitle": "主な機能",
+    "ctaTitle": "Claude会話をエクスポートする準備はできましたか？",
+    "ctaDesc": "AI Chat ExporterでAIチャットをバックアップしている数千人のユーザーに参加",
+    "ctaButton": "今すぐインストール - 無料",
+    "steps": {
+      "openDesc": "claude.aiにアクセスしてログイン"
+    }
+  },
+  "geminiExport": {
+    "title": "Gemini会話をエクスポート - AI Chat Exporter",
+    "description": "Google Geminiの会話をMarkdown、JSON、PDF、TXT、CSV、PNG形式でエクスポート。ワンクリックでGeminiチャット履歴をバックアップ。",
+    "h1": "Google Gemini会話をエクスポート",
+    "subtitle": "Geminiチャットを即座にバックアップ。複数形式でエクスポートして簡単に共有・アーカイブ。",
+    "install": "無料で拡張機能をインストール",
+    "learnMore": "詳細を見る",
+    "demoQuestion": "Geminiは他のAIモデルと何が違いますか？",
+    "demoAnswer": "GeminiはGoogle最先端のAIモデルで、最初からマルチモーダルになるよう設計されています...",
+    "exporting": "会話をエクスポート中...",
+    "formatsTitle": "サポートされるエクスポート形式",
+    "stepsTitle": "Geminiチャットのエクスポート方法",
+    "featuresTitle": "主な機能",
+    "ctaTitle": "Gemini会話をエクスポートする準備はできましたか？",
+    "ctaDesc": "AI Chat ExporterでAIチャットをバックアップしている数千人のユーザーに参加",
+    "ctaButton": "今すぐインストール - 無料",
+    "steps": {
+      "openDesc": "gemini.google.comにアクセスしてログイン"
+    }
+  },
+  "deepseekExport": {
+    "title": "DeepSeek会話をエクスポート - AI Chat Exporter",
+    "description": "DeepSeek AIの会話をMarkdown、JSON、PDF、TXT、CSV、PNG形式でエクスポート。ワンクリックでDeepSeekチャット履歴をバックアップ。",
+    "h1": "DeepSeek AI会話をエクスポート",
+    "subtitle": "DeepSeekチャットを複数形式で保存。AI会話のバックアップ、共有、アーカイブに最適。",
+    "install": "無料で拡張機能をインストール",
+    "learnMore": "詳細を見る",
+    "demoQuestion": "DeepSeekのAI開発へのアプローチは？",
+    "demoAnswer": "DeepSeekは効率的で強力なAIモデルの開発に焦点を当て、オープンな研究に取り組んでいます...",
+    "exporting": "会話をエクスポート中...",
+    "formatsTitle": "サポートされるエクスポート形式",
+    "stepsTitle": "DeepSeekチャットのエクスポート方法",
+    "featuresTitle": "主な機能",
+    "ctaTitle": "DeepSeek会話をエクスポートする準備はできましたか？",
+    "ctaDesc": "AI Chat ExporterでAIチャットをバックアップしている数千人のユーザーに参加",
+    "ctaButton": "今すぐインストール - 無料",
+    "steps": {
+      "openDesc": "chat.deepseek.comにアクセスしてログイン"
+    }
+  },
   "languages": {
     "en": "English",
     "zh-CN": "简体中文",

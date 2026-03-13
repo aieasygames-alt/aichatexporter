@@ -459,5 +459,106 @@
     "ko": "한국어",
     "es": "Español",
     "fr": "Français"
+  },
+  "platformExport": {
+    "features": {
+      "exportAll": "导出所有对话",
+      "exportAllDesc": "一键导出单个或多个聊天对话",
+      "multipleFormats": "多种导出格式",
+      "multipleFormatsDesc": "支持 Markdown、JSON、PDF、TXT、CSV 或 PNG",
+      "codeHighlight": "语法高亮",
+      "codeHighlightDesc": "代码块自动添加语法高亮，美观易读",
+      "preserveImages": "保留图片",
+      "preserveImagesDesc": "完整导出对话中的图片内容"
+    },
+    "steps": {
+      "install": "安装扩展",
+      "installDesc": "将 AI Chat Exporter 添加到 Chrome 浏览器",
+      "open": "打开平台",
+      "click": "点击导出按钮",
+      "clickDesc": "在聊天界面中找到导出按钮",
+      "choose": "选择格式",
+      "chooseDesc": "选择你喜欢的导出格式并下载"
+    }
+  },
+  "chatgptExport": {
+    "title": "导出ChatGPT对话记录 - AI Chat Exporter",
+    "description": "将 ChatGPT 对话导出为 Markdown、JSON、PDF、TXT、CSV 或 PNG 格式。一键备份 ChatGPT 聊天记录。",
+    "h1": "导出 ChatGPT 对话记录",
+    "subtitle": "一键导出 ChatGPT 聊天记录到多种格式。轻松备份、分享或存档你的 AI 对话。",
+    "install": "免费安装扩展",
+    "learnMore": "了解更多",
+    "demoQuestion": "请解释一下机器学习是如何工作的？",
+    "demoAnswer": "机器学习是人工智能的一个子集，它使计算机能够从数据中学习...",
+    "exporting": "正在导出对话...",
+    "formatsTitle": "支持的导出格式",
+    "stepsTitle": "如何导出 ChatGPT 聊天",
+    "featuresTitle": "核心功能",
+    "ctaTitle": "准备好导出你的 ChatGPT 对话了吗？",
+    "ctaDesc": "加入数千名使用 AI Chat Exporter 备份 AI 聊天的用户",
+    "ctaButton": "立即安装 - 免费",
+    "steps": {
+      "openDesc": "访问 chatgpt.com 并登录"
+    }
+  },
+  "claudeExport": {
+    "title": "导出Claude对话记录 - AI Chat Exporter",
+    "description": "将 Claude AI 对话导出为 Markdown、JSON、PDF、TXT、CSV 或 PNG 格式。一键备份 Claude 聊天记录。",
+    "h1": "导出 Claude AI 对话记录",
+    "subtitle": "将 Claude 聊天保存为多种格式。完美适用于备份、分享或存档你的 AI 对话。",
+    "install": "免费安装扩展",
+    "learnMore": "了解更多",
+    "demoQuestion": "宪法 AI 有什么优势？",
+    "demoAnswer": "宪法 AI 是一种 AI 安全方法，它将原则和价值观直接嵌入到模型中...",
+    "exporting": "正在导出对话...",
+    "formatsTitle": "支持的导出格式",
+    "stepsTitle": "如何导出 Claude 聊天",
+    "featuresTitle": "核心功能",
+    "ctaTitle": "准备好导出你的 Claude 对话了吗？",
+    "ctaDesc": "加入数千名使用 AI Chat Exporter 备份 AI 聊天的用户",
+    "ctaButton": "立即安装 - 免费",
+    "steps": {
+      "openDesc": "访问 claude.ai 并登录"
+    }
+  },
+  "geminiExport": {
+    "title": "导出Gemini对话记录 - AI Chat Exporter",
+    "description": "将 Google Gemini 对话导出为 Markdown、JSON、PDF、TXT、CSV 或 PNG 格式。一键备份 Gemini 聊天记录。",
+    "h1": "导出 Google Gemini 对话记录",
+    "subtitle": "即时备份你的 Gemini 聊天。导出为多种格式，轻松分享和存档。",
+    "install": "免费安装扩展",
+    "learnMore": "了解更多",
+    "demoQuestion": "Gemini 与其他 AI 模型有什么不同？",
+    "demoAnswer": "Gemini 是 Google 最强大的 AI 模型，从头设计为多模态...",
+    "exporting": "正在导出对话...",
+    "formatsTitle": "支持的导出格式",
+    "stepsTitle": "如何导出 Gemini 聊天",
+    "featuresTitle": "核心功能",
+    "ctaTitle": "准备好导出你的 Gemini 对话了吗？",
+    "ctaDesc": "加入数千名使用 AI Chat Exporter 备份 AI 聊天的用户",
+    "ctaButton": "立即安装 - 免费",
+    "steps": {
+      "openDesc": "访问 gemini.google.com 并登录"
+    }
+  },
+  "deepseekExport": {
+    "title": "导出DeepSeek对话记录 - AI Chat Exporter",
+    "description": "将 DeepSeek AI 对话导出为 Markdown、JSON、PDF、TXT、CSV 或 PNG 格式。一键备份 DeepSeek 聊天记录。",
+    "h1": "导出 DeepSeek AI 对话记录",
+    "subtitle": "将 DeepSeek 聊天保存为多种格式。完美适用于备份、分享或存档你的 AI 对话。",
+    "install": "免费安装扩展",
+    "learnMore": "了解更多",
+    "demoQuestion": "DeepSeek 的 AI 开发理念是什么？",
+    "demoAnswer": "DeepSeek 专注于开发高效强大的人工智能模型，致力于开放研究...",
+    "exporting": "正在导出对话...",
+    "formatsTitle": "支持的导出格式",
+    "stepsTitle": "如何导出 DeepSeek 聊天",
+    "featuresTitle": "核心功能",
+    "ctaTitle": "准备好导出你的 DeepSeek 对话了吗？",
+    "ctaDesc": "加入数千名使用 AI Chat Exporter 备份 AI 聊天的用户",
+    "ctaButton": "立即安装 - 免费",
+    "steps": {
+      "openDesc": "访问 chat.deepseek.com 并登录"
+    }
   }
 }
