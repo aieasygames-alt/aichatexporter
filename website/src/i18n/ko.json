@@ -23,7 +23,8 @@
     "csvToJson": "CSV↔JSON",
     "markdownTable": "표 생성기",
     "textCase": "대소문자 변환",
-    "urlEncoder": "URL 인코딩"
+    "urlEncoder": "URL 인코딩",
+    "docToMarkdown": "문서→Markdown"
   },
   "hero": {
     "title": "AI 대화를 원클릭으로 내보내기",
@@ -617,6 +618,30 @@
     "steps": {
       "openDesc": "chat.deepseek.com에 접속하여 로그인"
     }
+  },
+  "docToMarkdown": {
+    "title": "문서→Markdown 변환기",
+    "description": "PDF, Word, PowerPoint, Excel을 Markdown으로 무료 변환. 업로드 없이 100% 로컬 처리.",
+    "subtitle": "PDF, Word, PPT, Excel을 즉시 Markdown으로 변환. 모든 처리는 브라우저에서 로컬로 이루어집니다.",
+    "dropZone": "파일을 드래그하거나 클릭하여 선택",
+    "supportedFormats": "지원 형식: PDF, DOCX, PPTX, XLSX (최대 8MB)",
+    "converting": "변환 중...",
+    "preview": "Markdown 미리보기",
+    "copy": "Markdown 복사",
+    "download": ".md 다운로드",
+    "clear": "지우기",
+    "resultInfo": "→ Markdown ({pages}, {time})",
+    "tips": "팁",
+    "tip1": "모든 변환은 브라우저에서 로컬로 처리됩니다 — 파일이 외부로 전송되지 않습니다",
+    "tip2": "스캔 PDF(이미지만)는 텍스트 레이어가 필요합니다. 순수 이미지 PDF는 지원하지 않습니다",
+    "tip3": "복잡한 레이아웃(다단, 중첩 테이블)은 완벽하게 변환되지 않을 수 있습니다",
+    "tip4": "Excel 시트는 자동으로 Markdown 테이블로 변환됩니다",
+    "backHome": "홈으로 돌아가기",
+    "errorTooLarge": "파일이 너무 큽니다. 8MB 이하의 파일을 선택해 주세요.",
+    "errorFormat": "지원하지 않는 형식입니다. PDF, DOCX, PPTX, XLSX 파일을 업로드해 주세요.",
+    "errorEmpty": "파일이 비어 있거나 추출할 수 있는 텍스트가 없습니다.",
+    "errorScan": "스캔된 PDF입니다. 텍스트 레이어가 있는 PDF만 지원합니다.",
+    "errorGeneric": "변환에 실패했습니다. 다시 시도하거나 다른 파일을 사용해 주세요."
   },
   "languages": {
     "en": "English",

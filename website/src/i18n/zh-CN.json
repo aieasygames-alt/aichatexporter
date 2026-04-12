@@ -23,7 +23,8 @@
     "csvToJson": "CSV转JSON",
     "markdownTable": "表格生成器",
     "textCase": "大小写转换",
-    "urlEncoder": "URL编码工具"
+    "urlEncoder": "URL编码工具",
+    "docToMarkdown": "文档转Markdown"
   },
   "hero": {
     "title": "一键导出你的AI对话记录",
@@ -597,5 +598,29 @@
     "steps": {
       "openDesc": "访问 chat.deepseek.com 并登录"
     }
+  },
+  "docToMarkdown": {
+    "title": "文档转 Markdown 转换器",
+    "description": "免费在线将 PDF、Word、PPT、Excel 转换为 Markdown。纯本地处理，无需上传。",
+    "subtitle": "即时将 PDF、Word、PPT、Excel 转换为 Markdown。所有处理在浏览器本地完成。",
+    "dropZone": "拖拽文件到此处或点击选择",
+    "supportedFormats": "支持：PDF, DOCX, PPTX, XLSX（最大 8MB）",
+    "converting": "转换中...",
+    "preview": "Markdown 预览",
+    "copy": "复制 Markdown",
+    "download": "下载 .md",
+    "clear": "清除",
+    "resultInfo": "→ Markdown（{pages}，{time}）",
+    "tips": "使用提示",
+    "tip1": "所有转换在浏览器本地完成 — 文件不会上传到任何服务器",
+    "tip2": "扫描版 PDF（纯图片）需要包含文字层，纯图片 PDF 暂不支持",
+    "tip3": "复杂排版（多栏、嵌套表格）可能无法完美保留",
+    "tip4": "Excel 工作表会自动转换为 Markdown 表格",
+    "backHome": "返回首页",
+    "errorTooLarge": "文件过大，请选择 8MB 以内的文件",
+    "errorFormat": "不支持的格式，请上传 PDF/DOCX/PPTX/XLSX 文件",
+    "errorEmpty": "文件为空或无可提取的文字内容",
+    "errorScan": "此 PDF 为扫描件，仅支持包含文字层的 PDF",
+    "errorGeneric": "转换失败，请重试或尝试其他文件"
   }
 }

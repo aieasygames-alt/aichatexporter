@@ -1,0 +1,367 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('docToMarkdown.title')} - AI Chat Exporter`} description={t('docToMarkdown.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{t('docToMarkdown.title')}</h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">{t('docToMarkdown.subtitle')}</p>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <!-- Drop Zone -->
+        <div id="dropZone" class="bg-bg-secondary rounded-2xl border-2 border-dashed border-white/20 p-12 text-center cursor-pointer hover:border-accent/50 hover:bg-accent/5 transition-all duration-300">
+          <div class="flex flex-col items-center gap-4">
+            <svg class="w-16 h-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            <p class="text-gray-300 text-lg">{t('docToMarkdown.dropZone')}</p>
+            <p class="text-gray-500 text-sm">{t('docToMarkdown.supportedFormats')}</p>
+          </div>
+          <input type="file" id="fileInput" accept=".pdf,.docx,.pptx,.xlsx" class="hidden" />
+        </div>
+
+        <!-- Progress -->
+        <div id="progressSection" class="hidden mt-6">
+          <div class="flex items-center justify-between mb-2">
+            <span id="progressLabel" class="text-sm text-gray-400">{t('docToMarkdown.converting')}</span>
+            <span id="progressPercent" class="text-sm text-accent">0%</span>
+          </div>
+          <div class="w-full bg-white/10 rounded-full h-2">
+            <div id="progressBar" class="bg-gradient-to-r from-accent to-chatgpt h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Result Info -->
+        <div id="resultInfo" class="hidden mt-4 px-4 py-2 bg-accent/10 border border-accent/20 rounded-xl text-accent text-sm text-center"></div>
+
+        <!-- Error -->
+        <div id="errorMsg" class="hidden mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm text-center"></div>
+
+        <!-- Preview -->
+        <div id="previewSection" class="hidden mt-6 bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+            <span class="text-sm font-medium text-gray-300">{t('docToMarkdown.preview')}</span>
+            <div class="flex gap-2">
+              <button id="copyBtn" class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('docToMarkdown.copy')}</button>
+              <button id="downloadBtn" class="text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors">{t('docToMarkdown.download')}</button>
+              <button id="clearBtn" class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('docToMarkdown.clear')}</button>
+            </div>
+          </div>
+          <pre id="markdownOutput" class="w-full min-h-[300px] max-h-[600px] p-4 bg-transparent text-gray-200 overflow-auto text-sm font-mono whitespace-pre-wrap break-words"></pre>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('docToMarkdown.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              {t('docToMarkdown.tip1')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              {t('docToMarkdown.tip2')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              {t('docToMarkdown.tip3')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              {t('docToMarkdown.tip4')}
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">← {t('docToMarkdown.backHome')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
+
+  const dropZone = document.getElementById('dropZone')!;
+  const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+  const progressSection = document.getElementById('progressSection')!;
+  const progressLabel = document.getElementById('progressLabel')!;
+  const progressPercent = document.getElementById('progressPercent')!;
+  const progressBar = document.getElementById('progressBar')!;
+  const resultInfo = document.getElementById('resultInfo')!;
+  const errorMsg = document.getElementById('errorMsg')!;
+  const previewSection = document.getElementById('previewSection')!;
+  const markdownOutput = document.getElementById('markdownOutput')!;
+  const copyBtn = document.getElementById('copyBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const clearBtn = document.getElementById('clearBtn');
+
+  let currentFileName = '';
+
+  function showError(msg: string) {
+    errorMsg.textContent = msg;
+    errorMsg.classList.remove('hidden');
+    progressSection.classList.add('hidden');
+  }
+
+  function hideError() {
+    errorMsg.classList.add('hidden');
+  }
+
+  function setProgress(pct: number, label?: string) {
+    progressSection.classList.remove('hidden');
+    progressBar.style.width = `${pct}%`;
+    progressPercent.textContent = `${Math.round(pct)}%`;
+    if (label) progressLabel.textContent = label;
+  }
+
+  // Drop zone events
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-accent/50', 'bg-accent/5'); });
+  dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-accent/50', 'bg-accent/5'); });
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('border-accent/50', 'bg-accent/5');
+    const file = e.dataTransfer?.files[0];
+    if (file) handleFile(file);
+  });
+
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files?.[0];
+    if (file) handleFile(file);
+  });
+
+  async function handleFile(file: File) {
+    hideError();
+    previewSection.classList.add('hidden');
+    resultInfo.classList.add('hidden');
+
+    // Validate size
+    if (file.size > MAX_FILE_SIZE) {
+      const t = (document.documentElement.getAttribute('data-error-toolarge') || 'File too large. Please select a file under 8MB.');
+      showError(t);
+      return;
+    }
+
+    const ext = file.name.split('.').pop()?.toLowerCase();
+    if (!['pdf', 'docx', 'pptx', 'xlsx'].includes(ext || '')) {
+      showError('Unsupported format. Please upload PDF, DOCX, PPTX, or XLSX.');
+      return;
+    }
+
+    currentFileName = file.name.replace(/\.[^.]+$/, '');
+    const startTime = performance.now();
+
+    try {
+      let markdown = '';
+      if (ext === 'pdf') {
+        markdown = await convertPDF(file);
+      } else if (ext === 'docx') {
+        markdown = await convertDOCX(file);
+      } else if (ext === 'pptx') {
+        markdown = await convertPPTX(file);
+      } else if (ext === 'xlsx') {
+        markdown = await convertXLSX(file);
+      }
+
+      if (!markdown.trim()) {
+        showError('File is empty or contains no extractable text.');
+        return;
+      }
+
+      const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+      markdownOutput.textContent = markdown;
+      previewSection.classList.remove('hidden');
+      progressSection.classList.add('hidden');
+
+      // Count pages/sheets/slides
+      const pageCount = (markdown.match(/^## /gm) || []).length;
+      const infoText = `${file.name} → Markdown (${pageCount} section${pageCount !== 1 ? 's' : ''}, ${elapsed}s)`;
+      resultInfo.textContent = infoText;
+      resultInfo.classList.remove('hidden');
+
+    } catch (err: any) {
+      console.error(err);
+      showError('Conversion failed. Please try again or try a different file.');
+    }
+  }
+
+  // PDF → Markdown
+  async function convertPDF(file: File): Promise<string> {
+    setProgress(10, 'Loading PDF engine...');
+    const { getDocument, GlobalWorkerOptions } = await import('pdfjs-dist');
+    GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
+
+    setProgress(20, 'Reading PDF...');
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await getDocument({ data: arrayBuffer }).promise;
+    const pages: string[] = [];
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      setProgress(20 + (i / pdf.numPages) * 70, `Converting page ${i}/${pdf.numPages}...`);
+      const page = await pdf.getPage(i);
+      const { items } = await page.getTextContent();
+
+      // Group text by Y position for better line breaks
+      const lines: Map<number, string[]> = new Map();
+      for (const item of items as any[]) {
+        if (!item.str) continue;
+        const y = Math.round(item.transform[5]);
+        if (!lines.has(y)) lines.set(y, []);
+        lines.get(y)!.push(item.str);
+      }
+
+      // Sort by Y descending (top of page first)
+      const sortedLines = [...lines.entries()]
+        .sort((a, b) => b[0] - a[0])
+        .map(([, texts]) => texts.join(' '))
+        .filter(Boolean);
+
+      const pageText = sortedLines.join('\n\n');
+      if (pageText.trim()) {
+        pages.push(`## Page ${i}\n\n${pageText}`);
+      }
+    }
+
+    if (pages.length === 0) {
+      // Check if it might be a scanned PDF
+      const firstPage = await pdf.getPage(1);
+      const { items } = await firstPage.getTextContent();
+      const hasText = items.some((item: any) => item.str && item.str.trim().length > 0);
+      if (!hasText) {
+        throw new Error('SCANNED_PDF');
+      }
+    }
+
+    setProgress(95, 'Finalizing...');
+    return `# ${file.name}\n\n${pages.join('\n\n---\n\n')}`;
+  }
+
+  // DOCX → Markdown
+  async function convertDOCX(file: File): Promise<string> {
+    setProgress(10, 'Loading Word converter...');
+    const mammoth = await import('mammoth');
+
+    setProgress(30, 'Reading document...');
+    const arrayBuffer = await file.arrayBuffer();
+
+    setProgress(50, 'Converting to Markdown...');
+    const result = await mammoth.convertToMarkdown({ arrayBuffer });
+
+    if (result.messages && result.messages.length > 0) {
+      console.warn('Mammoth warnings:', result.messages);
+    }
+
+    setProgress(95, 'Finalizing...');
+    return `# ${file.name}\n\n${result.value}`;
+  }
+
+  // PPTX → Markdown
+  async function convertPPTX(file: File): Promise<string> {
+    setProgress(10, 'Loading PowerPoint parser...');
+    const JSZip = (await import('jszip')).default;
+
+    setProgress(30, 'Reading presentation...');
+    const zip = await JSZip.loadAsync(await file.arrayBuffer());
+
+    const slideFiles = Object.keys(zip.files)
+      .filter(n => /^ppt\/slides\/slide\d+\.xml$/.test(n))
+      .sort((a, b) => {
+        const numA = parseInt(a.match(/slide(\d+)/)?.[1] || '0');
+        const numB = parseInt(b.match(/slide(\d+)/)?.[1] || '0');
+        return numA - numB;
+      });
+
+    const parts: string[] = [];
+    const nsA = 'http://schemas.openxmlformats.org/drawingml/2006/main';
+
+    for (let i = 0; i < slideFiles.length; i++) {
+      setProgress(30 + (i / slideFiles.length) * 60, `Converting slide ${i + 1}/${slideFiles.length}...`);
+      const xml = await zip.files[slideFiles[i]].async('text');
+      const doc = new DOMParser().parseFromString(xml, 'application/xml');
+
+      // Extract text from <a:t> elements
+      const texts = [...doc.getElementsByTagNameNS(nsA, 't')]
+        .map(el => el.textContent)
+        .filter(Boolean);
+
+      // Try to detect slide title (first text element)
+      if (texts.length > 0) {
+        const slideNum = slideFiles[i].match(/slide(\d+)/)?.[1] || `${i + 1}`;
+        const title = texts[0] || `Slide ${slideNum}`;
+        const body = texts.slice(1).join('\n\n');
+        parts.push(`## Slide ${slideNum}: ${title}${body ? '\n\n' + body : ''}`);
+      }
+    }
+
+    setProgress(95, 'Finalizing...');
+    return `# ${file.name}\n\n${parts.join('\n\n---\n\n')}`;
+  }
+
+  // XLSX → Markdown
+  async function convertXLSX(file: File): Promise<string> {
+    setProgress(10, 'Loading Excel parser...');
+    const XLSX = await import('xlsx');
+
+    setProgress(30, 'Reading spreadsheet...');
+    const wb = XLSX.read(await file.arrayBuffer(), { type: 'array' });
+
+    const parts: string[] = [];
+    for (let i = 0; i < wb.SheetNames.length; i++) {
+      setProgress(30 + (i / wb.SheetNames.length) * 60, `Converting sheet ${i + 1}/${wb.SheetNames.length}...`);
+      const name = wb.SheetNames[i];
+      const data: any[][] = XLSX.utils.sheet_to_json(wb.Sheets[name], { header: 1 });
+      if (!data.length || data.every(row => !row || row.length === 0)) continue;
+
+      const h = data[0] as any[];
+      let t = `## ${name}\n\n| ${h.map(v => v ?? '').join(' | ')} |\n| ${h.map(() => '---').join(' | ')} |\n`;
+      for (const row of data.slice(1)) {
+        t += `| ${h.map((_, ci) => (row as any[])?.[ci] ?? '').join(' | ')} |\n`;
+      }
+      parts.push(t.trim());
+    }
+
+    setProgress(95, 'Finalizing...');
+    return `# ${file.name}\n\n${parts.join('\n\n---\n\n')}`;
+  }
+
+  // Button actions
+  copyBtn?.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(markdownOutput.textContent || '');
+    copyBtn.textContent = 'Copied!';
+    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+  });
+
+  downloadBtn?.addEventListener('click', () => {
+    const blob = new Blob([markdownOutput.textContent || ''], { type: 'text/markdown' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${currentFileName || 'document'}.md`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  clearBtn?.addEventListener('click', () => {
+    previewSection.classList.add('hidden');
+    resultInfo.classList.add('hidden');
+    progressSection.classList.add('hidden');
+    hideError();
+    fileInput.value = '';
+    currentFileName = '';
+  });
+</script>

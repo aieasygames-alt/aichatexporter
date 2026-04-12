@@ -26,6 +26,7 @@ const toolLinks = [
   { href: `/${lang}/markdown-table`, label: t('tools.markdownTable'), icon: 'table' },
   { href: `/${lang}/text-case`, label: t('tools.textCase'), icon: 'case' },
   { href: `/${lang}/url-encoder`, label: t('tools.urlEncoder'), icon: 'url' },
+  { href: `/${lang}/doc-to-markdown`, label: t('tools.docToMarkdown'), icon: 'doc' },
 ];
 ---
 
@@ -84,6 +85,7 @@ const toolLinks = [
                   {tool.icon === 'table' && '📝'}
                   {tool.icon === 'case' && 'Aa'}
                   {tool.icon === 'url' && '🔗'}
+                  {tool.icon === 'doc' && '📑'}
                 </span>
                 {tool.label}
               </a>
@@ -182,6 +184,7 @@ const toolLinks = [
             {tool.icon === 'table' && '📝'}
             {tool.icon === 'case' && 'Aa'}
             {tool.icon === 'url' && '🔗'}
+            {tool.icon === 'doc' && '📑'}
           </span>
           {tool.label}
         </a>

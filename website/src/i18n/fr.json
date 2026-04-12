@@ -23,7 +23,8 @@
     "csvToJson": "CSV en JSON",
     "markdownTable": "Générateur tableau",
     "textCase": "Conversion casse",
-    "urlEncoder": "Encodeur URL"
+    "urlEncoder": "Encodeur URL",
+    "docToMarkdown": "Doc en Markdown"
   },
   "hero": {
     "title": "Exportez vos conversations IA en un clic",
@@ -617,6 +618,30 @@
     "steps": {
       "openDesc": "Allez sur chat.deepseek.com et connectez-vous"
     }
+  },
+  "docToMarkdown": {
+    "title": "Convertisseur Document en Markdown",
+    "description": "Outil gratuit pour convertir PDF, Word, PowerPoint et Excel en Markdown. Traitement 100% local.",
+    "subtitle": "Convertissez PDF, Word, PPT et Excel en Markdown instantanément. Tout le traitement se fait localement dans votre navigateur.",
+    "dropZone": "Glissez un fichier ici ou cliquez pour parcourir",
+    "supportedFormats": "Formats : PDF, DOCX, PPTX, XLSX (max 8 Mo)",
+    "converting": "Conversion en cours...",
+    "preview": "Aperçu Markdown",
+    "copy": "Copier Markdown",
+    "download": "Télécharger .md",
+    "clear": "Effacer",
+    "resultInfo": "→ Markdown ({pages}, {time})",
+    "tips": "Conseils",
+    "tip1": "Toute la conversion se fait localement dans votre navigateur — vos fichiers ne quittent jamais votre appareil",
+    "tip2": "Les PDF numérisés (image uniquement) nécessitent une couche de texte ; les PDF image pure ne sont pas pris en charge",
+    "tip3": "Les mises en page complexes (multi-colonnes, tableaux imbriqués) peuvent ne pas être parfaitement converties",
+    "tip4": "Les feuilles Excel sont automatiquement converties en tableaux Markdown",
+    "backHome": "Retour à l'accueil",
+    "errorTooLarge": "Fichier trop volumineux. Veuillez sélectionner un fichier de moins de 8 Mo.",
+    "errorFormat": "Format non pris en charge. Veuillez télécharger un fichier PDF, DOCX, PPTX ou XLSX.",
+    "errorEmpty": "Le fichier est vide ou ne contient aucun texte extractible.",
+    "errorScan": "Ce PDF est une image numérisée. Seuls les PDF avec couche de texte sont pris en charge.",
+    "errorGeneric": "Échec de la conversion. Veuillez réessayer ou essayer un autre fichier."
   },
   "languages": {
     "en": "English",

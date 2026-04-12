@@ -23,7 +23,8 @@
     "csvToJson": "CSV to JSON",
     "markdownTable": "Markdown Table",
     "textCase": "Text Case",
-    "urlEncoder": "URL Encoder"
+    "urlEncoder": "URL Encoder",
+    "docToMarkdown": "Doc to Markdown"
   },
   "hero": {
     "title": "One-Click Export Your AI Conversations",
@@ -597,5 +598,29 @@
     "steps": {
       "openDesc": "Go to chat.deepseek.com and log in"
     }
+  },
+  "docToMarkdown": {
+    "title": "Document to Markdown Converter",
+    "description": "Free online tool to convert PDF, Word, PowerPoint, Excel to Markdown. No upload, 100% local processing.",
+    "subtitle": "Convert PDF, Word, PPT, Excel to Markdown instantly. All processing happens locally in your browser.",
+    "dropZone": "Drag a file here or click to browse",
+    "supportedFormats": "Supports: PDF, DOCX, PPTX, XLSX (max 8MB)",
+    "converting": "Converting...",
+    "preview": "Markdown Preview",
+    "copy": "Copy Markdown",
+    "download": "Download .md",
+    "clear": "Clear",
+    "resultInfo": "→ Markdown ({pages}, {time})",
+    "tips": "Tips",
+    "tip1": "All conversion happens locally in your browser — your files never leave your device",
+    "tip2": "Scanned PDFs (image-only) require a text layer; pure image PDFs are not supported",
+    "tip3": "Complex layouts (multi-column, nested tables) may not convert perfectly",
+    "tip4": "Excel sheets are converted to Markdown tables automatically",
+    "backHome": "Back to Home",
+    "errorTooLarge": "File too large. Please select a file under 8MB.",
+    "errorFormat": "Unsupported format. Please upload PDF, DOCX, PPTX, or XLSX.",
+    "errorEmpty": "File is empty or contains no extractable text.",
+    "errorScan": "This PDF is a scanned image. Only PDFs with a text layer are supported.",
+    "errorGeneric": "Conversion failed. Please try again or try a different file."
   }
 }

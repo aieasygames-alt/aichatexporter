@@ -23,7 +23,8 @@
     "csvToJson": "CSV↔JSON",
     "markdownTable": "テーブル生成",
     "textCase": "大文字小文字変換",
-    "urlEncoder": "URLエンコード"
+    "urlEncoder": "URLエンコード",
+    "docToMarkdown": "ドキュメント→Markdown"
   },
   "hero": {
     "title": "AI会話をワンクリックでエクスポート",
@@ -617,6 +618,30 @@
     "steps": {
       "openDesc": "chat.deepseek.comにアクセスしてログイン"
     }
+  },
+  "docToMarkdown": {
+    "title": "ドキュメント→Markdown変換",
+    "description": "PDF、Word、PowerPoint、ExcelをMarkdownに無料で変換。アップロード不要、完全ローカル処理。",
+    "subtitle": "PDF、Word、PPT、Excelを即座にMarkdownに変換。すべての処理はブラウザ上でローカルに行われます。",
+    "dropZone": "ファイルをドラッグ＆ドロップまたはクリックして選択",
+    "supportedFormats": "対応形式：PDF, DOCX, PPTX, XLSX（最大8MB）",
+    "converting": "変換中...",
+    "preview": "Markdownプレビュー",
+    "copy": "Markdownをコピー",
+    "download": ".mdをダウンロード",
+    "clear": "クリア",
+    "resultInfo": "→ Markdown（{pages}、{time}）",
+    "tips": "ヒント",
+    "tip1": "すべての変換はブラウザ上でローカルに行われます — ファイルが外部に送信されることはありません",
+    "tip2": "スキャンPDF（画像のみ）はテキスト層が必要です。純粋な画像PDFは非対応です",
+    "tip3": "複雑なレイアウト（段組、ネストされた表）は完全に変換できない場合があります",
+    "tip4": "Excelシートは自動的にMarkdownテーブルに変換されます",
+    "backHome": "ホームに戻る",
+    "errorTooLarge": "ファイルが大きすぎます。8MB以下のファイルを選択してください。",
+    "errorFormat": "未対応の形式です。PDF、DOCX、PPTX、またはXLSXをアップロードしてください。",
+    "errorEmpty": "ファイルが空か、抽出可能なテキストが含まれていません。",
+    "errorScan": "このPDFはスキャン画像です。テキスト層のあるPDFのみ対応しています。",
+    "errorGeneric": "変換に失敗しました。再試行するか、別のファイルをお試しください。"
   },
   "languages": {
     "en": "English",

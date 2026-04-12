@@ -23,7 +23,8 @@
     "csvToJson": "CSV a JSON",
     "markdownTable": "Generador de tablas",
     "textCase": "Convertir mayúsculas",
-    "urlEncoder": "Codificador URL"
+    "urlEncoder": "Codificador URL",
+    "docToMarkdown": "Doc a Markdown"
   },
   "hero": {
     "title": "Exporta tus conversaciones de IA con un clic",
@@ -617,6 +618,30 @@
     "steps": {
       "openDesc": "Ve a chat.deepseek.com e inicia sesión"
     }
+  },
+  "docToMarkdown": {
+    "title": "Conversor de Documentos a Markdown",
+    "description": "Herramienta gratuita para convertir PDF, Word, PowerPoint y Excel a Markdown. Procesamiento 100% local.",
+    "subtitle": "Convierte PDF, Word, PPT y Excel a Markdown al instante. Todo el procesamiento ocurre localmente en tu navegador.",
+    "dropZone": "Arrastra un archivo aquí o haz clic para seleccionar",
+    "supportedFormats": "Formatos: PDF, DOCX, PPTX, XLSX (máximo 8MB)",
+    "converting": "Convirtiendo...",
+    "preview": "Vista previa Markdown",
+    "copy": "Copiar Markdown",
+    "download": "Descargar .md",
+    "clear": "Limpiar",
+    "resultInfo": "→ Markdown ({pages}, {time})",
+    "tips": "Consejos",
+    "tip1": "Toda la conversión ocurre localmente en tu navegador — tus archivos nunca salen de tu dispositivo",
+    "tip2": "Los PDF escaneados (solo imagen) requieren una capa de texto; los PDF de imagen pura no son compatibles",
+    "tip3": "Los diseños complejos (multicolumna, tablas anidadas) pueden no convertirse perfectamente",
+    "tip4": "Las hojas de Excel se convierten automáticamente en tablas Markdown",
+    "backHome": "Volver al inicio",
+    "errorTooLarge": "Archivo demasiado grande. Selecciona un archivo menor a 8MB.",
+    "errorFormat": "Formato no compatible. Sube un archivo PDF, DOCX, PPTX o XLSX.",
+    "errorEmpty": "El archivo está vacío o no contiene texto extraíble.",
+    "errorScan": "Este PDF es una imagen escaneada. Solo se admiten PDFs con capa de texto.",
+    "errorGeneric": "Error en la conversión. Inténtalo de nuevo o usa otro archivo."
   },
   "languages": {
     "en": "English",
