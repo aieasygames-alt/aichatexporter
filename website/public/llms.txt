@@ -1,0 +1,53 @@
+# AI Chat Exporter
+
+> One-click browser extension to export ChatGPT, Claude, Gemini, DeepSeek, and Grok conversations to Markdown, JSON, PDF, TXT, CSV, or PNG formats.
+
+## What It Does
+
+AI Chat Exporter is a free browser extension (Chrome, Edge, Chromium) that lets users export their AI chat conversations in multiple formats. All processing happens locally in the browser - no data is sent to any server.
+
+## Supported AI Platforms
+
+- **ChatGPT** (chat.openai.com) - Export conversations from OpenAI's ChatGPT
+- **Claude** (claude.ai) - Export conversations from Anthropic's Claude
+- **Gemini** (gemini.google.com) - Export conversations from Google Gemini
+- **DeepSeek** (chat.deepseek.com) - Export conversations from DeepSeek
+- **Grok** (grok.x.ai) - Export conversations from xAI's Grok
+
+## Export Formats
+
+Markdown (.md), JSON (.json), PDF (.pdf), Plain Text (.txt), CSV (.csv), PNG Image (.png)
+
+## Online Tools (Free, No Upload, 100% Local)
+
+- **Document to Markdown**: Convert PDF, DOCX, PPTX, XLSX to Markdown online
+- **HTML to Markdown**: Convert HTML content to clean Markdown
+- **JSON to Markdown**: Transform JSON data into formatted Markdown
+- **CSV to JSON**: Convert CSV data to JSON format
+- **Markdown to PDF**: Render Markdown as PDF in browser
+- **Markdown Table Generator**: Create Markdown tables with a visual editor
+- **Code to PDF**: Convert source code to formatted PDF
+- **URL Encoder/Decoder**: Encode and decode URLs
+- **Diff Checker**: Compare text differences side by side
+- **Text Case Converter**: Transform text between different cases
+
+## Key Features
+
+- One-click export - no setup required
+- 100% local processing - privacy first
+- Supports multiple AI platforms
+- Multiple export formats
+- Cross-platform browser extension
+- Free and open source
+
+## Install
+
+- Chrome Web Store: https://chromewebstore.google.com/detail/ai-chat-exporter/bmmelbgngjaaocdklnefdobkijebieea
+- Offline download: https://aichatexporter.cc/en/download/
+
+## Links
+
+- Website: https://aichatexporter.cc
+- GitHub: https://github.com/nicepkg/aichatexporter
+- Chrome Web Store: https://chromewebstore.google.com/detail/ai-chat-exporter/bmmelbgngjaaocdklnefdobkijebieea
+- FAQ: https://aichatexporter.cc/en/faq/

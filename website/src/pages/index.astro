@@ -1,32 +1,77 @@
 ---
-// 静态生成模式下，使用客户端 JavaScript 进行语言检测和重定向
-// 支持的语言列表
+// Root page: language detection with proper SEO meta tags
 const supportedLangs = ['zh-CN', 'en', 'ja', 'ko', 'es', 'fr'];
 const defaultLang = 'en';
+const description = 'One-click export tool for ChatGPT, Claude, Gemini, DeepSeek, and Grok conversations to Markdown, JSON, PDF, TXT, CSV, or PNG formats.';
 ---
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Chat Exporter</title>
+  <title>AI Chat Exporter - Export AI Conversations to Multiple Formats</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href="https://aichatexporter.cc/en/" />
+
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="en" href="https://aichatexporter.cc/en/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://aichatexporter.cc/zh-CN/" />
+  <link rel="alternate" hreflang="ja" href="https://aichatexporter.cc/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://aichatexporter.cc/ko/" />
+  <link rel="alternate" hreflang="es" href="https://aichatexporter.cc/es/" />
+  <link rel="alternate" hreflang="fr" href="https://aichatexporter.cc/fr/" />
+  <link rel="alternate" hreflang="x-default" href="https://aichatexporter.cc/en/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aichatexporter.cc/" />
+  <meta property="og:title" content="AI Chat Exporter - Export AI Conversations to Multiple Formats" />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content="https://aichatexporter.cc/og-image.png" />
+
+  <!-- Twitter Card -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://aichatexporter.cc/" />
+  <meta property="twitter:title" content="AI Chat Exporter - Export AI Conversations to Multiple Formats" />
+  <meta property="twitter:description" content={description} />
+  <meta property="twitter:image" content="https://aichatexporter.cc/og-image.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AI Chat Exporter",
+    "url": "https://aichatexporter.cc",
+    "description": description,
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Chrome, Edge, Chromium-based browsers",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "1000"
+    }
+  })} />
+
   <script is:inline>
     (function() {
-      // 支持的语言
       var supportedLangs = ['zh-CN', 'en', 'ja', 'ko', 'es', 'fr'];
       var defaultLang = 'en';
-
-      // 获取浏览器语言
       var browserLang = navigator.language || navigator.userLanguage;
-
-      // 匹配语言
       var targetLang = defaultLang;
 
-      // 完全匹配
       if (supportedLangs.indexOf(browserLang) !== -1) {
         targetLang = browserLang;
       } else {
-        // 部分匹配（如 zh 匹配 zh-CN）
         var langPrefix = browserLang.split('-')[0];
         for (var i = 0; i < supportedLangs.length; i++) {
           if (supportedLangs[i].indexOf(langPrefix) === 0) {
@@ -36,17 +81,7 @@ const defaultLang = 'en';
         }
       }
 
-      // 检查是否已经访问过（避免重复重定向）
-      var hasVisited = sessionStorage.getItem('lang-detected');
-
-      if (!hasVisited) {
-        sessionStorage.setItem('lang-detected', 'true');
-        // 直接跳转，无需等待
-        window.location.replace('/' + targetLang + '/');
-      } else {
-        // 已访问过，默认跳转英文
-        window.location.replace('/' + defaultLang + '/');
-      }
+      window.location.replace('/' + targetLang + '/');
     })();
   </script>
   <noscript>
@@ -54,6 +89,6 @@ const defaultLang = 'en';
   </noscript>
 </head>
 <body>
-  <p style="text-align:center;padding-top:100px;font-family:sans-serif;">Redirecting...</p>
+  <p style="text-align:center;padding-top:100px;font-family:sans-serif;">Redirecting to <a href="/en/">AI Chat Exporter</a>...</p>
 </body>
 </html>

@@ -85,6 +85,25 @@ const additionalFAQs = [
     answer: 'You can report bugs and request features through our GitHub repository or by contacting us on Twitter/X. We appreciate all feedback!',
   },
 ];
+
+// Build FAQ schema
+const allFAQItems = [
+  ...faqCategories.flatMap((cat) => cat.questions),
+  ...additionalFAQs,
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": allFAQItems.map((item) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
+    },
+  })),
+};
 ---
 
 <Layout
@@ -92,6 +111,9 @@ const additionalFAQs = [
   description="Frequently asked questions about AI Chat Exporter. Learn how to install, use, and troubleshoot common issues."
   lang={lang}
 >
+  <!-- FAQ Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
   <!-- Hero -->
   <section class="py-20 text-center">
     <div class="container-custom">

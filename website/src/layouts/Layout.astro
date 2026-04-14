@@ -50,6 +50,9 @@ const alternateUrls = Object.keys(languages).map((l) => ({
     <meta property="og:description" content={description} />
     <meta property="og:image" content="https://aichatexporter.cc/og-image.png" />
     <meta property="og:locale" content={lang} />
+    {Object.keys(languages).filter((l) => l !== lang).map((l) => (
+      <meta property="og:locale:alternate" content={l} />
+    ))}
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />

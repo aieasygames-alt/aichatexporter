@@ -36,6 +36,7 @@
     "platforms": "支持所有主流AI平台"
   },
   "features": {
+    "seoTitle": "AI Chat Exporter 功能 - 导出 ChatGPT、Claude、Gemini 对话",
     "title": "强大功能",
     "subtitle": "导出和备份AI对话所需的一切功能",
     "exportFormats": {

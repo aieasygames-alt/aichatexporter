@@ -12,4 +12,19 @@ Allow: /
 
 # Sitemap
 Sitemap: https://aichatexporter.cc/sitemap-index.xml
-Sitemap: https://aichatexporter.cc/sitemap-0.xml
+
+# AI Crawlers
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
