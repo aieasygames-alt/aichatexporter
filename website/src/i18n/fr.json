@@ -24,7 +24,8 @@
     "markdownTable": "Générateur tableau",
     "textCase": "Conversion casse",
     "urlEncoder": "Encodeur URL",
-    "docToMarkdown": "Doc en Markdown"
+    "docToMarkdown": "Doc en Markdown",
+    "examErase": "Effaceur d'Écriture"
   },
   "hero": {
     "title": "Exportez vos conversations IA en un clic",

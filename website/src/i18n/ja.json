@@ -24,7 +24,8 @@
     "markdownTable": "テーブル生成",
     "textCase": "大文字小文字変換",
     "urlEncoder": "URLエンコード",
-    "docToMarkdown": "ドキュメント→Markdown"
+    "docToMarkdown": "ドキュメント→Markdown",
+    "examErase": "答案の手書き消去"
   },
   "hero": {
     "title": "AI会話をワンクリックでエクスポート",

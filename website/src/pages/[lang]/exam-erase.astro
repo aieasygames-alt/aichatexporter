@@ -1,0 +1,625 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('examErase.title')} - AI Chat Exporter`} description={t('examErase.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{t('examErase.title')}</h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">{t('examErase.subtitle')}</p>
+      </div>
+
+      <div class="max-w-6xl mx-auto">
+        <!-- Upload Area -->
+        <div id="uploadArea" class="bg-bg-secondary rounded-2xl border-2 border-dashed border-white/20 hover:border-accent/50 transition-colors p-12 text-center cursor-pointer mb-6">
+          <div class="flex flex-col items-center gap-4">
+            <svg class="w-16 h-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <div>
+              <p class="text-gray-300 text-lg font-medium">{t('examErase.dropZone')}</p>
+              <p class="text-gray-500 text-sm mt-2">{t('examErase.supportedFormats')}</p>
+            </div>
+          </div>
+          <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" />
+        </div>
+
+        <!-- Editor Area (hidden until image loaded) -->
+        <div id="editorArea" class="hidden">
+          <!-- Toolbar -->
+          <div class="flex flex-wrap items-center gap-4 mb-4 p-4 bg-bg-secondary rounded-xl border border-white/10">
+            <div class="flex items-center gap-2">
+              <label class="text-sm text-gray-400">{t('examErase.brushSize')}:</label>
+              <input type="range" id="brushSize" min="5" max="80" value="25" class="w-32 accent-accent" />
+              <span id="brushSizeLabel" class="text-sm text-accent w-8">25</span>
+            </div>
+            <div class="flex gap-2">
+              <button id="undoBtn" class="tool-btn px-3 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 transition-colors text-sm" title="Ctrl+Z">
+                <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a5 5 0 015 5v2M3 10l4-4m-4 4l4 4" /></svg>
+                {t('examErase.undo')}
+              </button>
+              <button id="redoBtn" class="tool-btn px-3 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 transition-colors text-sm" title="Ctrl+Y">
+                <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10H11a5 5 0 00-5 5v2m15-7l-4-4m4 4l-4 4" /></svg>
+                {t('examErase.redo')}
+              </button>
+              <button id="clearMaskBtn" class="tool-btn px-3 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 transition-colors text-sm">
+                <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                {t('examErase.clearMask')}
+              </button>
+            </div>
+            <div class="flex gap-2 ml-auto">
+              <button id="eraseBtn" class="px-4 py-2 rounded-lg bg-accent text-white font-medium hover:bg-accent/80 transition-colors text-sm">
+                <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                {t('examErase.erase')}
+              </button>
+              <button id="downloadBtn" class="hidden px-4 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors text-sm">
+                <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                {t('examErase.download')}
+              </button>
+            </div>
+          </div>
+
+          <!-- Canvas Area -->
+          <div class="grid lg:grid-cols-2 gap-6">
+            <!-- Editor Canvas -->
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('examErase.editor')}</span>
+                <span id="maskHint" class="text-xs text-gray-500">Paint over handwritten areas</span>
+              </div>
+              <div class="relative overflow-auto max-h-[600px]" id="canvasContainer">
+                <canvas id="editorCanvas" class="cursor-crosshair block"></canvas>
+              </div>
+            </div>
+
+            <!-- Preview Canvas -->
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('examErase.preview')}</span>
+              </div>
+              <div class="relative overflow-auto max-h-[600px]" id="previewContainer">
+                <canvas id="previewCanvas" class="block"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action buttons row -->
+          <div class="flex justify-center gap-4 mt-6">
+            <button id="resetBtn" class="px-4 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 transition-colors text-sm">
+              <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+              {t('examErase.reset')}
+            </button>
+            <button id="uploadNewBtn" class="px-4 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-white/10 transition-colors text-sm">
+              <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              {t('examErase.uploadNew')}
+            </button>
+          </div>
+        </div>
+
+        <!-- How to Use -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('examErase.howToUse')}</h3>
+          <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm font-bold shrink-0">1</span>
+              <p class="text-sm text-gray-400">{t('examErase.step1')}</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm font-bold shrink-0">2</span>
+              <p class="text-sm text-gray-400">{t('examErase.step2')}</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm font-bold shrink-0">3</span>
+              <p class="text-sm text-gray-400">{t('examErase.step3')}</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm font-bold shrink-0">4</span>
+              <p class="text-sm text-gray-400">{t('examErase.step4')}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-6 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('examErase.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('examErase.tip1')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('examErase.tip2')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('examErase.tip3')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('examErase.tip4')}</li>
+          </ul>
+        </div>
+
+        <!-- FAQ -->
+        <div class="mt-6 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('examErase.faq.title')}</h3>
+          <div class="space-y-4">
+            <details class="group">
+              <summary class="cursor-pointer text-sm text-gray-300 hover:text-white transition-colors font-medium">{t('examErase.faq.q1.q')}</summary>
+              <p class="mt-2 text-sm text-gray-400 pl-4">{t('examErase.faq.q1.a')}</p>
+            </details>
+            <details class="group">
+              <summary class="cursor-pointer text-sm text-gray-300 hover:text-white transition-colors font-medium">{t('examErase.faq.q2.q')}</summary>
+              <p class="mt-2 text-sm text-gray-400 pl-4">{t('examErase.faq.q2.a')}</p>
+            </details>
+            <details class="group">
+              <summary class="cursor-pointer text-sm text-gray-300 hover:text-white transition-colors font-medium">{t('examErase.faq.q3.q')}</summary>
+              <p class="mt-2 text-sm text-gray-400 pl-4">{t('examErase.faq.q3.a')}</p>
+            </details>
+            <details class="group">
+              <summary class="cursor-pointer text-sm text-gray-300 hover:text-white transition-colors font-medium">{t('examErase.faq.q4.q')}</summary>
+              <p class="mt-2 text-sm text-gray-400 pl-4">{t('examErase.faq.q4.a')}</p>
+            </details>
+            <details class="group">
+              <summary class="cursor-pointer text-sm text-gray-300 hover:text-white transition-colors font-medium">{t('examErase.faq.q5.q')}</summary>
+              <p class="mt-2 text-sm text-gray-400 pl-4">{t('examErase.faq.q5.a')}</p>
+            </details>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">&larr; {t('examErase.backHome')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before {
+    content: '+';
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    margin-right: 8px;
+    color: var(--accent);
+  }
+  details[open] summary::before { content: '−'; }
+</style>
+
+<script>
+  // --- Elements ---
+  const uploadArea = document.getElementById('uploadArea')!;
+  const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+  const editorArea = document.getElementById('editorArea')!;
+  const editorCanvas = document.getElementById('editorCanvas') as HTMLCanvasElement;
+  const previewCanvas = document.getElementById('previewCanvas') as HTMLCanvasElement;
+  const brushSizeInput = document.getElementById('brushSize') as HTMLInputElement;
+  const brushSizeLabel = document.getElementById('brushSizeLabel')!;
+  const undoBtn = document.getElementById('undoBtn')!;
+  const redoBtn = document.getElementById('redoBtn')!;
+  const clearMaskBtn = document.getElementById('clearMaskBtn')!;
+  const eraseBtn = document.getElementById('eraseBtn')!;
+  const downloadBtn = document.getElementById('downloadBtn')!;
+  const resetBtn = document.getElementById('resetBtn')!;
+  const uploadNewBtn = document.getElementById('uploadNewBtn')!;
+
+  // --- State ---
+  let originalImage: HTMLImageElement | null = null;
+  let maskHistory: ImageData[] = [];
+  let maskHistoryIndex = -1;
+  let isPainting = false;
+  let lastX = 0;
+  let lastY = 0;
+  const MAX_HISTORY = 30;
+
+  // Separate mask canvas (offscreen)
+  const maskCanvas = document.createElement('canvas');
+  const maskCtx = maskCanvas.getContext('2d')!;
+  const editorCtx = editorCanvas.getContext('2d')!;
+  const previewCtx = previewCanvas.getContext('2d')!;
+
+  // --- File Upload ---
+  uploadArea.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (file) loadImage(file);
+  });
+
+  // Drag and drop
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('border-accent');
+  });
+  uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('border-accent');
+  });
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('border-accent');
+    const file = e.dataTransfer?.files[0];
+    if (file && file.type.startsWith('image/')) loadImage(file);
+  });
+
+  // Paste from clipboard
+  document.addEventListener('paste', (e) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    for (const item of items) {
+      if ((item as DataTransferItem).type.startsWith('image/')) {
+        const file = (item as DataTransferItem).getAsFile();
+        if (file) loadImage(file);
+        break;
+      }
+    }
+  });
+
+  function loadImage(file: File) {
+    if (file.size > 10 * 1024 * 1024) {
+      alert('File too large. Max 10MB.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        originalImage = img;
+        initEditor();
+      };
+      img.src = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function initEditor() {
+    if (!originalImage) return;
+
+    // Scale down if too large (max 2000px on either side for performance)
+    let w = originalImage.width;
+    let h = originalImage.height;
+    const MAX_DIM = 2000;
+    if (w > MAX_DIM || h > MAX_DIM) {
+      const scale = MAX_DIM / Math.max(w, h);
+      w = Math.round(w * scale);
+      h = Math.round(h * scale);
+    }
+
+    // Setup canvases
+    editorCanvas.width = w;
+    editorCanvas.height = h;
+    previewCanvas.width = w;
+    previewCanvas.height = h;
+    maskCanvas.width = w;
+    maskCanvas.height = h;
+
+    // Clear mask
+    maskCtx.clearRect(0, 0, w, h);
+
+    // Draw original
+    editorCtx.drawImage(originalImage, 0, 0, w, h);
+    previewCtx.drawImage(originalImage, 0, 0, w, h);
+
+    // Save initial mask state
+    saveMaskState();
+
+    // Show editor
+    uploadArea.classList.add('hidden');
+    editorArea.classList.remove('hidden');
+    downloadBtn.classList.add('hidden');
+
+    // Reset history
+    maskHistory = [];
+    maskHistoryIndex = -1;
+    saveMaskState();
+  }
+
+  // --- Brush Painting ---
+  function getCanvasPos(e: MouseEvent | TouchEvent) {
+    const rect = editorCanvas.getBoundingClientRect();
+    const scaleX = editorCanvas.width / rect.width;
+    const scaleY = editorCanvas.height / rect.height;
+
+    let clientX: number, clientY: number;
+    if ('touches' in e) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    return {
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY,
+    };
+  }
+
+  function startPaint(e: MouseEvent | TouchEvent) {
+    e.preventDefault();
+    isPainting = true;
+    const pos = getCanvasPos(e);
+    lastX = pos.x;
+    lastY = pos.y;
+    paint(pos.x, pos.y);
+  }
+
+  function doPaint(e: MouseEvent | TouchEvent) {
+    if (!isPainting) return;
+    e.preventDefault();
+    const pos = getCanvasPos(e);
+    paintLine(lastX, lastY, pos.x, pos.y);
+    lastX = pos.x;
+    lastY = pos.y;
+    renderEditor();
+  }
+
+  function endPaint() {
+    if (isPainting) {
+      isPainting = false;
+      saveMaskState();
+    }
+  }
+
+  function paint(x: number, y: number) {
+    const brushSize = parseInt(brushSizeInput.value);
+    maskCtx.fillStyle = 'rgba(255, 0, 0, 0.4)';
+    maskCtx.beginPath();
+    maskCtx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
+    maskCtx.fill();
+    renderEditor();
+  }
+
+  function paintLine(x1: number, y1: number, x2: number, y2: number) {
+    const brushSize = parseInt(brushSizeInput.value);
+    maskCtx.strokeStyle = 'rgba(255, 0, 0, 0.4)';
+    maskCtx.lineWidth = brushSize;
+    maskCtx.lineCap = 'round';
+    maskCtx.lineJoin = 'round';
+    maskCtx.beginPath();
+    maskCtx.moveTo(x1, y1);
+    maskCtx.lineTo(x2, y2);
+    maskCtx.stroke();
+  }
+
+  function renderEditor() {
+    if (!originalImage) return;
+    const w = editorCanvas.width;
+    const h = editorCanvas.height;
+    editorCtx.drawImage(originalImage, 0, 0, w, h);
+
+    // Draw mask overlay
+    const maskData = maskCtx.getImageData(0, 0, w, h);
+    const editorData = editorCtx.getImageData(0, 0, w, h);
+    for (let i = 0; i < maskData.data.length; i += 4) {
+      if (maskData.data[i + 3] > 0) {
+        // Semi-transparent red overlay
+        editorData.data[i] = Math.min(255, editorData.data[i] + 80);     // R
+        editorData.data[i + 1] = Math.max(0, editorData.data[i + 1] - 30); // G
+        editorData.data[i + 2] = Math.max(0, editorData.data[i + 2] - 30); // B
+        editorData.data[i + 3] = 255;                                      // A
+      }
+    }
+    editorCtx.putImageData(editorData, 0, 0);
+  }
+
+  // Mouse events
+  editorCanvas.addEventListener('mousedown', startPaint);
+  editorCanvas.addEventListener('mousemove', doPaint);
+  editorCanvas.addEventListener('mouseup', endPaint);
+  editorCanvas.addEventListener('mouseleave', endPaint);
+
+  // Touch events
+  editorCanvas.addEventListener('touchstart', startPaint, { passive: false });
+  editorCanvas.addEventListener('touchmove', doPaint, { passive: false });
+  editorCanvas.addEventListener('touchend', endPaint);
+
+  // Brush size
+  brushSizeInput.addEventListener('input', () => {
+    brushSizeLabel.textContent = brushSizeInput.value;
+  });
+
+  // --- History (Undo/Redo) ---
+  function saveMaskState() {
+    const data = maskCtx.getImageData(0, 0, maskCanvas.width, maskCanvas.height);
+    // Remove any redo history
+    maskHistory = maskHistory.slice(0, maskHistoryIndex + 1);
+    maskHistory.push(data);
+    if (maskHistory.length > MAX_HISTORY) maskHistory.shift();
+    maskHistoryIndex = maskHistory.length - 1;
+  }
+
+  function undo() {
+    if (maskHistoryIndex > 0) {
+      maskHistoryIndex--;
+      maskCtx.putImageData(maskHistory[maskHistoryIndex], 0, 0);
+      renderEditor();
+    }
+  }
+
+  function redo() {
+    if (maskHistoryIndex < maskHistory.length - 1) {
+      maskHistoryIndex++;
+      maskCtx.putImageData(maskHistory[maskHistoryIndex], 0, 0);
+      renderEditor();
+    }
+  }
+
+  undoBtn.addEventListener('click', undo);
+  redoBtn.addEventListener('click', redo);
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === 'z') { e.preventDefault(); undo(); }
+      if (e.key === 'y') { e.preventDefault(); redo(); }
+    }
+  });
+
+  // Clear mask
+  clearMaskBtn.addEventListener('click', () => {
+    maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+    renderEditor();
+    saveMaskState();
+  });
+
+  // --- Erase Algorithm ---
+  eraseBtn.addEventListener('click', () => {
+    if (!originalImage) return;
+
+    const w = editorCanvas.width;
+    const h = editorCanvas.height;
+
+    // Check if mask has any painted areas
+    const maskData = maskCtx.getImageData(0, 0, w, h);
+    let hasMask = false;
+    for (let i = 3; i < maskData.data.length; i += 4) {
+      if (maskData.data[i] > 0) { hasMask = true; break; }
+    }
+    if (!hasMask) {
+      alert(document.querySelector('[data-mask-hint]')?.textContent || 'Please paint over the areas you want to erase');
+      return;
+    }
+
+    eraseBtn.textContent = 'Processing...';
+    eraseBtn.disabled = true;
+
+    // Use setTimeout to allow UI to update
+    setTimeout(() => {
+      eraseHandwriting(w, h, maskData);
+      eraseBtn.disabled = false;
+      eraseBtn.innerHTML = `<svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg> Erase Handwriting`;
+    }, 50);
+  });
+
+  function eraseHandwriting(w: number, h: number, maskData: ImageData) {
+    // Draw original image on preview
+    previewCtx.drawImage(originalImage!, 0, 0, w, h);
+    const imgData = previewCtx.getImageData(0, 0, w, h);
+    const pixels = imgData.data;
+    const mask = maskData.data;
+
+    // Create a mask boolean array for faster access
+    const isMasked = new Uint8Array(w * h);
+    for (let i = 0; i < w * h; i++) {
+      isMasked[i] = mask[i * 4 + 3] > 50 ? 1 : 0;
+    }
+
+    // For each masked pixel, find the nearest non-masked pixel's color
+    // Use a sampling approach for performance
+    const result = new Uint8ClampedArray(pixels.length);
+
+    // Copy original
+    result.set(pixels);
+
+    // Expand mask slightly to catch edges (dilate by 1px)
+    const expandedMask = new Uint8Array(w * h);
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const idx = y * w + x;
+        if (isMasked[idx]) {
+          expandedMask[idx] = 1;
+          // Expand to neighbors
+          if (x > 0) expandedMask[(y) * w + (x - 1)] = 1;
+          if (x < w - 1) expandedMask[(y) * w + (x + 1)] = 1;
+          if (y > 0) expandedMask[(y - 1) * w + (x)] = 1;
+          if (y < h - 1) expandedMask[(y + 1) * w + (x)] = 1;
+        }
+      }
+    }
+
+    // Build list of mask pixels to process
+    const maskPixels: number[] = [];
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        if (expandedMask[y * w + x]) {
+          maskPixels.push(y * w + x);
+        }
+      }
+    }
+
+    // For each masked pixel, sample nearby non-masked pixels for background color
+    const RADIUS = 15; // Search radius for nearby background pixels
+    for (const idx of maskPixels) {
+      const px = idx % w;
+      const py = Math.floor(idx / w);
+
+      // Collect nearby non-masked pixel colors
+      let sumR = 0, sumG = 0, sumB = 0, count = 0;
+
+      for (let dy = -RADIUS; dy <= RADIUS; dy += 2) {
+        for (let dx = -RADIUS; dx <= RADIUS; dx += 2) {
+          const nx = px + dx;
+          const ny = py + dy;
+          if (nx < 0 || nx >= w || ny < 0 || ny >= h) continue;
+          const nIdx = ny * w + nx;
+          if (!expandedMask[nIdx]) {
+            const pIdx = nIdx * 4;
+            sumR += pixels[pIdx];
+            sumG += pixels[pIdx + 1];
+            sumB += pixels[pIdx + 2];
+            count++;
+          }
+        }
+      }
+
+      if (count > 0) {
+        const pIdx = idx * 4;
+        const avgR = sumR / count;
+        const avgG = sumG / count;
+        const avgB = sumB / count;
+
+        // Detect if pixel is "dark" (handwriting) vs background
+        const brightness = (pixels[pIdx] + pixels[pIdx + 1] + pixels[pIdx + 2]) / 3;
+        const bgBrightness = (avgR + avgG + avgB) / 3;
+
+        // If pixel is significantly darker than background, replace it
+        if (brightness < bgBrightness - 30) {
+          // Blend: stronger replacement for darker pixels
+          const diff = bgBrightness - brightness;
+          const strength = Math.min(1, diff / 100);
+          result[pIdx] = Math.round(pixels[pIdx] * (1 - strength) + avgR * strength);
+          result[pIdx + 1] = Math.round(pixels[pIdx + 1] * (1 - strength) + avgG * strength);
+          result[pIdx + 2] = Math.round(pixels[pIdx + 2] * (1 - strength) + avgB * strength);
+        }
+      }
+    }
+
+    imgData.data.set(result);
+    previewCtx.putImageData(imgData, 0, 0);
+
+    // Show download button
+    downloadBtn.classList.remove('hidden');
+  }
+
+  // --- Download ---
+  downloadBtn.addEventListener('click', () => {
+    const link = document.createElement('a');
+    link.download = 'exam-cleaned.png';
+    link.href = previewCanvas.toDataURL('image/png');
+    link.click();
+  });
+
+  // --- Reset / Upload New ---
+  resetBtn.addEventListener('click', () => {
+    if (originalImage) {
+      maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+      renderEditor();
+      previewCtx.drawImage(originalImage, 0, 0, previewCanvas.width, previewCanvas.height);
+      downloadBtn.classList.add('hidden');
+      maskHistory = [];
+      maskHistoryIndex = -1;
+      saveMaskState();
+    }
+  });
+
+  uploadNewBtn.addEventListener('click', () => {
+    originalImage = null;
+    maskHistory = [];
+    maskHistoryIndex = -1;
+    editorArea.classList.add('hidden');
+    uploadArea.classList.remove('hidden');
+    fileInput.value = '';
+  });
+</script>

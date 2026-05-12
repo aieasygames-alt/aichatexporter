@@ -24,7 +24,8 @@
     "markdownTable": "Markdown Table",
     "textCase": "Text Case",
     "urlEncoder": "URL Encoder",
-    "docToMarkdown": "Doc to Markdown"
+    "docToMarkdown": "Doc to Markdown",
+    "examErase": "Exam Handwriting Eraser"
   },
   "hero": {
     "title": "Free Online Tools — Privacy First",
@@ -58,6 +59,10 @@
     "chatExport": {
       "title": "AI Chat Export",
       "description": "Export conversations from ChatGPT, Claude, Gemini, and more."
+    },
+    "study": {
+      "title": "Study Tools",
+      "description": "Tools for students: exam cleanup, homework helpers."
     }
   },
   "formats": {
@@ -627,5 +632,45 @@
     "errorEmpty": "File is empty or contains no extractable text.",
     "errorScan": "This PDF is a scanned image. Only PDFs with a text layer are supported.",
     "errorGeneric": "Conversion failed. Please try again or try a different file."
+  },
+  "examErase": {
+    "title": "Exam Handwriting Eraser — Remove Handwriting from Papers Online",
+    "description": "Free online tool to remove handwriting from exam papers. Upload a photo, paint over handwritten areas, and get a clean paper. No upload to servers — 100% local processing.",
+    "subtitle": "Upload a photo of an exam paper, paint over handwritten areas, and get a clean version instantly. 100% browser-based — your images never leave your device.",
+    "uploadTitle": "Upload Exam Image",
+    "dropZone": "Drag an image here or click to browse",
+    "supportedFormats": "Supports: JPG, PNG, WEBP (max 10MB)",
+    "editor": "Editor",
+    "preview": "Preview",
+    "brushSize": "Brush Size",
+    "undo": "Undo",
+    "redo": "Redo",
+    "clearMask": "Clear Mask",
+    "erase": "Erase Handwriting",
+    "download": "Download Result",
+    "reset": "Start Over",
+    "uploadNew": "Upload New Image",
+    "processing": "Processing...",
+    "noImage": "Please upload an image first",
+    "noMask": "Please paint over the areas you want to erase",
+    "howToUse": "How to Use",
+    "step1": "Upload a photo of your exam paper",
+    "step2": "Use the brush to paint over handwritten areas",
+    "step3": "Click 'Erase Handwriting' to remove the marks",
+    "step4": "Download the clean paper",
+    "tips": "Tips",
+    "tip1": "Paint over all handwritten text and marks you want to remove",
+    "tip2": "Use a larger brush for faster coverage of big areas",
+    "tip3": "The tool works best on white/light-colored papers with dark handwriting",
+    "tip4": "All processing happens locally — your images are never uploaded",
+    "faq": {
+      "title": "FAQ",
+      "q1": { "q": "How does it work?", "a": "The tool detects dark pixels (handwriting) in the areas you paint over and replaces them with the surrounding background color, effectively erasing the handwriting." },
+      "q2": { "q": "Is my data safe?", "a": "Yes! All image processing happens entirely in your browser. Your exam images are never uploaded to any server." },
+      "q3": { "q": "What image formats are supported?", "a": "JPG, PNG, and WEBP formats are supported. For best results, use a well-lit, high-resolution photo of your exam paper." },
+      "q4": { "q": "Can I undo my brush strokes?", "a": "Yes! Use the Undo button or Ctrl+Z to undo brush strokes. You can also use Redo (Ctrl+Y) to reapply them." },
+      "q5": { "q": "Does it remove printed text?", "a": "No — it only removes markings in the areas you paint over. Printed text outside the painted areas remains intact." }
+    },
+    "backHome": "Back to Home"
   }
 }

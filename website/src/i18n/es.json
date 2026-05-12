@@ -24,7 +24,8 @@
     "markdownTable": "Generador de tablas",
     "textCase": "Convertir mayúsculas",
     "urlEncoder": "Codificador URL",
-    "docToMarkdown": "Doc a Markdown"
+    "docToMarkdown": "Doc a Markdown",
+    "examErase": "Borrador de Escritura"
   },
   "hero": {
     "title": "Exporta tus conversaciones de IA con un clic",

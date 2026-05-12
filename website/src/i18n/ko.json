@@ -24,7 +24,8 @@
     "markdownTable": "표 생성기",
     "textCase": "대소문자 변환",
     "urlEncoder": "URL 인코딩",
-    "docToMarkdown": "문서→Markdown"
+    "docToMarkdown": "문서→Markdown",
+    "examErase": "시험지 필적 지우기"
   },
   "hero": {
     "title": "AI 대화를 원클릭으로 내보내기",
