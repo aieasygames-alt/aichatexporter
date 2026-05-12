@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "AI Chat Exporter - AI会話を複数形式でエクスポート",
-    "description": "ChatGPT、Claude、Gemini、DeepSeek、Grokの会話をワンクリックでエクスポート。Markdown、JSON、PDF、TXT、CSV、PNG画像形式に対応。",
-    "keywords": "AIチャットエクスポーター, ChatGPTエクスポート, Claudeエクスポート, Geminiエクスポート, AI会話バックアップ"
+    "title": "無料オンラインツール — プライバシー優先、アップロード不要 | AI Chat Exporter",
+    "description": "無料オンラインツール：ドキュメント変換、テキスト処理、コードツール、AIチャットエクスポート。100%ブラウザ完結 — ファイルのアップロードなし、データ収集なし。",
+    "keywords": "オンラインツール, 無料ツール, ドキュメント変換, PDF to Markdown, CSV to JSON, テキストツール, コードツール, AIチャットエクスポーター, プライバシー重視ツール"
   },
   "nav": {
     "features": "機能",
@@ -94,31 +94,31 @@
   },
   "faq": {
     "title": "よくある質問",
-    "subtitle": "AI Chat Exporterに関するよくある質問の答えを見つけましょう",
+    "subtitle": "無料オンラインツールに関するよくある質問の答えを見つけましょう",
     "items": [
       {
-        "question": "どのAIプラットフォームがサポートされていますか？",
-        "answer": "AI Chat ExporterはChatGPT、Claude、Gemini、DeepSeek、Grokをサポートしています。常に新しいプラットフォームのサポートを追加しています。"
+        "question": "これらのツールは本当に無料ですか？",
+        "answer": "はい！すべてのツールは制限なく完全に無料でご利用いただけます。アカウント登録不要、サインアップ不要、隠し料金もありません。"
       },
       {
-        "question": "会話データは安全ですか？",
-        "answer": "はい！すべての処理はブラウザ内でローカルに行われます。会話が外部サーバーに送信されることはありません。プライバシーを重視しています。"
+        "question": "データは安全ですか？",
+        "answer": "すべての処理はブラウザ内でローカルに行われます。ファイルやデータがサーバーにアップロードされることはありません。プライバシーを真剣に考えています — データ収集ゼロ。"
       },
       {
-        "question": "拡張機能をインストールするにはどうすればいいですか？",
-        "answer": "Chromeウェブストアにアクセスし、「AI Chat Exporter」を検索して、「Chromeに追加」をクリックするだけです。拡張機能が自動的にインストールされます。"
+        "question": "どのようなツールが利用可能ですか？",
+        "answer": "ドキュメント変換（PDF/Word/PPT/ExcelからMarkdown）、テキストツール（大文字小文字変換、URLエンコーダー）、開発者ツール（diffチェッカー、コードto PDF）、ChatGPT、Claude、Geminiなどに対応するAIチャットエクスポートを提供しています。"
       },
       {
-        "question": "どのようなエクスポート形式が利用可能ですか？",
-        "answer": "Markdown (.md)、JSON、PDF、プレーンテキスト (TXT)、CSVスプレッドシート、または共有に最適なスタイル付きPNG画像としてエクスポートできます。"
+        "question": "何かをインストールする必要がありますか？",
+        "answer": "オンラインツールの利用にインストールは不要です — ブラウザで直接動作します。AIチャットエクスポートについては、Chromeウェブストアから無料のブラウザ拡張機能をインストールできます。"
       },
       {
-        "question": "無料で使えますか？",
-        "answer": "はい、AI Chat Exporterは完全に無料で、制限なくご利用いただけます。アカウント登録は不要です。"
+        "question": "どのようなファイル形式に対応していますか？",
+        "answer": "ドキュメントツールはPDF、DOCX、PPTX、XLSXに対応。テキストツールはJSON、CSV、Markdown、HTMLなどを処理。AIチャットエクスポートはMarkdown、JSON、PDF、TXT、CSV、PNGに対応しています。"
       },
       {
-        "question": "モバイルブラウザで動作しますか？",
-        "answer": "現在、AI Chat Exporterはデスクトップブラウザ（Chrome、Edge、その他のChromiumベースのブラウザ）用に設計されています。将来的にモバイルサポートが追加される可能性があります。"
+        "question": "モバイルで動作しますか？",
+        "answer": "はい！すべてのオンラインツールはモダンブラウザがある任意のデバイス（デスクトップ、タブレット、スマートフォン）で動作します。ブラウザ拡張機能はデスクトップ版Chrome/Edge用です。"
       }
     ]
   },
@@ -239,9 +239,9 @@
     }
   },
   "cta": {
-    "title": "AI会話をエクスポートする準備はできましたか？",
-    "subtitle": "チャットバックアップのためにAI Chat Exporterを信頼する数千人のユーザーに参加しましょう。",
-    "button": "今すぐインストール - 無料"
+    "title": "無料ツール、一切の条件なし",
+    "subtitle": "登録不要。ファイルのアップロードなし。データ収集なし。すべてのツールは100%ブラウザ内で動作します。",
+    "button": "すべてのツールを見る"
   },
   "footer": {
     "product": "製品",
@@ -256,7 +256,7 @@
     "support": "サポート",
     "privacy": "プライバシーポリシー",
     "terms": "利用規約",
-    "copyright": "© 2024 AI Chat Exporter. All rights reserved."
+    "copyright": "© 2025 AI Chat Exporter. 無料オンラインツール. All rights reserved."
   },
   "markdownToPdf": {
     "title": "Markdown から PDF 変換",

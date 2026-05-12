@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "AI Chat Exporter - Exportez vos conversations IA",
-    "description": "Outil d'export en un clic pour les conversations ChatGPT, Claude, Gemini, DeepSeek et Grok. Exportez en Markdown, JSON, PDF, TXT, CSV ou PNG.",
-    "keywords": "exportateur chat IA, exporter ChatGPT, exporter Claude, exporter Gemini, sauvegarde conversations IA"
+    "title": "Outils en Ligne Gratuits — Confidentialité d'Abord, Sans Téléchargement | AI Chat Exporter",
+    "description": "Outils en ligne gratuits : conversion de documents, traitement de texte, outils de code et export de chat IA. 100% dans le navigateur — aucun téléchargement de fichier, aucune collecte de données.",
+    "keywords": "outils en ligne, outils gratuits, convertisseur de documents, PDF en Markdown, CSV en JSON, outils texte, outils code, exportateur chat IA, outils confidentialité"
   },
   "nav": {
     "features": "Fonctionnalités",
@@ -94,31 +94,31 @@
   },
   "faq": {
     "title": "Questions fréquentes",
-    "subtitle": "Trouvez des réponses aux questions courantes sur AI Chat Exporter",
+    "subtitle": "Trouvez des réponses aux questions courantes sur nos outils en ligne gratuits",
     "items": [
       {
-        "question": "Quelles plateformes IA sont supportées ?",
-        "answer": "AI Chat Exporter supporte ChatGPT, Claude, Gemini, DeepSeek et Grok. Nous ajoutons constamment le support pour plus de plateformes."
+        "question": "Ces outils sont-ils vraiment gratuits ?",
+        "answer": "Oui ! Tous les outils sont entièrement gratuits et sans limitation. Pas de compte requis, pas d'inscription, pas de frais cachés."
       },
       {
-        "question": "Mes données de conversation sont-elles sécurisées ?",
-        "answer": "Oui ! Tout le traitement se fait localement dans votre navigateur. Vos conversations ne sont jamais envoyées à des serveurs externes. Nous prenons votre confidentialité très au sérieux."
+        "question": "Mes données sont-elles sécurisées ?",
+        "answer": "Tout le traitement se fait localement dans votre navigateur. Vos fichiers et données ne sont jamais téléchargés vers un serveur. Nous prenons votre confidentialité au sérieux — zéro collecte de données."
       },
       {
-        "question": "Comment installer l'extension ?",
-        "answer": "Visitez simplement le Chrome Web Store, recherchez 'AI Chat Exporter' et cliquez sur 'Ajouter à Chrome'. L'extension sera installée automatiquement."
+        "question": "Quels outils sont disponibles ?",
+        "answer": "Nous proposons des convertisseurs de documents (PDF/Word/PPT/Excel vers Markdown), des outils texte (conversion de casse, encodeur URL), des outils développeur (diff checker, code en PDF) et l'export de chat IA pour ChatGPT, Claude, Gemini et plus."
       },
       {
-        "question": "Quels formats d'export sont disponibles ?",
-        "answer": "Vous pouvez exporter en Markdown (.md), JSON, PDF, texte brut (TXT), feuille de calcul CSV ou en image PNG stylisée parfaite pour le partage."
+        "question": "Dois-je installer quoi que ce soit ?",
+        "answer": "Aucune installation n'est nécessaire pour les outils en ligne — ils fonctionnent directement dans votre navigateur. Pour l'export de chat IA, vous pouvez installer notre extension gratuite depuis le Chrome Web Store."
       },
       {
-        "question": "Est-ce gratuit ?",
-        "answer": "Oui, AI Chat Exporter est entièrement gratuit sans limitations. Aucun compte requis."
+        "question": "Quels formats de fichier sont pris en charge ?",
+        "answer": "Les outils document prennent en charge PDF, DOCX, PPTX et XLSX. Les outils texte gèrent JSON, CSV, Markdown, HTML et plus. L'export de chat IA prend en charge Markdown, JSON, PDF, TXT, CSV et PNG."
       },
       {
-        "question": "Fonctionne-t-il sur les navigateurs mobiles ?",
-        "answer": "Actuellement, AI Chat Exporter est conçu pour les navigateurs de bureau (Chrome, Edge et autres navigateurs basés sur Chromium). Le support mobile pourrait être ajouté à l'avenir."
+        "question": "Fonctionne-t-il sur mobile ?",
+        "answer": "Oui ! Tous les outils en ligne fonctionnent sur tout appareil avec un navigateur moderne — ordinateur, tablette ou téléphone. L'extension navigateur est pour Chrome/Edge sur ordinateur."
       }
     ]
   },
@@ -239,9 +239,9 @@
     }
   },
   "cta": {
-    "title": "Prêt à exporter vos conversations IA ?",
-    "subtitle": "Rejoignez des milliers d'utilisateurs qui font confiance à AI Chat Exporter pour leurs besoins de sauvegarde de chat.",
-    "button": "Installer maintenant - C'est gratuit"
+    "title": "Outils gratuits, sans conditions",
+    "subtitle": "Pas d'inscription. Pas de téléchargement de fichiers. Pas de collecte de données. Chaque outil fonctionne à 100% dans votre navigateur.",
+    "button": "Parcourir Tous les Outils"
   },
   "footer": {
     "product": "Produit",
@@ -256,7 +256,7 @@
     "support": "Support",
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
-    "copyright": "© 2024 AI Chat Exporter. Tous droits réservés."
+    "copyright": "© 2025 AI Chat Exporter. Outils en ligne gratuits. Tous droits réservés."
   },
   "markdownToPdf": {
     "title": "Convertisseur Markdown vers PDF",
