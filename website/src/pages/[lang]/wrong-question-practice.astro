@@ -1,0 +1,601 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('wrongQuestionPractice.title')} - AI Chat Exporter`} description={t('wrongQuestionPractice.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{t('wrongQuestionPractice.title')}</h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">{t('wrongQuestionPractice.subtitle')}</p>
+      </div>
+
+      <div class="max-w-5xl mx-auto">
+        <!-- API Key Settings (collapsible) -->
+        <div class="mb-6">
+          <button id="apiKeyToggle" class="w-full flex items-center justify-between p-4 bg-bg-secondary rounded-xl border border-white/10 hover:border-white/20 transition-colors">
+            <span class="flex items-center gap-2 text-sm font-medium text-gray-300">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
+              {t('wrongQuestionPractice.apiKeySection')}
+            </span>
+            <svg id="apiKeyArrow" class="w-4 h-4 text-gray-500 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div id="apiKeyPanel" class="hidden mt-2 p-4 bg-bg-secondary rounded-xl border border-white/10 space-y-3">
+            <div class="flex flex-col sm:flex-row gap-3">
+              <div class="flex-1">
+                <label class="text-xs text-gray-500 mb-1 block">{t('wrongQuestionPractice.apiKeyLabel')}</label>
+                <input type="password" id="apiKeyInput" placeholder={t('wrongQuestionPractice.apiKeyPlaceholder')} class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-accent" />
+              </div>
+              <div>
+                <label class="text-xs text-gray-500 mb-1 block">{t('wrongQuestionPractice.providerLabel')}</label>
+                <select id="providerSelect" class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white focus:outline-none focus:border-accent">
+                  <option value="deepseek">{t('wrongQuestionPractice.providerDeepseek')}</option>
+                  <option value="openai">{t('wrongQuestionPractice.providerOpenai')}</option>
+                </select>
+              </div>
+              <div class="flex items-end">
+                <button id="saveApiKeyBtn" class="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium hover:bg-accent/80 transition-colors">{t('wrongQuestionPractice.saveApiKey')}</button>
+              </div>
+            </div>
+            <p class="text-xs text-gray-600">{t('wrongQuestionPractice.apiKeyHint')}</p>
+          </div>
+        </div>
+
+        <!-- Upload Area -->
+        <div id="uploadArea" class="bg-bg-secondary rounded-2xl border-2 border-dashed border-white/20 hover:border-accent/50 transition-colors p-12 text-center cursor-pointer mb-6">
+          <div class="flex flex-col items-center gap-4">
+            <svg class="w-16 h-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <div>
+              <p class="text-gray-300 text-lg font-medium">{t('wrongQuestionPractice.dropZone')}</p>
+              <p class="text-gray-500 text-sm mt-2">{t('wrongQuestionPractice.supportedFormats')}</p>
+            </div>
+          </div>
+          <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" />
+        </div>
+
+        <!-- Workflow Area (hidden until image uploaded) -->
+        <div id="workflowArea" class="hidden space-y-6">
+          <!-- Step 1: Uploaded Image Preview -->
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-medium text-gray-300">{t('wrongQuestionPractice.upload')}</h3>
+              <button id="reuploadBtn" class="text-xs text-accent hover:text-accent/80 transition-colors">{t('wrongQuestionPractice.reset')}</button>
+            </div>
+            <div class="flex justify-center">
+              <img id="previewImage" class="max-h-64 rounded-lg border border-white/10" />
+            </div>
+          </div>
+
+          <!-- Step 2: Question Type Detection -->
+          <div id="typeDetection" class="bg-bg-secondary rounded-2xl border border-white/10 p-4">
+            <h3 class="text-sm font-medium text-gray-300 mb-3">{t('wrongQuestionPractice.questionType')}</h3>
+            <div id="analyzingIndicator" class="flex items-center gap-2 text-sm text-gray-400">
+              <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+              {t('wrongQuestionPractice.analyzing')}
+            </div>
+            <div id="typeResult" class="hidden">
+              <div class="flex flex-col sm:flex-row gap-3">
+                <div class="flex-1">
+                  <p id="detectedTypeLabel" class="text-sm text-accent font-medium mb-2"></p>
+                  <input type="text" id="typeInput" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-accent" />
+                </div>
+                <div class="flex items-end">
+                  <button id="confirmTypeBtn" class="px-4 py-2 rounded-lg bg-accent text-white text-sm font-medium hover:bg-accent/80 transition-colors">{t('wrongQuestionPractice.confirmType')}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Generate Questions -->
+          <div id="generateSection" class="hidden bg-bg-secondary rounded-2xl border border-white/10 p-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div class="flex-1">
+                <label class="text-xs text-gray-500 mb-1 block">{t('wrongQuestionPractice.generateCount')}</label>
+                <select id="countSelect" class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white focus:outline-none focus:border-accent">
+                  <option value="3">3</option>
+                  <option value="5" selected>5</option>
+                  <option value="8">8</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+              <button id="generateBtn" class="px-6 py-2 rounded-lg bg-accent text-white font-medium hover:bg-accent/80 transition-colors text-sm">
+                {t('wrongQuestionPractice.generate')}
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Generated Questions -->
+          <div id="questionsResult" class="hidden space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-white">{t('wrongQuestionPractice.generatedQuestions')}</h3>
+              <div class="flex gap-2">
+                <button id="exportImageBtn" class="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-700 transition-colors">
+                  <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  {t('wrongQuestionPractice.exportImage')}
+                </button>
+              </div>
+            </div>
+            <div id="questionsList" class="space-y-4"></div>
+          </div>
+
+          <!-- Loading overlay for generation -->
+          <div id="generatingIndicator" class="hidden bg-bg-secondary rounded-2xl border border-white/10 p-8 text-center">
+            <svg class="w-8 h-8 animate-spin text-accent mx-auto mb-3" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+            <p class="text-gray-400">{t('wrongQuestionPractice.generating')}</p>
+          </div>
+        </div>
+
+        <!-- How to Use -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('wrongQuestionPractice.step1').split('')[0] && 'How to Use'}</h3>
+          <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm font-bold shrink-0">1</span>
+              <p class="text-sm text-gray-400">{t('wrongQuestionPractice.step1')}</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm font-bold shrink-0">2</span>
+              <p class="text-sm text-gray-400">{t('wrongQuestionPractice.step2')}</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm font-bold shrink-0">3</span>
+              <p class="text-sm text-gray-400">{t('wrongQuestionPractice.step3')}</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm font-bold shrink-0">4</span>
+              <p class="text-sm text-gray-400">{t('wrongQuestionPractice.step4')}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-6 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('wrongQuestionPractice.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('wrongQuestionPractice.tip1')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('wrongQuestionPractice.tip2')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('wrongQuestionPractice.tip3')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('wrongQuestionPractice.tip4')}</li>
+          </ul>
+        </div>
+
+        <!-- FAQ -->
+        <div class="mt-6 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('wrongQuestionPractice.faq.title')}</h3>
+          <div class="space-y-4">
+            <details class="group"><summary class="cursor-pointer text-sm text-gray-300 hover:text-white transition-colors font-medium">{t('wrongQuestionPractice.faq.q1.q')}</summary><p class="mt-2 text-sm text-gray-400 pl-4">{t('wrongQuestionPractice.faq.q1.a')}</p></details>
+            <details class="group"><summary class="cursor-pointer text-sm text-gray-300 hover:text-white transition-colors font-medium">{t('wrongQuestionPractice.faq.q2.q')}</summary><p class="mt-2 text-sm text-gray-400 pl-4">{t('wrongQuestionPractice.faq.q2.a')}</p></details>
+            <details class="group"><summary class="cursor-pointer text-sm text-gray-300 hover:text-white transition-colors font-medium">{t('wrongQuestionPractice.faq.q3.q')}</summary><p class="mt-2 text-sm text-gray-400 pl-4">{t('wrongQuestionPractice.faq.q3.a')}</p></details>
+            <details class="group"><summary class="cursor-pointer text-sm text-gray-300 hover:text-white transition-colors font-medium">{t('wrongQuestionPractice.faq.q4.q')}</summary><p class="mt-2 text-sm text-gray-400 pl-4">{t('wrongQuestionPractice.faq.q4.a')}</p></details>
+            <details class="group"><summary class="cursor-pointer text-sm text-gray-300 hover:text-white transition-colors font-medium">{t('wrongQuestionPractice.faq.q5.q')}</summary><p class="mt-2 text-sm text-gray-400 pl-4">{t('wrongQuestionPractice.faq.q5.a')}</p></details>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">&larr; {t('wrongQuestionPractice.backHome')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before {
+    content: '+';
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    margin-right: 8px;
+    color: var(--accent);
+  }
+  details[open] summary::before { content: '−'; }
+  select option { background: #1a1a2e; color: #fff; }
+</style>
+
+<script>
+  // --- Elements ---
+  const apiKeyToggle = document.getElementById('apiKeyToggle')!;
+  const apiKeyArrow = document.getElementById('apiKeyArrow')!;
+  const apiKeyPanel = document.getElementById('apiKeyPanel')!;
+  const apiKeyInput = document.getElementById('apiKeyInput') as HTMLInputElement;
+  const providerSelect = document.getElementById('providerSelect') as HTMLSelectElement;
+  const saveApiKeyBtn = document.getElementById('saveApiKeyBtn')!;
+
+  const uploadArea = document.getElementById('uploadArea')!;
+  const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+  const workflowArea = document.getElementById('workflowArea')!;
+  const previewImage = document.getElementById('previewImage') as HTMLImageElement;
+  const reuploadBtn = document.getElementById('reuploadBtn')!;
+
+  const typeDetection = document.getElementById('typeDetection')!;
+  const analyzingIndicator = document.getElementById('analyzingIndicator')!;
+  const typeResult = document.getElementById('typeResult')!;
+  const detectedTypeLabel = document.getElementById('detectedTypeLabel')!;
+  const typeInput = document.getElementById('typeInput') as HTMLInputElement;
+  const confirmTypeBtn = document.getElementById('confirmTypeBtn')!;
+
+  const generateSection = document.getElementById('generateSection')!;
+  const countSelect = document.getElementById('countSelect') as HTMLSelectElement;
+  const generateBtn = document.getElementById('generateBtn')!;
+  const generatingIndicator = document.getElementById('generatingIndicator')!;
+  const questionsResult = document.getElementById('questionsResult')!;
+  const questionsList = document.getElementById('questionsList')!;
+  const exportImageBtn = document.getElementById('exportImageBtn')!;
+
+  // --- State ---
+  let imageBase64: string = '';
+  let imageMediaType: string = '';
+  let detectedType: string = '';
+  let generatedQuestions: Array<{ question: string; answer: string }> = [];
+
+  // --- API Key Management ---
+  const STORAGE_KEY_API = 'wqp_api_key';
+  const STORAGE_KEY_PROVIDER = 'wqp_provider';
+
+  // Load saved settings
+  apiKeyInput.value = localStorage.getItem(STORAGE_KEY_API) || '';
+  providerSelect.value = localStorage.getItem(STORAGE_KEY_PROVIDER) || 'deepseek';
+
+  apiKeyToggle.addEventListener('click', () => {
+    const isHidden = apiKeyPanel.classList.contains('hidden');
+    apiKeyPanel.classList.toggle('hidden');
+    apiKeyArrow.style.transform = isHidden ? 'rotate(180deg)' : '';
+  });
+
+  // Auto-expand if no key saved
+  if (!localStorage.getItem(STORAGE_KEY_API)) {
+    apiKeyPanel.classList.remove('hidden');
+    apiKeyArrow.style.transform = 'rotate(180deg)';
+  }
+
+  saveApiKeyBtn.addEventListener('click', () => {
+    localStorage.setItem(STORAGE_KEY_API, apiKeyInput.value.trim());
+    localStorage.setItem(STORAGE_KEY_PROVIDER, providerSelect.value);
+    apiKeyPanel.classList.add('hidden');
+    apiKeyArrow.style.transform = '';
+  });
+
+  // --- File Upload ---
+  uploadArea.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (file) handleFile(file);
+  });
+
+  uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('border-accent'); });
+  uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('border-accent'));
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('border-accent');
+    const file = e.dataTransfer?.files[0];
+    if (file?.type.startsWith('image/')) handleFile(file);
+  });
+
+  document.addEventListener('paste', (e) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    for (const item of items) {
+      if ((item as DataTransferItem).type.startsWith('image/')) {
+        const file = (item as DataTransferItem).getAsFile();
+        if (file) handleFile(file);
+        break;
+      }
+    }
+  });
+
+  function handleFile(file: File) {
+    if (file.size > 10 * 1024 * 1024) { alert('File too large. Max 10MB.'); return; }
+    imageMediaType = file.type;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result as string;
+      imageBase64 = dataUrl.split(',')[1];
+      previewImage.src = dataUrl;
+      uploadArea.classList.add('hidden');
+      workflowArea.classList.remove('hidden');
+      analyzeQuestion();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  reuploadBtn.addEventListener('click', () => {
+    imageBase64 = '';
+    detectedType = '';
+    generatedQuestions = [];
+    workflowArea.classList.add('hidden');
+    typeResult.classList.add('hidden');
+    generateSection.classList.add('hidden');
+    questionsResult.classList.add('hidden');
+    generatingIndicator.classList.add('hidden');
+    uploadArea.classList.remove('hidden');
+    fileInput.value = '';
+  });
+
+  // --- AI API Calls ---
+  function getApiKey(): string { return localStorage.getItem(STORAGE_KEY_API) || ''; }
+  function getProvider(): string { return localStorage.getItem(STORAGE_KEY_PROVIDER) || 'deepseek'; }
+
+  function getApiUrl(): string {
+    const provider = getProvider();
+    if (provider === 'openai') return 'https://api.openai.com/v1/chat/completions';
+    return 'https://api.deepseek.com/chat/completions';
+  }
+
+  function getModel(): string {
+    const provider = getProvider();
+    if (provider === 'openai') return 'gpt-4o';
+    return 'deepseek-chat';
+  }
+
+  async function callAI(messages: Array<any>): Promise<string> {
+    const apiKey = getApiKey();
+    if (!apiKey) throw new Error('noApiKey');
+
+    const response = await fetch(getApiUrl(), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: getModel(),
+        messages,
+        temperature: 0.7,
+        max_tokens: 4000,
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      throw new Error(`API Error: ${response.status} - ${err}`);
+    }
+
+    const data = await response.json();
+    return data.choices?.[0]?.message?.content || '';
+  }
+
+  // --- Step 2: Analyze Question ---
+  async function analyzeQuestion() {
+    const apiKey = getApiKey();
+    if (!apiKey) {
+      alert(document.querySelector('[data-nokey]')?.textContent || 'Please enter your API Key first');
+      return;
+    }
+
+    analyzingIndicator.classList.remove('hidden');
+    typeResult.classList.add('hidden');
+
+    try {
+      const prompt = `Analyze this question image. Identify:
+1. The subject (e.g., Math, Physics, Chemistry, Biology, Chinese, English)
+2. The question type (e.g., Multiple Choice, Fill-in-blank, Calculation, Proof, Essay)
+3. A brief description of the knowledge point being tested
+
+Respond in JSON format:
+{"subject": "...", "type": "...", "knowledge": "...", "summary": "..."}
+
+Use the same language as the question for the response.`;
+
+      const content: any[] = [
+        { type: 'text', text: prompt },
+        { type: 'image_url', image_url: { url: `data:${imageMediaType};base64,${imageBase64}` } }
+      ];
+
+      const result = await callAI([{ role: 'user', content }]);
+      analyzingIndicator.classList.add('hidden');
+
+      // Parse JSON from response
+      let parsed: any = {};
+      try {
+        const jsonMatch = result.match(/\{[\s\S]*\}/);
+        if (jsonMatch) parsed = JSON.parse(jsonMatch[0]);
+      } catch {}
+
+      detectedType = `${parsed.subject || 'Unknown'} - ${parsed.type || 'Unknown'}`;
+      const summary = parsed.knowledge || parsed.summary || '';
+
+      detectedTypeLabel.textContent = detectedType;
+      typeInput.value = detectedType;
+      typeInput.placeholder = summary;
+      typeResult.classList.remove('hidden');
+
+    } catch (err: any) {
+      analyzingIndicator.classList.add('hidden');
+      alert(err.message === 'noApiKey' ? 'Please enter your API Key first' : 'API Error: ' + err.message);
+    }
+  }
+
+  // --- Confirm Type ---
+  confirmTypeBtn.addEventListener('click', () => {
+    detectedType = typeInput.value.trim() || detectedType;
+    generateSection.classList.remove('hidden');
+    typeDetection.classList.add('hidden');
+  });
+
+  // --- Step 3: Generate Similar Questions ---
+  generateBtn.addEventListener('click', generateQuestions);
+
+  async function generateQuestions() {
+    const apiKey = getApiKey();
+    if (!apiKey) { alert('Please enter your API Key first'); return; }
+
+    const count = parseInt(countSelect.value);
+    generateBtn.disabled = true;
+    generatingIndicator.classList.remove('hidden');
+    questionsResult.classList.add('hidden');
+
+    try {
+      const content: any[] = [
+        {
+          type: 'text',
+          text: `Based on this question image, generate ${count} SIMILAR but DIFFERENT practice questions of the same type (${detectedType}).
+
+Requirements:
+- Each question should test the SAME knowledge point but with DIFFERENT numbers/scenarios
+- Include a complete answer/solution for each question
+- Maintain the same difficulty level and format
+- Use the same language as the original question
+
+Respond in JSON array format:
+[{"question": "...", "answer": "..."}]`
+        },
+        { type: 'image_url', image_url: { url: `data:${imageMediaType};base64,${imageBase64}` } }
+      ];
+
+      const result = await callAI([{ role: 'user', content }]);
+
+      // Parse JSON array from response
+      generatedQuestions = [];
+      try {
+        const jsonMatch = result.match(/\[[\s\S]*\]/);
+        if (jsonMatch) generatedQuestions = JSON.parse(jsonMatch[0]);
+      } catch {}
+
+      if (generatedQuestions.length === 0) {
+        // Fallback: try to split by numbered items
+        generatedQuestions = [{ question: result, answer: '' }];
+      }
+
+      renderQuestions();
+
+    } catch (err: any) {
+      alert(err.message === 'noApiKey' ? 'Please enter your API Key first' : 'API Error: ' + err.message);
+    } finally {
+      generateBtn.disabled = false;
+      generatingIndicator.classList.add('hidden');
+    }
+  }
+
+  function renderQuestions() {
+    questionsList.innerHTML = '';
+    generatedQuestions.forEach((q, i) => {
+      const div = document.createElement('div');
+      div.className = 'bg-bg-secondary rounded-xl border border-white/10 p-4 space-y-3';
+
+      const questionHtml = `
+        <div class="flex items-start gap-3">
+          <span class="w-7 h-7 rounded-full bg-accent/20 text-accent flex items-center justify-center text-xs font-bold shrink-0">${i + 1}</span>
+          <div class="flex-1">
+            <p class="text-sm text-white whitespace-pre-wrap">${escapeHtml(q.question)}</p>
+          </div>
+        </div>
+        <div class="ml-10">
+          <button class="toggle-answer text-xs text-accent hover:text-accent/80 transition-colors" data-index="${i}">
+            Show Answer
+          </button>
+          <div class="answer-content hidden mt-2 p-3 bg-white/5 rounded-lg text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(q.answer)}</div>
+        </div>
+      `;
+      div.innerHTML = questionHtml;
+      questionsList.appendChild(div);
+    });
+
+    // Toggle answer visibility
+    questionsList.querySelectorAll('.toggle-answer').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const content = (btn as HTMLElement).nextElementSibling!;
+        const isHidden = content.classList.contains('hidden');
+        content.classList.toggle('hidden');
+        (btn as HTMLElement).textContent = isHidden ? 'Hide Answer' : 'Show Answer';
+      });
+    });
+
+    questionsResult.classList.remove('hidden');
+  }
+
+  function escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // --- Export as Image ---
+  exportImageBtn.addEventListener('click', () => {
+    if (generatedQuestions.length === 0) return;
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d')!;
+    const LINE_HEIGHT = 28;
+    const PADDING = 60;
+    const Q_GAP = 40;
+    const WIDTH = 800;
+
+    // Calculate height
+    let totalHeight = PADDING;
+    generatedQuestions.forEach((q, i) => {
+      totalHeight += LINE_HEIGHT + 10; // Question number + question start
+      const qLines = wrapText(ctx, q.question, WIDTH - PADDING * 2 - 40, '16px sans-serif');
+      totalHeight += qLines.length * LINE_HEIGHT;
+      totalHeight += Q_GAP;
+    });
+    totalHeight += PADDING;
+
+    canvas.width = WIDTH;
+    canvas.height = totalHeight;
+
+    // White background
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, WIDTH, totalHeight);
+
+    // Draw questions
+    let y = PADDING;
+    ctx.fillStyle = '#333333';
+
+    generatedQuestions.forEach((q, i) => {
+      // Question number
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText(`${i + 1}.`, PADDING, y + LINE_HEIGHT);
+      y += LINE_HEIGHT + 5;
+
+      // Question text
+      ctx.font = '16px sans-serif';
+      const lines = wrapText(ctx, q.question, WIDTH - PADDING * 2, '16px sans-serif');
+      lines.forEach(line => {
+        ctx.fillText(line, PADDING + 10, y + LINE_HEIGHT);
+        y += LINE_HEIGHT;
+      });
+      y += Q_GAP;
+    });
+
+    // Download
+    const link = document.createElement('a');
+    link.download = 'practice-questions.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
+  function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, font: string): string[] {
+    ctx.font = font;
+    const lines: string[] = [];
+    const paragraphs = text.split('\n');
+
+    for (const para of paragraphs) {
+      if (para.trim() === '') { lines.push(''); continue; }
+      let line = '';
+      for (const char of para) {
+        const testLine = line + char;
+        if (ctx.measureText(testLine).width > maxWidth && line.length > 0) {
+          lines.push(line);
+          line = char;
+        } else {
+          line = testLine;
+        }
+      }
+      if (line) lines.push(line);
+    }
+    return lines;
+  }
+</script>

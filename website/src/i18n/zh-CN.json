@@ -25,7 +25,8 @@
     "textCase": "大小写转换",
     "urlEncoder": "URL编码工具",
     "docToMarkdown": "文档转Markdown",
-    "examErase": "试卷去手写"
+    "examErase": "试卷去手写",
+    "wrongQuestionPractice": "错题重练"
   },
   "hero": {
     "title": "免费在线工具 — 隐私优先",
@@ -465,11 +466,7 @@
   },
   "languages": {
     "en": "English",
-    "zh-CN": "简体中文",
-    "ja": "日本語",
-    "ko": "한국어",
-    "es": "Español",
-    "fr": "Français"
+    "zh-CN": "简体中文"
   },
   "platformExport": {
     "features": {
@@ -670,6 +667,60 @@
       "q3": { "q": "支持哪些图片格式？", "a": "支持 JPG、PNG 和 WEBP 格式。为了获得最佳效果，请使用光线充足、高分辨率的试卷照片。" },
       "q4": { "q": "可以撤销涂抹操作吗？", "a": "可以！使用撤销按钮或 Ctrl+Z 撤销涂抹操作。也可以使用重做按钮（Ctrl+Y）恢复。" },
       "q5": { "q": "会去除印刷文字吗？", "a": "不会 — 工具只去除你涂抹区域内的标记，涂抹区域外的印刷文字不受影响。" }
+    },
+    "backHome": "返回首页"
+  },
+  "wrongQuestionPractice": {
+    "title": "错题重练 — AI 智能生成相似题目，高效复习",
+    "description": "免费在线错题重练工具。拍照上传错题，AI 自动识别题型并生成多道相似练习题。支持导出图片和 PDF 方便打印。",
+    "subtitle": "拍照上传错题，AI 自动识别题型，一键生成多道相似练习题。支持导出图片和 PDF 方便打印复习。",
+    "dropZone": "拖拽题目图片到此处或点击选择",
+    "supportedFormats": "支持：JPG、PNG、WEBP（最大 10MB）",
+    "apiKeySection": "API 设置",
+    "apiKeyLabel": "API Key",
+    "apiKeyPlaceholder": "输入你的 DeepSeek / OpenAI API Key",
+    "apiKeyHint": "你的 Key 仅保存在浏览器本地，不会发送到我们的服务器。",
+    "providerLabel": "AI 服务商",
+    "providerDeepseek": "DeepSeek",
+    "providerOpenai": "OpenAI",
+    "saveApiKey": "保存",
+    "step1": "拍照上传错题",
+    "step2": "AI 自动识别题型",
+    "step3": "确认题型，生成相似题目",
+    "step4": "导出图片或 PDF 打印练习",
+    "upload": "上传题目",
+    "analyzing": "正在分析题目...",
+    "questionType": "题目类型",
+    "detectedType": "识别结果：{type}",
+    "confirmType": "确认题型",
+    "changeType": "修改题型",
+    "typePlaceholder": "例如：数学 - 一元二次方程",
+    "generateCount": "生成题目数量",
+    "generate": "生成相似题目",
+    "generating": "正在生成...",
+    "generatedQuestions": "已生成题目",
+    "question": "题目",
+    "answer": "答案",
+    "showAnswer": "显示答案",
+    "hideAnswer": "隐藏答案",
+    "exportImage": "导出为图片",
+    "exportPdf": "导出为 PDF",
+    "reset": "重新开始",
+    "noApiKey": "请先输入 API Key",
+    "noImage": "请先上传题目图片",
+    "apiError": "API 调用失败，请检查 API Key 后重试。",
+    "tips": "使用提示",
+    "tip1": "清晰、光线充足的照片识别效果更好",
+    "tip2": "每次上传一道题目效果最佳",
+    "tip3": "可以手动修正 AI 识别的题型后再生成",
+    "tip4": "API Key 仅保存在你的浏览器中，不会发送到我们的服务器",
+    "faq": {
+      "title": "常见问题",
+      "q1": { "q": "支持哪些 AI 服务商？", "a": "目前支持 DeepSeek 和 OpenAI。推荐使用 DeepSeek，性价比更高。" },
+      "q2": { "q": "我的数据安全吗？", "a": "你的 API Key 和图片仅在浏览器中处理。图片会直接发送给你选择的 AI 服务商，不会经过我们的服务器。" },
+      "q3": { "q": "支持哪些题型？", "a": "数学、物理、化学、生物、语文、英语等各学科均支持。选择题、填空题、计算题、证明题、作文题等均可识别。" },
+      "q4": { "q": "题型识别准确吗？", "a": "AI 识别通常准确，但不保证 100%。建议在生成前确认或修正识别结果。" },
+      "q5": { "q": "一次能生成多少道题？", "a": "一次可生成 1-10 道相似题目。建议生成 3-5 道进行高效练习。" }
     },
     "backHome": "返回首页"
   }

@@ -25,7 +25,8 @@
     "textCase": "Text Case",
     "urlEncoder": "URL Encoder",
     "docToMarkdown": "Doc to Markdown",
-    "examErase": "Exam Handwriting Eraser"
+    "examErase": "Exam Handwriting Eraser",
+    "wrongQuestionPractice": "Wrong Question Practice"
   },
   "hero": {
     "title": "Free Online Tools — Privacy First",
@@ -465,11 +466,7 @@
   },
   "languages": {
     "en": "English",
-    "zh-CN": "简体中文",
-    "ja": "日本語",
-    "ko": "한국어",
-    "es": "Español",
-    "fr": "Français"
+    "zh-CN": "简体中文"
   },
   "platformExport": {
     "features": {
@@ -670,6 +667,60 @@
       "q3": { "q": "What image formats are supported?", "a": "JPG, PNG, and WEBP formats are supported. For best results, use a well-lit, high-resolution photo of your exam paper." },
       "q4": { "q": "Can I undo my brush strokes?", "a": "Yes! Use the Undo button or Ctrl+Z to undo brush strokes. You can also use Redo (Ctrl+Y) to reapply them." },
       "q5": { "q": "Does it remove printed text?", "a": "No — it only removes markings in the areas you paint over. Printed text outside the painted areas remains intact." }
+    },
+    "backHome": "Back to Home"
+  },
+  "wrongQuestionPractice": {
+    "title": "Wrong Question Practice — AI-Generated Similar Questions",
+    "description": "Free online tool to practice wrong exam questions. Upload a question, AI identifies the type and generates similar practice questions. Export as image or PDF.",
+    "subtitle": "Upload a question photo, AI identifies the type, generates multiple similar questions for practice. Export as image or PDF for printing.",
+    "dropZone": "Drag a question image here or click to browse",
+    "supportedFormats": "Supports: JPG, PNG, WEBP (max 10MB)",
+    "apiKeySection": "API Settings",
+    "apiKeyLabel": "API Key",
+    "apiKeyPlaceholder": "Enter your DeepSeek / OpenAI API Key",
+    "apiKeyHint": "Your key is stored locally and never sent to our servers.",
+    "providerLabel": "AI Provider",
+    "providerDeepseek": "DeepSeek",
+    "providerOpenai": "OpenAI",
+    "saveApiKey": "Save",
+    "step1": "Upload a question photo",
+    "step2": "AI identifies the question type",
+    "step3": "Confirm type and generate similar questions",
+    "step4": "Export as image or PDF for printing",
+    "upload": "Upload Question",
+    "analyzing": "Analyzing question...",
+    "questionType": "Question Type",
+    "detectedType": "Detected: {type}",
+    "confirmType": "Confirm",
+    "changeType": "Change Type",
+    "typePlaceholder": "e.g. Math - Quadratic Equations",
+    "generateCount": "Number of questions",
+    "generate": "Generate Similar Questions",
+    "generating": "Generating...",
+    "generatedQuestions": "Generated Questions",
+    "question": "Question",
+    "answer": "Answer",
+    "showAnswer": "Show Answer",
+    "hideAnswer": "Hide Answer",
+    "exportImage": "Export as Image",
+    "exportPdf": "Export as PDF",
+    "reset": "Start Over",
+    "noApiKey": "Please enter your API Key first",
+    "noImage": "Please upload a question image",
+    "apiError": "API call failed. Please check your API Key and try again.",
+    "tips": "Tips",
+    "tip1": "Clear, well-lit photos give better AI recognition results",
+    "tip2": "One question per upload works best",
+    "tip3": "You can manually correct the detected question type before generating",
+    "tip4": "Your API key is stored only in your browser and never sent to our servers",
+    "faq": {
+      "title": "FAQ",
+      "q1": { "q": "Which AI providers are supported?", "a": "Currently DeepSeek and OpenAI. DeepSeek is recommended as it offers great performance at lower cost." },
+      "q2": { "q": "Is my data safe?", "a": "Your API key and images are processed only in your browser. Images are sent directly to the AI provider you choose, never to our servers." },
+      "q3": { "q": "What question types are supported?", "a": "Math, physics, chemistry, biology, Chinese, English and other subjects. Multiple choice, fill-in-blank, calculation, proof, and essay questions are all supported." },
+      "q4": { "q": "How accurate is the question type detection?", "a": "AI detection is generally accurate but not perfect. Always review and confirm the detected type before generating similar questions." },
+      "q5": { "q": "How many questions can I generate at once?", "a": "You can generate 1-10 similar questions at a time. We recommend 3-5 for effective practice." }
     },
     "backHome": "Back to Home"
   }
