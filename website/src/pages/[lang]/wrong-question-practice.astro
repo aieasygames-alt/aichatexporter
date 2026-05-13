@@ -39,6 +39,7 @@ const t = useTranslations(lang);
               <div>
                 <label class="text-xs text-gray-500 mb-1 block">{t('wrongQuestionPractice.providerLabel')}</label>
                 <select id="providerSelect" class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white focus:outline-none focus:border-accent">
+                  <option value="siliconflow">硅基流动 SiliconFlow</option>
                   <option value="deepseek">{t('wrongQuestionPractice.providerDeepseek')}</option>
                   <option value="openai">{t('wrongQuestionPractice.providerOpenai')}</option>
                 </select>
@@ -247,7 +248,7 @@ const t = useTranslations(lang);
 
   // Load saved settings
   apiKeyInput.value = localStorage.getItem(STORAGE_KEY_API) || '';
-  providerSelect.value = localStorage.getItem(STORAGE_KEY_PROVIDER) || 'deepseek';
+  providerSelect.value = localStorage.getItem(STORAGE_KEY_PROVIDER) || 'siliconflow';
 
   apiKeyToggle.addEventListener('click', () => {
     const isHidden = apiKeyPanel.classList.contains('hidden');
@@ -326,17 +327,19 @@ const t = useTranslations(lang);
 
   // --- AI API Calls ---
   function getApiKey(): string { return localStorage.getItem(STORAGE_KEY_API) || ''; }
-  function getProvider(): string { return localStorage.getItem(STORAGE_KEY_PROVIDER) || 'deepseek'; }
+  function getProvider(): string { return localStorage.getItem(STORAGE_KEY_PROVIDER) || 'siliconflow'; }
 
   function getApiUrl(): string {
     const provider = getProvider();
     if (provider === 'openai') return 'https://api.openai.com/v1/chat/completions';
+    if (provider === 'siliconflow') return 'https://api.siliconflow.cn/v1/chat/completions';
     return 'https://api.deepseek.com/chat/completions';
   }
 
   function getModel(): string {
     const provider = getProvider();
     if (provider === 'openai') return 'gpt-4o';
+    if (provider === 'siliconflow') return 'Qwen/Qwen2.5-VL-72B-Instruct';
     return 'deepseek-chat';
   }
 
