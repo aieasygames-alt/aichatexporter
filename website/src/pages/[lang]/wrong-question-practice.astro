@@ -428,12 +428,6 @@ const t = useTranslations(lang);
   function getApiKey(): string { return localStorage.getItem(STORAGE_KEY_API) || ''; }
   function getProvider(): string { return localStorage.getItem(STORAGE_KEY_PROVIDER) || 'deepseek'; }
 
-  function getApiUrl(): string {
-    const provider = getProvider();
-    if (provider === 'openai') return 'https://api.openai.com/v1/chat/completions';
-    return 'https://api.deepseek.com/chat/completions';
-  }
-
   function getModel(): string {
     const provider = getProvider();
     if (provider === 'openai') return 'gpt-4o';
@@ -444,11 +438,13 @@ const t = useTranslations(lang);
     const apiKey = getApiKey();
     if (!apiKey) throw new Error('noApiKey');
 
-    const response = await fetch(getApiUrl(), {
+    // Use /api/chat proxy to avoid CORS issues
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
+        'X-Provider': getProvider(),
       },
       body: JSON.stringify({
         model: getModel(),
