@@ -146,6 +146,6 @@ export default [
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'tests/**', 'website/**', 'local-node/**', 'eslint.config.js', 'vite.config.ts', 'vitest.config.ts'],
+    ignores: ['dist/**', 'node_modules/**', 'tests/**', 'website/**', 'functions/**', 'local-node/**', 'eslint.config.js', 'vite.config.ts', 'vitest.config.ts'],
   },
 ];
