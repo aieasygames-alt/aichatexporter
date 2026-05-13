@@ -52,7 +52,19 @@ const t = useTranslations(lang);
           </div>
         </div>
 
-        <!-- Upload Area -->
+        <!-- Input Mode Tabs -->
+        <div class="flex gap-1 mb-4 bg-bg-secondary rounded-lg p-1 border border-white/10 w-fit">
+          <button id="tabImage" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-accent text-white">
+            <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            {t('wrongQuestionPractice.inputModeImage')}
+          </button>
+          <button id="tabText" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white">
+            <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+            {t('wrongQuestionPractice.inputModeText')}
+          </button>
+        </div>
+
+        <!-- Image Upload Area -->
         <div id="uploadArea" class="bg-bg-secondary rounded-2xl border-2 border-dashed border-white/20 hover:border-accent/50 transition-colors p-12 text-center cursor-pointer mb-6">
           <div class="flex flex-col items-center gap-4">
             <svg class="w-16 h-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -66,16 +78,29 @@ const t = useTranslations(lang);
           <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" />
         </div>
 
-        <!-- Workflow Area (hidden until image uploaded) -->
+        <!-- Text Input Area -->
+        <div id="textArea" class="hidden mb-6">
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4 space-y-3">
+            <textarea id="questionText" rows="6" placeholder={t('wrongQuestionPractice.textPlaceholder')} class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-accent resize-y"></textarea>
+            <button id="submitTextBtn" class="px-6 py-2 rounded-lg bg-accent text-white text-sm font-medium hover:bg-accent/80 transition-colors">
+              {t('wrongQuestionPractice.submitText')}
+            </button>
+          </div>
+        </div>
+
+        <!-- Workflow Area (hidden until question submitted) -->
         <div id="workflowArea" class="hidden space-y-6">
-          <!-- Step 1: Uploaded Image Preview -->
+          <!-- Step 1: Uploaded Content Preview -->
           <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4">
             <div class="flex items-center justify-between mb-3">
               <h3 class="text-sm font-medium text-gray-300">{t('wrongQuestionPractice.upload')}</h3>
               <button id="reuploadBtn" class="text-xs text-accent hover:text-accent/80 transition-colors">{t('wrongQuestionPractice.reset')}</button>
             </div>
-            <div class="flex justify-center">
+            <div id="previewImageWrap" class="flex justify-center">
               <img id="previewImage" class="max-h-64 rounded-lg border border-white/10" />
+            </div>
+            <div id="previewTextWrap" class="hidden">
+              <div id="previewText" class="p-4 bg-white/5 rounded-lg text-sm text-gray-300 whitespace-pre-wrap max-h-64 overflow-y-auto"></div>
             </div>
           </div>
 
@@ -125,6 +150,10 @@ const t = useTranslations(lang);
                 <button id="exportImageBtn" class="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-700 transition-colors">
                   <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   {t('wrongQuestionPractice.exportImage')}
+                </button>
+                <button id="exportPdfBtn" class="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors">
+                  <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                  {t('wrongQuestionPractice.exportPdf')}
                 </button>
               </div>
             </div>
@@ -215,10 +244,18 @@ const t = useTranslations(lang);
   const providerSelect = document.getElementById('providerSelect') as HTMLSelectElement;
   const saveApiKeyBtn = document.getElementById('saveApiKeyBtn')!;
 
+  const tabImage = document.getElementById('tabImage')!;
+  const tabText = document.getElementById('tabText')!;
   const uploadArea = document.getElementById('uploadArea')!;
+  const textArea = document.getElementById('textArea')!;
+  const questionText = document.getElementById('questionText') as HTMLTextAreaElement;
+  const submitTextBtn = document.getElementById('submitTextBtn')!;
   const fileInput = document.getElementById('fileInput') as HTMLInputElement;
   const workflowArea = document.getElementById('workflowArea')!;
   const previewImage = document.getElementById('previewImage') as HTMLImageElement;
+  const previewImageWrap = document.getElementById('previewImageWrap')!;
+  const previewTextWrap = document.getElementById('previewTextWrap')!;
+  const previewText = document.getElementById('previewText')!;
   const reuploadBtn = document.getElementById('reuploadBtn')!;
 
   const typeDetection = document.getElementById('typeDetection')!;
@@ -235,10 +272,13 @@ const t = useTranslations(lang);
   const questionsResult = document.getElementById('questionsResult')!;
   const questionsList = document.getElementById('questionsList')!;
   const exportImageBtn = document.getElementById('exportImageBtn')!;
+  const exportPdfBtn = document.getElementById('exportPdfBtn')!;
 
   // --- State ---
+  let inputMode: 'image' | 'text' = 'image';
   let imageBase64: string = '';
   let imageMediaType: string = '';
+  let questionTextInput: string = '';
   let detectedType: string = '';
   let generatedQuestions: Array<{ question: string; answer: string }> = [];
 
@@ -246,7 +286,6 @@ const t = useTranslations(lang);
   const STORAGE_KEY_API = 'wqp_api_key';
   const STORAGE_KEY_PROVIDER = 'wqp_provider';
 
-  // Load saved settings
   apiKeyInput.value = localStorage.getItem(STORAGE_KEY_API) || '';
   providerSelect.value = localStorage.getItem(STORAGE_KEY_PROVIDER) || 'siliconflow';
 
@@ -256,7 +295,6 @@ const t = useTranslations(lang);
     apiKeyArrow.style.transform = isHidden ? 'rotate(180deg)' : '';
   });
 
-  // Auto-expand if no key saved
   if (!localStorage.getItem(STORAGE_KEY_API)) {
     apiKeyPanel.classList.remove('hidden');
     apiKeyArrow.style.transform = 'rotate(180deg)';
@@ -268,6 +306,24 @@ const t = useTranslations(lang);
     apiKeyPanel.classList.add('hidden');
     apiKeyArrow.style.transform = '';
   });
+
+  // --- Input Mode Tabs ---
+  function setInputMode(mode: 'image' | 'text') {
+    inputMode = mode;
+    if (mode === 'image') {
+      tabImage.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-accent text-white';
+      tabText.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white';
+      uploadArea.classList.remove('hidden');
+      textArea.classList.add('hidden');
+    } else {
+      tabText.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-accent text-white';
+      tabImage.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white';
+      uploadArea.classList.add('hidden');
+      textArea.classList.remove('hidden');
+    }
+  }
+  tabImage.addEventListener('click', () => setInputMode('image'));
+  tabText.addEventListener('click', () => setInputMode('text'));
 
   // --- File Upload ---
   uploadArea.addEventListener('click', () => fileInput.click());
@@ -286,6 +342,7 @@ const t = useTranslations(lang);
   });
 
   document.addEventListener('paste', (e) => {
+    if (inputMode !== 'image') return;
     const items = e.clipboardData?.items;
     if (!items) return;
     for (const item of items) {
@@ -304,16 +361,43 @@ const t = useTranslations(lang);
     reader.onload = (e) => {
       const dataUrl = e.target?.result as string;
       imageBase64 = dataUrl.split(',')[1];
-      previewImage.src = dataUrl;
-      uploadArea.classList.add('hidden');
-      workflowArea.classList.remove('hidden');
+      questionTextInput = '';
+      showPreview('image');
       analyzeQuestion();
     };
     reader.readAsDataURL(file);
   }
 
+  // --- Text Submit ---
+  submitTextBtn.addEventListener('click', () => {
+    const text = questionText.value.trim();
+    if (!text) return;
+    questionTextInput = text;
+    imageBase64 = '';
+    showPreview('text');
+    analyzeQuestion();
+  });
+
+  function showPreview(mode: 'image' | 'text') {
+    uploadArea.classList.add('hidden');
+    textArea.classList.add('hidden');
+    document.querySelector('.flex.gap-1.mb-4')!.classList.add('hidden');
+    workflowArea.classList.remove('hidden');
+
+    if (mode === 'image') {
+      previewImageWrap.classList.remove('hidden');
+      previewTextWrap.classList.add('hidden');
+      previewImage.src = `data:${imageMediaType};base64,${imageBase64}`;
+    } else {
+      previewImageWrap.classList.add('hidden');
+      previewTextWrap.classList.remove('hidden');
+      previewText.textContent = questionTextInput;
+    }
+  }
+
   reuploadBtn.addEventListener('click', () => {
     imageBase64 = '';
+    questionTextInput = '';
     detectedType = '';
     generatedQuestions = [];
     workflowArea.classList.add('hidden');
@@ -321,8 +405,10 @@ const t = useTranslations(lang);
     generateSection.classList.add('hidden');
     questionsResult.classList.add('hidden');
     generatingIndicator.classList.add('hidden');
-    uploadArea.classList.remove('hidden');
+    document.querySelector('.flex.gap-1.mb-4')!.classList.remove('hidden');
+    setInputMode(inputMode);
     fileInput.value = '';
+    questionText.value = '';
   });
 
   // --- AI API Calls ---
@@ -339,7 +425,7 @@ const t = useTranslations(lang);
   function getModel(): string {
     const provider = getProvider();
     if (provider === 'openai') return 'gpt-4o';
-    if (provider === 'siliconflow') return 'Qwen/Qwen2.5-VL-72B-Instruct';
+    if (provider === 'siliconflow') return 'Qwen/Qwen3-VL-235B-A22B-Instruct';
     return 'deepseek-chat';
   }
 
@@ -374,7 +460,7 @@ const t = useTranslations(lang);
   async function analyzeQuestion() {
     const apiKey = getApiKey();
     if (!apiKey) {
-      alert(document.querySelector('[data-nokey]')?.textContent || 'Please enter your API Key first');
+      alert('Please enter your API Key first');
       return;
     }
 
@@ -382,7 +468,10 @@ const t = useTranslations(lang);
     typeResult.classList.add('hidden');
 
     try {
-      const prompt = `Analyze this question image. Identify:
+      let messages: Array<any>;
+
+      if (inputMode === 'image' && imageBase64) {
+        const prompt = `Analyze this question image. Identify:
 1. The subject (e.g., Math, Physics, Chemistry, Biology, Chinese, English)
 2. The question type (e.g., Multiple Choice, Fill-in-blank, Calculation, Proof, Essay)
 3. A brief description of the knowledge point being tested
@@ -392,15 +481,33 @@ Respond in JSON format:
 
 Use the same language as the question for the response.`;
 
-      const content: any[] = [
-        { type: 'text', text: prompt },
-        { type: 'image_url', image_url: { url: `data:${imageMediaType};base64,${imageBase64}` } }
-      ];
+        messages = [{
+          role: 'user',
+          content: [
+            { type: 'text', text: prompt },
+            { type: 'image_url', image_url: { url: `data:${imageMediaType};base64,${imageBase64}` } }
+          ]
+        }];
+      } else {
+        const prompt = `Analyze this question. Identify:
+1. The subject (e.g., Math, Physics, Chemistry, Biology, Chinese, English)
+2. The question type (e.g., Multiple Choice, Fill-in-blank, Calculation, Proof, Essay)
+3. A brief description of the knowledge point being tested
 
-      const result = await callAI([{ role: 'user', content }]);
+Question:
+${questionTextInput}
+
+Respond in JSON format:
+{"subject": "...", "type": "...", "knowledge": "...", "summary": "..."}
+
+Use the same language as the question for the response.`;
+
+        messages = [{ role: 'user', content: prompt }];
+      }
+
+      const result = await callAI(messages);
       analyzingIndicator.classList.add('hidden');
 
-      // Parse JSON from response
       let parsed: any = {};
       try {
         const jsonMatch = result.match(/\{[\s\S]*\}/);
@@ -441,10 +548,15 @@ Use the same language as the question for the response.`;
     questionsResult.classList.add('hidden');
 
     try {
-      const content: any[] = [
-        {
-          type: 'text',
-          text: `Based on this question image, generate ${count} SIMILAR but DIFFERENT practice questions of the same type (${detectedType}).
+      let messages: Array<any>;
+
+      if (inputMode === 'image' && imageBase64) {
+        messages = [{
+          role: 'user',
+          content: [
+            {
+              type: 'text',
+              text: `Based on this question image, generate ${count} SIMILAR but DIFFERENT practice questions of the same type (${detectedType}).
 
 Requirements:
 - Each question should test the SAME knowledge point but with DIFFERENT numbers/scenarios
@@ -454,13 +566,31 @@ Requirements:
 
 Respond in JSON array format:
 [{"question": "...", "answer": "..."}]`
-        },
-        { type: 'image_url', image_url: { url: `data:${imageMediaType};base64,${imageBase64}` } }
-      ];
+            },
+            { type: 'image_url', image_url: { url: `data:${imageMediaType};base64,${imageBase64}` } }
+          ]
+        }];
+      } else {
+        messages = [{
+          role: 'user',
+          content: `Based on this question, generate ${count} SIMILAR but DIFFERENT practice questions of the same type (${detectedType}).
 
-      const result = await callAI([{ role: 'user', content }]);
+Original question:
+${questionTextInput}
 
-      // Parse JSON array from response
+Requirements:
+- Each question should test the SAME knowledge point but with DIFFERENT numbers/scenarios
+- Include a complete answer/solution for each question
+- Maintain the same difficulty level and format
+- Use the same language as the original question
+
+Respond in JSON array format:
+[{"question": "...", "answer": "..."}]`
+        }];
+      }
+
+      const result = await callAI(messages);
+
       generatedQuestions = [];
       try {
         const jsonMatch = result.match(/\[[\s\S]*\]/);
@@ -468,7 +598,6 @@ Respond in JSON array format:
       } catch {}
 
       if (generatedQuestions.length === 0) {
-        // Fallback: try to split by numbered items
         generatedQuestions = [{ question: result, answer: '' }];
       }
 
@@ -506,7 +635,6 @@ Respond in JSON array format:
       questionsList.appendChild(div);
     });
 
-    // Toggle answer visibility
     questionsList.querySelectorAll('.toggle-answer').forEach(btn => {
       btn.addEventListener('click', () => {
         const content = (btn as HTMLElement).nextElementSibling!;
@@ -525,10 +653,8 @@ Respond in JSON array format:
     return div.innerHTML;
   }
 
-  // --- Export as Image ---
-  exportImageBtn.addEventListener('click', () => {
-    if (generatedQuestions.length === 0) return;
-
+  // --- Shared Canvas Rendering ---
+  function renderQuestionsToCanvas(): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d')!;
     const LINE_HEIGHT = 28;
@@ -536,10 +662,9 @@ Respond in JSON array format:
     const Q_GAP = 40;
     const WIDTH = 800;
 
-    // Calculate height
     let totalHeight = PADDING;
-    generatedQuestions.forEach((q, i) => {
-      totalHeight += LINE_HEIGHT + 10; // Question number + question start
+    generatedQuestions.forEach((q) => {
+      totalHeight += LINE_HEIGHT + 10;
       const qLines = wrapText(ctx, q.question, WIDTH - PADDING * 2 - 40, '16px sans-serif');
       totalHeight += qLines.length * LINE_HEIGHT;
       totalHeight += Q_GAP;
@@ -549,21 +674,17 @@ Respond in JSON array format:
     canvas.width = WIDTH;
     canvas.height = totalHeight;
 
-    // White background
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, WIDTH, totalHeight);
 
-    // Draw questions
     let y = PADDING;
     ctx.fillStyle = '#333333';
 
     generatedQuestions.forEach((q, i) => {
-      // Question number
       ctx.font = 'bold 18px sans-serif';
       ctx.fillText(`${i + 1}.`, PADDING, y + LINE_HEIGHT);
       y += LINE_HEIGHT + 5;
 
-      // Question text
       ctx.font = '16px sans-serif';
       const lines = wrapText(ctx, q.question, WIDTH - PADDING * 2, '16px sans-serif');
       lines.forEach(line => {
@@ -573,11 +694,39 @@ Respond in JSON array format:
       y += Q_GAP;
     });
 
-    // Download
+    return canvas;
+  }
+
+  // --- Export as Image ---
+  exportImageBtn.addEventListener('click', () => {
+    if (generatedQuestions.length === 0) return;
+    const canvas = renderQuestionsToCanvas();
     const link = document.createElement('a');
     link.download = 'practice-questions.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
+  });
+
+  // --- Export as PDF ---
+  exportPdfBtn.addEventListener('click', () => {
+    if (generatedQuestions.length === 0) return;
+
+    const canvas = renderQuestionsToCanvas();
+    const imgData = canvas.toDataURL('image/png');
+
+    // Create a printable HTML page
+    const printWin = window.open('', '_blank');
+    if (!printWin) { alert('Please allow popups to export PDF'); return; }
+
+    printWin.document.write(`<!DOCTYPE html><html><head><title>Practice Questions</title>
+<style>
+  @page { margin: 0; size: ${canvas.width}px ${canvas.height}px; }
+  body { margin: 0; padding: 0; }
+  img { width: 100%; height: auto; display: block; }
+</style></head><body>
+<img src="${imgData}" onload="setTimeout(function(){window.print();},300);" />
+</body></html>`);
+    printWin.document.close();
   });
 
   function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, font: string): string[] {
