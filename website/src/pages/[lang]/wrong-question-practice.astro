@@ -39,7 +39,6 @@ const t = useTranslations(lang);
               <div>
                 <label class="text-xs text-gray-500 mb-1 block">{t('wrongQuestionPractice.providerLabel')}</label>
                 <select id="providerSelect" class="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white focus:outline-none focus:border-accent">
-                  <option value="siliconflow">硅基流动 SiliconFlow</option>
                   <option value="deepseek">{t('wrongQuestionPractice.providerDeepseek')}</option>
                   <option value="openai">{t('wrongQuestionPractice.providerOpenai')}</option>
                 </select>
@@ -103,6 +102,12 @@ const t = useTranslations(lang);
               <div id="previewText" class="p-4 bg-white/5 rounded-lg text-sm text-gray-300 whitespace-pre-wrap max-h-64 overflow-y-auto"></div>
             </div>
           </div>
+
+          <!-- Start Analysis Button -->
+          <button id="startAnalysisBtn" class="w-full py-3 rounded-xl bg-accent text-white font-semibold text-base hover:bg-accent/80 transition-colors flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            开始分析
+          </button>
 
           <!-- Step 2: Question Type Detection -->
           <div id="typeDetection" class="bg-bg-secondary rounded-2xl border border-white/10 p-4">
@@ -257,6 +262,7 @@ const t = useTranslations(lang);
   const previewTextWrap = document.getElementById('previewTextWrap')!;
   const previewText = document.getElementById('previewText')!;
   const reuploadBtn = document.getElementById('reuploadBtn')!;
+  const startAnalysisBtn = document.getElementById('startAnalysisBtn')!;
 
   const typeDetection = document.getElementById('typeDetection')!;
   const analyzingIndicator = document.getElementById('analyzingIndicator')!;
@@ -287,7 +293,7 @@ const t = useTranslations(lang);
   const STORAGE_KEY_PROVIDER = 'wqp_provider';
 
   apiKeyInput.value = localStorage.getItem(STORAGE_KEY_API) || '';
-  providerSelect.value = localStorage.getItem(STORAGE_KEY_PROVIDER) || 'siliconflow';
+  providerSelect.value = localStorage.getItem(STORAGE_KEY_PROVIDER) || 'deepseek';
 
   apiKeyToggle.addEventListener('click', () => {
     const isHidden = apiKeyPanel.classList.contains('hidden');
@@ -363,7 +369,6 @@ const t = useTranslations(lang);
       imageBase64 = dataUrl.split(',')[1];
       questionTextInput = '';
       showPreview('image');
-      analyzeQuestion();
     };
     reader.readAsDataURL(file);
   }
@@ -375,7 +380,6 @@ const t = useTranslations(lang);
     questionTextInput = text;
     imageBase64 = '';
     showPreview('text');
-    analyzeQuestion();
   });
 
   function showPreview(mode: 'image' | 'text') {
@@ -401,6 +405,8 @@ const t = useTranslations(lang);
     detectedType = '';
     generatedQuestions = [];
     workflowArea.classList.add('hidden');
+    startAnalysisBtn.classList.remove('hidden');
+    typeDetection.classList.add('hidden');
     typeResult.classList.add('hidden');
     generateSection.classList.add('hidden');
     questionsResult.classList.add('hidden');
@@ -411,21 +417,26 @@ const t = useTranslations(lang);
     questionText.value = '';
   });
 
+  // --- Start Analysis Button ---
+  startAnalysisBtn.addEventListener('click', () => {
+    startAnalysisBtn.classList.add('hidden');
+    typeDetection.classList.remove('hidden');
+    analyzeQuestion();
+  });
+
   // --- AI API Calls ---
   function getApiKey(): string { return localStorage.getItem(STORAGE_KEY_API) || ''; }
-  function getProvider(): string { return localStorage.getItem(STORAGE_KEY_PROVIDER) || 'siliconflow'; }
+  function getProvider(): string { return localStorage.getItem(STORAGE_KEY_PROVIDER) || 'deepseek'; }
 
   function getApiUrl(): string {
     const provider = getProvider();
     if (provider === 'openai') return 'https://api.openai.com/v1/chat/completions';
-    if (provider === 'siliconflow') return 'https://api.siliconflow.cn/v1/chat/completions';
     return 'https://api.deepseek.com/chat/completions';
   }
 
   function getModel(): string {
     const provider = getProvider();
     if (provider === 'openai') return 'gpt-4o';
-    if (provider === 'siliconflow') return 'Qwen/Qwen3-VL-235B-A22B-Instruct';
     return 'deepseek-chat';
   }
 
