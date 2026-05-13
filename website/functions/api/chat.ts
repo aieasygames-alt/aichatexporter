@@ -1,5 +1,4 @@
 // Cloudflare Pages Function — API proxy for DeepSeek / OpenAI
-// This solves the CORS issue where browsers block direct calls to AI APIs.
 
 const API_ENDPOINTS: Record<string, string> = {
   deepseek: 'https://api.deepseek.com/chat/completions',
