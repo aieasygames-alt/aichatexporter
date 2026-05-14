@@ -478,15 +478,16 @@ const t = useTranslations(lang);
       let messages: Array<any>;
 
       if (inputMode === 'image' && imageBase64) {
-        const prompt = `Analyze this question image. Identify:
-1. The subject (e.g., Math, Physics, Chemistry, Biology, Chinese, English)
-2. The question type (e.g., Multiple Choice, Fill-in-blank, Calculation, Proof, Essay)
-3. A brief description of the knowledge point being tested
+        const prompt = `Analyze this question image in detail. Identify:
+1. The education stage: 小学 / 初中 / 高中 / 大学 (pick one)
+2. The subject: 数学 / 语文 / 英语 / 物理 / 化学 / 生物 / 历史 / 地理 / 政治 (pick one)
+3. The specific knowledge point being tested (be precise, e.g. "分段计费" not just "计算题")
+4. The question format: 选择题 / 填空题 / 计算题 / 证明题 / 应用题 / 作文 (pick one)
 
 Respond in JSON format:
-{"subject": "...", "type": "...", "knowledge": "...", "summary": "..."}
+{"stage": "小学", "subject": "数学", "knowledge": "分段计费问题", "format": "应用题"}
 
-Use the same language as the question for the response.`;
+Use Chinese for all values regardless of the question language.`;
 
         messages = [{
           role: 'user',
@@ -496,18 +497,19 @@ Use the same language as the question for the response.`;
           ]
         }];
       } else {
-        const prompt = `Analyze this question. Identify:
-1. The subject (e.g., Math, Physics, Chemistry, Biology, Chinese, English)
-2. The question type (e.g., Multiple Choice, Fill-in-blank, Calculation, Proof, Essay)
-3. A brief description of the knowledge point being tested
+        const prompt = `Analyze this question in detail. Identify:
+1. The education stage: 小学 / 初中 / 高中 / 大学 (pick one)
+2. The subject: 数学 / 语文 / 英语 / 物理 / 化学 / 生物 / 历史 / 地理 / 政治 (pick one)
+3. The specific knowledge point being tested (be precise, e.g. "分段计费" not just "计算题")
+4. The question format: 选择题 / 填空题 / 计算题 / 证明题 / 应用题 / 作文 (pick one)
 
 Question:
 ${questionTextInput}
 
 Respond in JSON format:
-{"subject": "...", "type": "...", "knowledge": "...", "summary": "..."}
+{"stage": "小学", "subject": "数学", "knowledge": "分段计费问题", "format": "应用题"}
 
-Use the same language as the question for the response.`;
+Use Chinese for all values regardless of the question language.`;
 
         messages = [{ role: 'user', content: prompt }];
       }
@@ -521,12 +523,13 @@ Use the same language as the question for the response.`;
         if (jsonMatch) parsed = JSON.parse(jsonMatch[0]);
       } catch {}
 
-      detectedType = `${parsed.subject || 'Unknown'} - ${parsed.type || 'Unknown'}`;
-      const summary = parsed.knowledge || parsed.summary || '';
+      detectedType = `${parsed.stage || ''} - ${parsed.subject || ''} - ${parsed.knowledge || ''}`;
+      const formatInfo = parsed.format || '';
+      const typeDetail = formatInfo ? `（${formatInfo}）` : '';
 
       detectedTypeLabel.textContent = detectedType;
-      typeInput.value = detectedType;
-      typeInput.placeholder = summary;
+      typeInput.value = `${detectedType}${typeDetail}`;
+      typeInput.placeholder = parsed.knowledge || '';
       typeResult.classList.remove('hidden');
 
     } catch (err: any) {
@@ -563,16 +566,19 @@ Use the same language as the question for the response.`;
           content: [
             {
               type: 'text',
-              text: `Based on this question image, generate ${count} SIMILAR but DIFFERENT practice questions of the same type (${detectedType}).
+              text: `你是专业的出题老师。请根据这道原题，生成 ${count} 道同类型但不同情境的练习题。
 
-Requirements:
-- Each question should test the SAME knowledge point but with DIFFERENT numbers/scenarios
-- Include a complete answer/solution for each question
-- Maintain the same difficulty level and format
-- Use the same language as the original question
+题型：${detectedType}
 
-Respond in JSON array format:
-[{"question": "...", "answer": "..."}]`
+核心要求：
+- 必须测试相同的知识点，但每道题必须使用完全不同的生活情境/应用场景
+- 例如：原题是"出租车分段计费"，新题可以用水费阶梯计价、电话费分时段计费、快递超重加价等不同场景
+- 不要只是修改原题的数字！要创造全新的题目背景和应用场景
+- 每道题的难度和格式与原题保持一致
+- 每道题必须附带完整的解题过程和答案
+
+用原题相同的语言回答。回复 JSON 数组格式：
+[{"question": "题目内容", "answer": "完整解答过程"}]`
             },
             { type: 'image_url', image_url: { url: `data:${imageMediaType};base64,${imageBase64}` } }
           ]
@@ -580,19 +586,22 @@ Respond in JSON array format:
       } else {
         messages = [{
           role: 'user',
-          content: `Based on this question, generate ${count} SIMILAR but DIFFERENT practice questions of the same type (${detectedType}).
+          content: `你是专业的出题老师。请根据这道原题，生成 ${count} 道同类型但不同情境的练习题。
 
-Original question:
+原题：
 ${questionTextInput}
 
-Requirements:
-- Each question should test the SAME knowledge point but with DIFFERENT numbers/scenarios
-- Include a complete answer/solution for each question
-- Maintain the same difficulty level and format
-- Use the same language as the original question
+题型：${detectedType}
 
-Respond in JSON array format:
-[{"question": "...", "answer": "..."}]`
+核心要求：
+- 必须测试相同的知识点，但每道题必须使用完全不同的生活情境/应用场景
+- 例如：原题是"出租车分段计费"，新题可以用水费阶梯计价、电话费分时段计费、快递超重加价等不同场景
+- 不要只是修改原题的数字！要创造全新的题目背景和应用场景
+- 每道题的难度和格式与原题保持一致
+- 每道题必须附带完整的解题过程和答案
+
+用原题相同的语言回答。回复 JSON 数组格式：
+[{"question": "题目内容", "answer": "完整解答过程"}]`
         }];
       }
 
