@@ -645,6 +645,7 @@
     "baiduHint": "在百度智能云控制台获取 API Key 和 Secret Key",
     "aiErase": "一键去手写",
     "aiProcessing": "AI 处理中...",
+    "fineTune": "手动精修",
     "dropZone": "拖拽图片到此处或点击选择",
     "supportedFormats": "支持：JPG、PNG、WEBP（最大 10MB）",
     "editor": "编辑器",

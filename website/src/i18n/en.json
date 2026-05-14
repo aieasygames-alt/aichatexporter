@@ -645,6 +645,7 @@
     "baiduHint": "Get API Key and Secret Key from Baidu AI Cloud console",
     "aiErase": "AI Remove Handwriting",
     "aiProcessing": "AI Processing...",
+    "fineTune": "Manual Fine-tune",
     "dropZone": "Drag an image here or click to browse",
     "supportedFormats": "Supports: JPG, PNG, WEBP (max 10MB)",
     "editor": "Editor",
