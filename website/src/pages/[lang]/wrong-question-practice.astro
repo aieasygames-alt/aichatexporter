@@ -669,10 +669,11 @@ Respond in JSON array format:
     const Q_GAP = 40;
     const WIDTH = 800;
 
+    const NUM_WIDTH = 40; // space for "1. "
+
     let totalHeight = PADDING;
     generatedQuestions.forEach((q) => {
-      totalHeight += LINE_HEIGHT + 10;
-      const qLines = wrapText(ctx, q.question, WIDTH - PADDING * 2 - 40, '16px sans-serif');
+      const qLines = wrapText(ctx, q.question, WIDTH - PADDING * 2 - NUM_WIDTH, '16px sans-serif');
       totalHeight += qLines.length * LINE_HEIGHT;
       totalHeight += Q_GAP;
     });
@@ -688,16 +689,21 @@ Respond in JSON array format:
     ctx.fillStyle = '#333333';
 
     generatedQuestions.forEach((q, i) => {
-      ctx.font = 'bold 18px sans-serif';
-      ctx.fillText(`${i + 1}.`, PADDING, y + LINE_HEIGHT);
-      y += LINE_HEIGHT + 5;
-
       ctx.font = '16px sans-serif';
-      const lines = wrapText(ctx, q.question, WIDTH - PADDING * 2, '16px sans-serif');
-      lines.forEach(line => {
-        ctx.fillText(line, PADDING + 10, y + LINE_HEIGHT);
+      const lines = wrapText(ctx, q.question, WIDTH - PADDING * 2 - NUM_WIDTH, '16px sans-serif');
+
+      // First line: number + question text on the same line
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillText(`${i + 1}.`, PADDING, y + LINE_HEIGHT);
+      ctx.font = '16px sans-serif';
+      ctx.fillText(lines[0], PADDING + NUM_WIDTH, y + LINE_HEIGHT);
+      y += LINE_HEIGHT;
+
+      // Remaining lines
+      for (let j = 1; j < lines.length; j++) {
+        ctx.fillText(lines[j], PADDING + NUM_WIDTH, y + LINE_HEIGHT);
         y += LINE_HEIGHT;
-      });
+      }
       y += Q_GAP;
     });
 
