@@ -21,16 +21,49 @@ const t = useTranslations(lang);
       </div>
 
       <div class="max-w-5xl mx-auto">
-        <!-- API Key Settings (collapsible) -->
-        <div class="mb-6">
-          <button id="apiKeyToggle" class="w-full flex items-center justify-between p-4 bg-bg-secondary rounded-xl border border-white/10 hover:border-white/20 transition-colors">
-            <span class="flex items-center gap-2 text-sm font-medium text-gray-300">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
-              {t('wrongQuestionPractice.apiKeySection')}
-            </span>
-            <svg id="apiKeyArrow" class="w-4 h-4 text-gray-500 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+        <!-- Tab Bar: 文字输入 → 图片上传 → API设置 -->
+        <div id="tabBar" class="flex gap-1 mb-4 bg-bg-secondary rounded-lg p-1 border border-white/10 w-fit">
+          <button id="tabText" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-accent text-white">
+            <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+            {t('wrongQuestionPractice.inputModeText')}
           </button>
-          <div id="apiKeyPanel" class="hidden mt-2 p-4 bg-bg-secondary rounded-xl border border-white/10 space-y-3">
+          <button id="tabImage" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white">
+            <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            {t('wrongQuestionPractice.inputModeImage')}
+          </button>
+          <button id="tabApi" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white">
+            <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
+            {t('wrongQuestionPractice.apiKeySection')}
+          </button>
+        </div>
+
+        <!-- Text Input Area (default) -->
+        <div id="textArea" class="mb-6">
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4 space-y-3">
+            <textarea id="questionText" rows="6" placeholder={t('wrongQuestionPractice.textPlaceholder')} class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-accent resize-y"></textarea>
+            <button id="submitTextBtn" class="px-6 py-2 rounded-lg bg-accent text-white text-sm font-medium hover:bg-accent/80 transition-colors">
+              {t('wrongQuestionPractice.submitText')}
+            </button>
+          </div>
+        </div>
+
+        <!-- Image Upload Area -->
+        <div id="uploadArea" class="hidden bg-bg-secondary rounded-2xl border-2 border-dashed border-white/20 hover:border-accent/50 transition-colors p-12 text-center cursor-pointer mb-6">
+          <div class="flex flex-col items-center gap-4">
+            <svg class="w-16 h-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <div>
+              <p class="text-gray-300 text-lg font-medium">{t('wrongQuestionPractice.dropZone')}</p>
+              <p class="text-gray-500 text-sm mt-2">{t('wrongQuestionPractice.supportedFormats')}</p>
+            </div>
+          </div>
+          <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" />
+        </div>
+
+        <!-- API Settings Panel -->
+        <div id="apiPanel" class="hidden mb-6">
+          <div class="p-4 bg-bg-secondary rounded-xl border border-white/10 space-y-3">
             <div class="flex flex-col sm:flex-row gap-3">
               <div class="flex-1">
                 <label class="text-xs text-gray-500 mb-1 block">{t('wrongQuestionPractice.apiKeyLabel')}</label>
@@ -48,42 +81,6 @@ const t = useTranslations(lang);
               </div>
             </div>
             <p class="text-xs text-gray-600">{t('wrongQuestionPractice.apiKeyHint')}</p>
-          </div>
-        </div>
-
-        <!-- Input Mode Tabs -->
-        <div class="flex gap-1 mb-4 bg-bg-secondary rounded-lg p-1 border border-white/10 w-fit">
-          <button id="tabImage" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-accent text-white">
-            <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-            {t('wrongQuestionPractice.inputModeImage')}
-          </button>
-          <button id="tabText" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white">
-            <svg class="w-4 h-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-            {t('wrongQuestionPractice.inputModeText')}
-          </button>
-        </div>
-
-        <!-- Image Upload Area -->
-        <div id="uploadArea" class="bg-bg-secondary rounded-2xl border-2 border-dashed border-white/20 hover:border-accent/50 transition-colors p-12 text-center cursor-pointer mb-6">
-          <div class="flex flex-col items-center gap-4">
-            <svg class="w-16 h-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <div>
-              <p class="text-gray-300 text-lg font-medium">{t('wrongQuestionPractice.dropZone')}</p>
-              <p class="text-gray-500 text-sm mt-2">{t('wrongQuestionPractice.supportedFormats')}</p>
-            </div>
-          </div>
-          <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" />
-        </div>
-
-        <!-- Text Input Area -->
-        <div id="textArea" class="hidden mb-6">
-          <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4 space-y-3">
-            <textarea id="questionText" rows="6" placeholder={t('wrongQuestionPractice.textPlaceholder')} class="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-accent resize-y"></textarea>
-            <button id="submitTextBtn" class="px-6 py-2 rounded-lg bg-accent text-white text-sm font-medium hover:bg-accent/80 transition-colors">
-              {t('wrongQuestionPractice.submitText')}
-            </button>
           </div>
         </div>
 
@@ -242,17 +239,16 @@ const t = useTranslations(lang);
 
 <script>
   // --- Elements ---
-  const apiKeyToggle = document.getElementById('apiKeyToggle')!;
-  const apiKeyArrow = document.getElementById('apiKeyArrow')!;
-  const apiKeyPanel = document.getElementById('apiKeyPanel')!;
+  const tabText = document.getElementById('tabText')!;
+  const tabImage = document.getElementById('tabImage')!;
+  const tabApi = document.getElementById('tabApi')!;
+  const tabBar = document.getElementById('tabBar')!;
+  const uploadArea = document.getElementById('uploadArea')!;
+  const textArea = document.getElementById('textArea')!;
+  const apiPanel = document.getElementById('apiPanel')!;
   const apiKeyInput = document.getElementById('apiKeyInput') as HTMLInputElement;
   const providerSelect = document.getElementById('providerSelect') as HTMLSelectElement;
   const saveApiKeyBtn = document.getElementById('saveApiKeyBtn')!;
-
-  const tabImage = document.getElementById('tabImage')!;
-  const tabText = document.getElementById('tabText')!;
-  const uploadArea = document.getElementById('uploadArea')!;
-  const textArea = document.getElementById('textArea')!;
   const questionText = document.getElementById('questionText') as HTMLTextAreaElement;
   const submitTextBtn = document.getElementById('submitTextBtn')!;
   const fileInput = document.getElementById('fileInput') as HTMLInputElement;
@@ -281,7 +277,7 @@ const t = useTranslations(lang);
   const exportPdfBtn = document.getElementById('exportPdfBtn')!;
 
   // --- State ---
-  let inputMode: 'image' | 'text' = 'image';
+  let inputMode: 'text' | 'image' | 'api' = 'text';
   let imageBase64: string = '';
   let imageMediaType: string = '';
   let questionTextInput: string = '';
@@ -295,41 +291,29 @@ const t = useTranslations(lang);
   apiKeyInput.value = localStorage.getItem(STORAGE_KEY_API) || '';
   providerSelect.value = localStorage.getItem(STORAGE_KEY_PROVIDER) || 'deepseek';
 
-  apiKeyToggle.addEventListener('click', () => {
-    const isHidden = apiKeyPanel.classList.contains('hidden');
-    apiKeyPanel.classList.toggle('hidden');
-    apiKeyArrow.style.transform = isHidden ? 'rotate(180deg)' : '';
-  });
-
-  if (!localStorage.getItem(STORAGE_KEY_API)) {
-    apiKeyPanel.classList.remove('hidden');
-    apiKeyArrow.style.transform = 'rotate(180deg)';
-  }
-
   saveApiKeyBtn.addEventListener('click', () => {
     localStorage.setItem(STORAGE_KEY_API, apiKeyInput.value.trim());
     localStorage.setItem(STORAGE_KEY_PROVIDER, providerSelect.value);
-    apiKeyPanel.classList.add('hidden');
-    apiKeyArrow.style.transform = '';
+    alert('API Key saved!');
   });
 
   // --- Input Mode Tabs ---
-  function setInputMode(mode: 'image' | 'text') {
+  function activateTab(mode: 'text' | 'image' | 'api') {
     inputMode = mode;
-    if (mode === 'image') {
-      tabImage.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-accent text-white';
-      tabText.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white';
-      uploadArea.classList.remove('hidden');
-      textArea.classList.add('hidden');
-    } else {
-      tabText.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-accent text-white';
-      tabImage.className = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white';
-      uploadArea.classList.add('hidden');
-      textArea.classList.remove('hidden');
-    }
+    const activeClass = 'px-4 py-2 rounded-md text-sm font-medium transition-colors bg-accent text-white';
+    const inactiveClass = 'px-4 py-2 rounded-md text-sm font-medium transition-colors text-gray-400 hover:text-white';
+
+    tabText.className = mode === 'text' ? activeClass : inactiveClass;
+    tabImage.className = mode === 'image' ? activeClass : inactiveClass;
+    tabApi.className = mode === 'api' ? activeClass : inactiveClass;
+
+    textArea.classList.toggle('hidden', mode !== 'text');
+    uploadArea.classList.toggle('hidden', mode !== 'image');
+    apiPanel.classList.toggle('hidden', mode !== 'api');
   }
-  tabImage.addEventListener('click', () => setInputMode('image'));
-  tabText.addEventListener('click', () => setInputMode('text'));
+  tabText.addEventListener('click', () => activateTab('text'));
+  tabImage.addEventListener('click', () => activateTab('image'));
+  tabApi.addEventListener('click', () => activateTab('api'));
 
   // --- File Upload ---
   uploadArea.addEventListener('click', () => fileInput.click());
@@ -385,7 +369,8 @@ const t = useTranslations(lang);
   function showPreview(mode: 'image' | 'text') {
     uploadArea.classList.add('hidden');
     textArea.classList.add('hidden');
-    document.querySelector('.flex.gap-1.mb-4')!.classList.add('hidden');
+    apiPanel.classList.add('hidden');
+    tabBar.classList.add('hidden');
     workflowArea.classList.remove('hidden');
 
     if (mode === 'image') {
@@ -411,8 +396,8 @@ const t = useTranslations(lang);
     generateSection.classList.add('hidden');
     questionsResult.classList.add('hidden');
     generatingIndicator.classList.add('hidden');
-    document.querySelector('.flex.gap-1.mb-4')!.classList.remove('hidden');
-    setInputMode(inputMode);
+    tabBar.classList.remove('hidden');
+    activateTab(inputMode === 'api' ? 'text' : inputMode);
     fileInput.value = '';
     questionText.value = '';
   });
