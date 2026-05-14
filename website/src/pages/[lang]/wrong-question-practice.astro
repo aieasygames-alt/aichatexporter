@@ -471,6 +471,14 @@ const t = useTranslations(lang);
       return;
     }
 
+    // DeepSeek doesn't support image input
+    if (inputMode === 'image' && imageBase64 && getProvider() !== 'openai') {
+      alert('DeepSeek 不支持图片识别。请切换到 OpenAI（支持图片），或使用「文字输入」模式手动输入题目。');
+      startAnalysisBtn.classList.remove('hidden');
+      typeDetection.classList.add('hidden');
+      return;
+    }
+
     analyzingIndicator.classList.remove('hidden');
     typeResult.classList.add('hidden');
 
@@ -551,6 +559,11 @@ Use Chinese for all values regardless of the question language.`;
   async function generateQuestions() {
     const apiKey = getApiKey();
     if (!apiKey) { alert('Please enter your API Key first'); return; }
+
+    if (inputMode === 'image' && imageBase64 && getProvider() !== 'openai') {
+      alert('DeepSeek 不支持图片。请切换到 OpenAI 或使用「文字输入」模式。');
+      return;
+    }
 
     const count = parseInt(countSelect.value);
     generateBtn.disabled = true;
