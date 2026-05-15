@@ -15,15 +15,23 @@ const productLinks = [
 ];
 
 const toolLinks = [
+  { href: `/${lang}/json-formatter`, label: t('tools.jsonFormatter') },
+  { href: `/${lang}/regex-tester`, label: t('tools.regexTester') },
+  { href: `/${lang}/diff-checker`, label: t('tools.diffChecker') },
+  { href: `/${lang}/qr-code-generator`, label: t('tools.qrCodeGenerator') },
   { href: `/${lang}/doc-to-markdown`, label: t('tools.docToMarkdown') },
   { href: `/${lang}/html-to-markdown`, label: t('tools.htmlToMarkdown') },
   { href: `/${lang}/markdown-to-pdf`, label: t('tools.markdownToPdf') },
+  { href: `/${lang}/hash-generator`, label: t('tools.hashGenerator') },
+  { href: `/${lang}/timestamp-converter`, label: t('tools.timestampConverter') },
+  { href: `/${lang}/color-picker`, label: t('tools.colorPicker') },
+  { href: `/${lang}/jwt-decoder`, label: t('tools.jwtDecoder') },
+  { href: `/${lang}/number-base-converter`, label: t('tools.numberBaseConverter') },
+  { href: `/${lang}/code-to-pdf`, label: t('tools.codeToPdf') },
+  { href: `/${lang}/csv-to-json`, label: t('tools.csvToJson') },
   { href: `/${lang}/text-case`, label: t('tools.textCase') },
   { href: `/${lang}/url-encoder`, label: t('tools.urlEncoder') },
-  { href: `/${lang}/csv-to-json`, label: t('tools.csvToJson') },
   { href: `/${lang}/markdown-table`, label: t('tools.markdownTable') },
-  { href: `/${lang}/code-to-pdf`, label: t('tools.codeToPdf') },
-  { href: `/${lang}/diff-checker`, label: t('tools.diffChecker') },
   { href: `/${lang}/json-to-markdown`, label: t('tools.jsonToMarkdown') },
 ];
 
@@ -51,15 +59,15 @@ const legalLinks = [
       <!-- Brand -->
       <div class="col-span-2 md:col-span-1">
         <a href={`/${lang}`} class="flex items-center gap-2 mb-4">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-chatgpt flex items-center justify-center">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center">
             <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
             </svg>
           </div>
           <span class="font-semibold text-white">AI Chat Exporter</span>
         </a>
         <p class="text-sm text-gray-500 mb-4">
-          Free online tools. 100% browser-based. Privacy first.
+          Free Online Toolbox. Privacy First. Everything Local.
         </p>
         <!-- Social Links -->
         <div class="flex gap-4">

@@ -1,0 +1,359 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('timestampConverter.title')} - AI Chat Exporter`} description={t('timestampConverter.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          {t('timestampConverter.title')}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          {t('timestampConverter.subtitle')}
+        </p>
+      </div>
+
+      <div class="max-w-5xl mx-auto">
+        <!-- Current Timestamp Display -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-6 mb-6">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center gap-3">
+              <span class="text-sm font-medium text-gray-300">{t('timestampConverter.currentTimestamp')}</span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30">{t('timestampConverter.live')}</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <code id="liveTimestamp" class="text-2xl md:text-3xl font-mono font-bold text-accent">---</code>
+              <button id="copyLiveBtn" class="text-xs px-3 py-1.5 rounded-lg bg-accent/20 text-accent hover:bg-accent/30 transition-colors">{t('timestampConverter.copyTimestamp')}</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Buttons -->
+        <div class="flex justify-center mb-6">
+          <div class="inline-flex bg-bg-secondary rounded-xl p-1 border border-white/10">
+            <button id="tabTsToDate" class="tab-btn px-6 py-2 rounded-lg text-sm font-medium transition-colors bg-accent text-white">{t('timestampConverter.timestampToData')}</button>
+            <button id="tabDateToTs" class="tab-btn px-6 py-2 rounded-lg text-sm font-medium transition-colors text-gray-400 hover:text-white">{t('timestampConverter.dateToTimestamp')}</button>
+          </div>
+        </div>
+
+        <!-- Timestamp → Date Panel -->
+        <div id="tsToDatePanel" class="tool-panel">
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden mb-6">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('timestampConverter.timestampInput')}</span>
+              <div class="flex items-center gap-2">
+                <button id="unitSeconds" class="unit-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors">{t('timestampConverter.seconds')}</button>
+                <button id="unitMillis" class="unit-btn text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('timestampConverter.milliseconds')}</button>
+              </div>
+            </div>
+            <div class="p-4">
+              <input id="tsInput" type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-200 font-mono text-lg focus:outline-none focus:border-accent/50 transition-colors" placeholder={t('timestampConverter.timestampPlaceholder')} />
+              <button id="convertTsBtn" class="mt-4 px-6 py-2.5 bg-gradient-to-r from-accent to-chatgpt text-white font-semibold rounded-xl hover:opacity-90 transition-opacity">{t('timestampConverter.result')}</button>
+            </div>
+          </div>
+
+          <!-- Result Cards -->
+          <div id="tsResults" class="grid md:grid-cols-2 gap-4 hidden">
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 p-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-400">{t('timestampConverter.localTime')}</span>
+                <button class="copy-result-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors" data-target="resultLocal">{t('timestampConverter.copy')}</button>
+              </div>
+              <p id="resultLocal" class="text-white font-mono text-sm break-all">-</p>
+            </div>
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 p-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-400">{t('timestampConverter.utcTime')}</span>
+                <button class="copy-result-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors" data-target="resultUtc">{t('timestampConverter.copy')}</button>
+              </div>
+              <p id="resultUtc" class="text-white font-mono text-sm break-all">-</p>
+            </div>
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 p-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-400">{t('timestampConverter.iso8601')}</span>
+                <button class="copy-result-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors" data-target="resultIso">{t('timestampConverter.copy')}</button>
+              </div>
+              <p id="resultIso" class="text-white font-mono text-sm break-all">-</p>
+            </div>
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 p-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-400">{t('timestampConverter.relativeTime')}</span>
+                <button class="copy-result-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors" data-target="resultRelative">{t('timestampConverter.copy')}</button>
+              </div>
+              <p id="resultRelative" class="text-white font-mono text-sm break-all">-</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Date → Timestamp Panel -->
+        <div id="dateToTsPanel" class="tool-panel hidden">
+          <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden mb-6">
+            <div class="px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+              <span class="text-sm font-medium text-gray-300">{t('timestampConverter.dateInput')}</span>
+            </div>
+            <div class="p-4">
+              <input id="dateInput" type="datetime-local" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-gray-200 font-mono text-lg focus:outline-none focus:border-accent/50 transition-colors [color-scheme:dark]" />
+              <button id="convertDateBtn" class="mt-4 px-6 py-2.5 bg-gradient-to-r from-accent to-chatgpt text-white font-semibold rounded-xl hover:opacity-90 transition-opacity">{t('timestampConverter.result')}</button>
+            </div>
+          </div>
+
+          <!-- Result Cards -->
+          <div id="dateResults" class="grid md:grid-cols-2 gap-4 hidden">
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 p-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-400">{t('timestampConverter.seconds')}</span>
+                <button class="copy-result-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors" data-target="resultSec">{t('timestampConverter.copy')}</button>
+              </div>
+              <p id="resultSec" class="text-white font-mono text-2xl font-bold">-</p>
+            </div>
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 p-5">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-medium text-gray-400">{t('timestampConverter.milliseconds')}</span>
+                <button class="copy-result-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors" data-target="resultMs">{t('timestampConverter.copy')}</button>
+              </div>
+              <p id="resultMs" class="text-white font-mono text-2xl font-bold">-</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('timestampConverter.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('timestampConverter.tip1')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('timestampConverter.tip2')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('timestampConverter.tip3')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('timestampConverter.tip4')}</li>
+          </ul>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">&larr; {t('timestampConverter.backHome')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // --- Elements ---
+  const tabTsToDate = document.getElementById('tabTsToDate')!;
+  const tabDateToTs = document.getElementById('tabDateToTs')!;
+  const tsToDatePanel = document.getElementById('tsToDatePanel')!;
+  const dateToTsPanel = document.getElementById('dateToTsPanel')!;
+
+  const liveTimestampEl = document.getElementById('liveTimestamp')!;
+  const copyLiveBtn = document.getElementById('copyLiveBtn')!;
+
+  const tsInput = document.getElementById('tsInput') as HTMLInputElement;
+  const convertTsBtn = document.getElementById('convertTsBtn')!;
+  const tsResults = document.getElementById('tsResults')!;
+  const resultLocal = document.getElementById('resultLocal')!;
+  const resultUtc = document.getElementById('resultUtc')!;
+  const resultIso = document.getElementById('resultIso')!;
+  const resultRelative = document.getElementById('resultRelative')!;
+
+  const unitSeconds = document.getElementById('unitSeconds')!;
+  const unitMillis = document.getElementById('unitMillis')!;
+
+  const dateInput = document.getElementById('dateInput') as HTMLInputElement;
+  const convertDateBtn = document.getElementById('convertDateBtn')!;
+  const dateResults = document.getElementById('dateResults')!;
+  const resultSec = document.getElementById('resultSec')!;
+  const resultMs = document.getElementById('resultMs')!;
+
+  // --- State ---
+  let useSeconds = true; // true = input is in seconds, false = milliseconds
+
+  // --- Relative Time ---
+  function getRelativeTime(date: Date): string {
+    const now = Date.now();
+    const diff = date.getTime() - now;
+    const absDiff = Math.abs(diff);
+    const isFuture = diff > 0;
+
+    const seconds = Math.floor(absDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(days / 365);
+
+    let value = '';
+    if (years > 0) value = `${years} year${years !== 1 ? 's' : ''}`;
+    else if (months > 0) value = `${months} month${months !== 1 ? 's' : ''}`;
+    else if (days > 0) value = `${days} day${days !== 1 ? 's' : ''}`;
+    else if (hours > 0) value = `${hours} hour${hours !== 1 ? 's' : ''}`;
+    else if (minutes > 0) value = `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+    else value = `${seconds} second${seconds !== 1 ? 's' : ''}`;
+
+    return isFuture ? `in ${value}` : `${value} ago`;
+  }
+
+  // --- Formatting ---
+  function formatLocal(date: Date): string {
+    return new Intl.DateTimeFormat(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      weekday: 'long',
+    }).format(date);
+  }
+
+  function formatUTC(date: Date): string {
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZone: 'UTC',
+      weekday: 'long',
+    }).format(date);
+  }
+
+  // --- Tab Switching ---
+  function switchTab(tab: 'tsToDate' | 'dateToTs') {
+    if (tab === 'tsToDate') {
+      tabTsToDate.classList.add('bg-accent', 'text-white');
+      tabTsToDate.classList.remove('text-gray-400');
+      tabDateToTs.classList.remove('bg-accent', 'text-white');
+      tabDateToTs.classList.add('text-gray-400');
+      tsToDatePanel.classList.remove('hidden');
+      dateToTsPanel.classList.add('hidden');
+    } else {
+      tabDateToTs.classList.add('bg-accent', 'text-white');
+      tabDateToTs.classList.remove('text-gray-400');
+      tabTsToDate.classList.remove('bg-accent', 'text-white');
+      tabTsToDate.classList.add('text-gray-400');
+      dateToTsPanel.classList.remove('hidden');
+      tsToDatePanel.classList.add('hidden');
+    }
+  }
+
+  tabTsToDate.addEventListener('click', () => switchTab('tsToDate'));
+  tabDateToTs.addEventListener('click', () => switchTab('dateToTs'));
+
+  // --- Unit Toggle ---
+  function switchUnit(unit: 'seconds' | 'milliseconds') {
+    useSeconds = unit === 'seconds';
+    if (useSeconds) {
+      unitSeconds.classList.add('bg-accent/20', 'text-accent');
+      unitSeconds.classList.remove('bg-white/5', 'text-gray-400');
+      unitMillis.classList.remove('bg-accent/20', 'text-accent');
+      unitMillis.classList.add('bg-white/5', 'text-gray-400');
+    } else {
+      unitMillis.classList.add('bg-accent/20', 'text-accent');
+      unitMillis.classList.remove('bg-white/5', 'text-gray-400');
+      unitSeconds.classList.remove('bg-accent/20', 'text-accent');
+      unitSeconds.classList.add('bg-white/5', 'text-gray-400');
+    }
+  }
+
+  unitSeconds.addEventListener('click', () => switchUnit('seconds'));
+  unitMillis.addEventListener('click', () => switchUnit('milliseconds'));
+
+  // --- Live Timestamp ---
+  function updateLiveTimestamp() {
+    const now = Math.floor(Date.now() / 1000);
+    liveTimestampEl.textContent = String(now);
+  }
+
+  updateLiveTimestamp();
+  setInterval(updateLiveTimestamp, 1000);
+
+  copyLiveBtn.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(liveTimestampEl.textContent || '');
+    const original = copyLiveBtn.textContent;
+    copyLiveBtn.textContent = 'Copied!';
+    setTimeout(() => { copyLiveBtn.textContent = original; }, 2000);
+  });
+
+  // --- Timestamp → Date Conversion ---
+  convertTsBtn.addEventListener('click', () => {
+    const raw = tsInput.value.trim();
+    if (!raw) return;
+
+    const num = Number(raw);
+    if (isNaN(num)) {
+      resultLocal.textContent = 'Invalid timestamp';
+      resultUtc.textContent = '-';
+      resultIso.textContent = '-';
+      resultRelative.textContent = '-';
+      tsResults.classList.remove('hidden');
+      return;
+    }
+
+    const ms = useSeconds ? num * 1000 : num;
+    const date = new Date(ms);
+
+    if (isNaN(date.getTime())) {
+      resultLocal.textContent = 'Invalid timestamp';
+      resultUtc.textContent = '-';
+      resultIso.textContent = '-';
+      resultRelative.textContent = '-';
+      tsResults.classList.remove('hidden');
+      return;
+    }
+
+    resultLocal.textContent = formatLocal(date);
+    resultUtc.textContent = formatUTC(date);
+    resultIso.textContent = date.toISOString();
+    resultRelative.textContent = getRelativeTime(date);
+
+    tsResults.classList.remove('hidden');
+  });
+
+  // Allow Enter key to trigger conversion
+  tsInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') convertTsBtn.click();
+  });
+
+  // --- Date → Timestamp Conversion ---
+  convertDateBtn.addEventListener('click', () => {
+    const val = dateInput.value;
+    if (!val) return;
+
+    const date = new Date(val);
+    if (isNaN(date.getTime())) return;
+
+    const sec = Math.floor(date.getTime() / 1000);
+    const ms = date.getTime();
+
+    resultSec.textContent = String(sec);
+    resultMs.textContent = String(ms);
+
+    dateResults.classList.remove('hidden');
+  });
+
+  // --- Copy Result Buttons ---
+  document.querySelectorAll('.copy-result-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const targetId = (btn as HTMLElement).getAttribute('data-target');
+      if (!targetId) return;
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      await navigator.clipboard.writeText(target.textContent || '');
+      const original = (btn as HTMLElement).textContent;
+      (btn as HTMLElement).textContent = 'Copied!';
+      setTimeout(() => { (btn as HTMLElement).textContent = original; }, 2000);
+    });
+  });
+</script>

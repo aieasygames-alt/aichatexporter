@@ -1,0 +1,301 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('numberBaseConverter.title')} - AI Chat Exporter`} description={t('numberBaseConverter.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          {t('numberBaseConverter.title')}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          {t('numberBaseConverter.subtitle')}
+        </p>
+      </div>
+
+      <div class="max-w-5xl mx-auto">
+        <!-- Input Section -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-6 mb-6">
+          <div class="grid md:grid-cols-2 gap-4">
+            <!-- Number Input -->
+            <div>
+              <label class="text-sm font-medium text-gray-300 mb-2 block">{t('numberBaseConverter.inputNumber')}</label>
+              <input
+                id="numberInput"
+                type="text"
+                class="w-full px-4 py-3 bg-white/5 rounded-xl border border-white/10 text-gray-200 font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+                placeholder={t('numberBaseConverter.inputPlaceholder')}
+                spellcheck="false"
+                autocomplete="off"
+              />
+              <div id="inputError" class="hidden mt-2 text-sm text-red-400 bg-red-500/10 rounded-lg px-3 py-2"></div>
+            </div>
+
+            <!-- Base Selector -->
+            <div>
+              <label class="text-sm font-medium text-gray-300 mb-2 block">{t('numberBaseConverter.inputBase')}</label>
+              <select
+                id="baseSelect"
+                class="w-full px-4 py-3 bg-white/5 rounded-xl border border-white/10 text-gray-200 text-sm focus:outline-none focus:border-accent transition-colors appearance-none cursor-pointer"
+              >
+                <option value="2">{t('numberBaseConverter.binary')}</option>
+                <option value="8">{t('numberBaseConverter.octal')}</option>
+                <option value="10" selected>{t('numberBaseConverter.decimal')}</option>
+                <option value="16">{t('numberBaseConverter.hexadecimal')}</option>
+                <option value="custom">{t('numberBaseConverter.custom')}</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Custom Base Input (hidden by default) -->
+          <div id="customBaseSection" class="hidden mt-4">
+            <label class="text-sm font-medium text-gray-300 mb-2 block">{t('numberBaseConverter.customBase')}</label>
+            <input
+              id="customBaseInput"
+              type="number"
+              min="2"
+              max="36"
+              value="2"
+              class="w-full md:w-48 px-4 py-3 bg-white/5 rounded-xl border border-white/10 text-gray-200 font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+            />
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold text-white mb-4">{t('numberBaseConverter.results')}</h2>
+          <div class="grid md:grid-cols-2 gap-4">
+            <!-- Binary Result -->
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('numberBaseConverter.binary')}</span>
+                <button class="copy-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors" data-target="binaryResult">{t('numberBaseConverter.copy')}</button>
+              </div>
+              <div id="binaryResult" class="p-4 font-mono text-sm text-gray-200 break-all min-h-[48px] select-all">
+                -
+              </div>
+            </div>
+
+            <!-- Octal Result -->
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('numberBaseConverter.octal')}</span>
+                <button class="copy-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors" data-target="octalResult">{t('numberBaseConverter.copy')}</button>
+              </div>
+              <div id="octalResult" class="p-4 font-mono text-sm text-gray-200 break-all min-h-[48px] select-all">
+                -
+              </div>
+            </div>
+
+            <!-- Decimal Result -->
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('numberBaseConverter.decimal')}</span>
+                <button class="copy-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors" data-target="decimalResult">{t('numberBaseConverter.copy')}</button>
+              </div>
+              <div id="decimalResult" class="p-4 font-mono text-sm text-gray-200 break-all min-h-[48px] select-all">
+                -
+              </div>
+            </div>
+
+            <!-- Hexadecimal Result -->
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('numberBaseConverter.hexadecimal')}</span>
+                <button class="copy-btn text-xs px-3 py-1 rounded bg-accent/20 text-accent hover:bg-accent/30 transition-colors" data-target="hexResult">{t('numberBaseConverter.copy')}</button>
+              </div>
+              <div id="hexResult" class="p-4 font-mono text-sm text-gray-200 break-all min-h-[48px] select-all">
+                -
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('numberBaseConverter.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('numberBaseConverter.tip1')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('numberBaseConverter.tip2')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('numberBaseConverter.tip3')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('numberBaseConverter.tip4')}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Back to home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">
+            &larr; {t('numberBaseConverter.backHome')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<!-- Hidden translation elements for client-side JS -->
+<div class="hidden" aria-hidden="true">
+  <span data-t="numberBaseConverter.copied">{t('numberBaseConverter.copied')}</span>
+  <span data-t="numberBaseConverter.copy">{t('numberBaseConverter.copy')}</span>
+  <span data-t="numberBaseConverter.invalidNumber">{t('numberBaseConverter.invalidNumber')}</span>
+</div>
+
+<script>
+  const numberInput = document.getElementById('numberInput') as HTMLInputElement;
+  const baseSelect = document.getElementById('baseSelect') as HTMLSelectElement;
+  const customBaseSection = document.getElementById('customBaseSection')!;
+  const customBaseInput = document.getElementById('customBaseInput') as HTMLInputElement;
+  const inputError = document.getElementById('inputError')!;
+
+  const binaryResult = document.getElementById('binaryResult')!;
+  const octalResult = document.getElementById('octalResult')!;
+  const decimalResult = document.getElementById('decimalResult')!;
+  const hexResult = document.getElementById('hexResult')!;
+
+  function t_fn(key: string): string {
+    const el = document.querySelector(`[data-t="${key}"]`);
+    return el ? el.textContent || key : key;
+  }
+
+  function getInputBase(): number {
+    const selected = baseSelect.value;
+    if (selected === 'custom') {
+      const base = parseInt(customBaseInput.value, 10);
+      if (base >= 2 && base <= 36) return base;
+      return 10;
+    }
+    return parseInt(selected, 10);
+  }
+
+  function isValidForBase(input: string, base: number): boolean {
+    if (input === '') return false;
+    const upper = input.toUpperCase();
+    const maxDigit = base <= 10
+      ? String(base - 1)
+      : String(base - 11);
+    for (const ch of upper) {
+      if (ch >= '0' && ch <= '9') {
+        if (ch >= String(base) && base <= 10) return false;
+        if (base <= 10 && ch >= String(base)) return false;
+        if (base > 10) {
+          // digits are always valid for base > 10
+        }
+      } else if (ch >= 'A' && ch <= 'Z') {
+        // Letter value: A=10, B=11, ... Z=35
+        const val = ch.charCodeAt(0) - 55; // 'A' = 65, 65-55 = 10
+        if (val >= base) return false;
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function convert(): void {
+    const input = numberInput.value.trim();
+    const base = getInputBase();
+
+    // Hide previous error
+    inputError.classList.add('hidden');
+    inputError.textContent = '';
+
+    if (!input) {
+      binaryResult.textContent = '-';
+      octalResult.textContent = '-';
+      decimalResult.textContent = '-';
+      hexResult.textContent = '-';
+      return;
+    }
+
+    // Validate
+    if (!isValidForBase(input, base)) {
+      inputError.textContent = t_fn('numberBaseConverter.invalidNumber');
+      inputError.classList.remove('hidden');
+      binaryResult.textContent = '-';
+      octalResult.textContent = '-';
+      decimalResult.textContent = '-';
+      hexResult.textContent = '-';
+      return;
+    }
+
+    // Convert to decimal first
+    const decimal = parseInt(input, base);
+    if (isNaN(decimal)) {
+      inputError.textContent = t_fn('numberBaseConverter.invalidNumber');
+      inputError.classList.remove('hidden');
+      return;
+    }
+
+    // Display results
+    binaryResult.textContent = decimal.toString(2);
+    octalResult.textContent = decimal.toString(8);
+    decimalResult.textContent = decimal.toString(10);
+    hexResult.textContent = decimal.toString(16).toUpperCase();
+  }
+
+  // Show/hide custom base input
+  baseSelect.addEventListener('change', () => {
+    if (baseSelect.value === 'custom') {
+      customBaseSection.classList.remove('hidden');
+    } else {
+      customBaseSection.classList.add('hidden');
+    }
+    convert();
+  });
+
+  // Real-time conversion
+  numberInput.addEventListener('input', convert);
+  customBaseInput.addEventListener('input', convert);
+
+  // Copy buttons
+  document.querySelectorAll('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const targetId = (btn as HTMLElement).dataset.target;
+      if (!targetId) return;
+      const targetEl = document.getElementById(targetId);
+      if (!targetEl) return;
+      const text = targetEl.textContent || '';
+      if (text === '-') return;
+
+      await navigator.clipboard.writeText(text);
+      const copyText = t_fn('numberBaseConverter.copy');
+      const copiedText = t_fn('numberBaseConverter.copied');
+      btn.textContent = copiedText;
+      setTimeout(() => {
+        btn.textContent = copyText;
+      }, 2000);
+    });
+  });
+</script>

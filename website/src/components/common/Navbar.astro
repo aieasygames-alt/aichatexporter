@@ -36,9 +36,17 @@ const toolCategories = [
   {
     label: t('toolCategories.code.title'),
     tools: [
-      { href: `/${lang}/code-to-pdf`, label: t('tools.codeToPdf'), icon: '💻' },
+      { href: `/${lang}/json-formatter`, label: t('tools.jsonFormatter'), icon: '{ }' },
+      { href: `/${lang}/regex-tester`, label: t('tools.regexTester'), icon: '.*' },
       { href: `/${lang}/diff-checker`, label: t('tools.diffChecker'), icon: '⚖️' },
+      { href: `/${lang}/code-to-pdf`, label: t('tools.codeToPdf'), icon: '💻' },
       { href: `/${lang}/json-to-markdown`, label: t('tools.jsonToMarkdown'), icon: '📋' },
+      { href: `/${lang}/hash-generator`, label: t('tools.hashGenerator'), icon: '#' },
+      { href: `/${lang}/jwt-decoder`, label: t('tools.jwtDecoder'), icon: '🔑' },
+      { href: `/${lang}/timestamp-converter`, label: t('tools.timestampConverter'), icon: '🕐' },
+      { href: `/${lang}/number-base-converter`, label: t('tools.numberBaseConverter'), icon: '10' },
+      { href: `/${lang}/qr-code-generator`, label: t('tools.qrCodeGenerator'), icon: '📱' },
+      { href: `/${lang}/color-picker`, label: t('tools.colorPicker'), icon: '🎨' },
     ]
   },
   {
@@ -65,9 +73,9 @@ const toolCategories = [
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
       <a href={`/${lang}`} class="flex items-center gap-2 group">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent to-chatgpt flex items-center justify-center">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center">
           <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
           </svg>
         </div>
         <span class="font-semibold text-white group-hover:text-accent transition-colors">AI Chat Exporter</span>

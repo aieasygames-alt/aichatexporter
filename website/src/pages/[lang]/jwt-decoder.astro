@@ -1,0 +1,443 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('jwtDecoder.title')} - AI Chat Exporter`} description={t('jwtDecoder.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          {t('jwtDecoder.title')}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          {t('jwtDecoder.subtitle')}
+        </p>
+      </div>
+
+      <!-- Tool Container -->
+      <div class="max-w-6xl mx-auto">
+        <!-- Input Area -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden mb-6">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+            <span class="text-sm font-medium text-gray-300">{t('jwtDecoder.tokenInput')}</span>
+            <div class="flex gap-2">
+              <button
+                id="clearBtn"
+                class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+              >
+                {t('jwtDecoder.clear')}
+              </button>
+            </div>
+          </div>
+          <textarea
+            id="jwtInput"
+            class="w-full h-[140px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
+            placeholder={t('jwtDecoder.tokenPlaceholder')}
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <!-- Decoded Sections: Header, Payload, Signature -->
+        <div id="decodedSections" class="hidden">
+          <div class="grid lg:grid-cols-3 gap-4 mb-6">
+            <!-- Header -->
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('jwtDecoder.header')}</span>
+                <button
+                  id="copyHeaderBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('jwtDecoder.copy')}
+                </button>
+              </div>
+              <pre id="headerOutput" class="p-4 font-mono text-sm leading-relaxed overflow-auto max-h-[300px] bg-transparent"></pre>
+            </div>
+
+            <!-- Payload -->
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('jwtDecoder.payload')}</span>
+                <button
+                  id="copyPayloadBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('jwtDecoder.copy')}
+                </button>
+              </div>
+              <pre id="payloadOutput" class="p-4 font-mono text-sm leading-relaxed overflow-auto max-h-[300px] bg-transparent"></pre>
+            </div>
+
+            <!-- Signature -->
+            <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden">
+              <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+                <span class="text-sm font-medium text-gray-300">{t('jwtDecoder.signature')}</span>
+                <button
+                  id="copySignatureBtn"
+                  class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors"
+                >
+                  {t('jwtDecoder.copy')}
+                </button>
+              </div>
+              <pre id="signatureOutput" class="p-4 font-mono text-sm leading-relaxed overflow-auto max-h-[300px] bg-transparent text-gray-400 break-all"></pre>
+            </div>
+          </div>
+
+          <!-- Token Claims -->
+          <div id="claimsSection" class="hidden mb-6">
+            <h2 class="text-xl font-semibold text-white mb-4">{t('jwtDecoder.claims')}</h2>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <!-- Issuer -->
+              <div class="bg-bg-secondary rounded-xl p-4 border border-white/10">
+                <div class="text-xs text-gray-500 mb-1">{t('jwtDecoder.issuer')}</div>
+                <div id="claimIss" class="text-sm text-gray-200 break-all">—</div>
+              </div>
+              <!-- Subject -->
+              <div class="bg-bg-secondary rounded-xl p-4 border border-white/10">
+                <div class="text-xs text-gray-500 mb-1">{t('jwtDecoder.subject')}</div>
+                <div id="claimSub" class="text-sm text-gray-200 break-all">—</div>
+              </div>
+              <!-- Audience -->
+              <div class="bg-bg-secondary rounded-xl p-4 border border-white/10">
+                <div class="text-xs text-gray-500 mb-1">{t('jwtDecoder.audience')}</div>
+                <div id="claimAud" class="text-sm text-gray-200 break-all">—</div>
+              </div>
+              <!-- Expiration -->
+              <div class="bg-bg-secondary rounded-xl p-4 border border-white/10">
+                <div class="text-xs text-gray-500 mb-1">{t('jwtDecoder.expiration')}</div>
+                <div class="flex items-center gap-2">
+                  <div id="claimExp" class="text-sm text-gray-200 break-all">—</div>
+                  <span id="expBadge" class="hidden text-xs font-medium px-2 py-0.5 rounded-full"></span>
+                </div>
+              </div>
+              <!-- Not Before -->
+              <div class="bg-bg-secondary rounded-xl p-4 border border-white/10">
+                <div class="text-xs text-gray-500 mb-1">{t('jwtDecoder.notBefore')}</div>
+                <div id="claimNbf" class="text-sm text-gray-200 break-all">—</div>
+              </div>
+              <!-- Issued At -->
+              <div class="bg-bg-secondary rounded-xl p-4 border border-white/10">
+                <div class="text-xs text-gray-500 mb-1">{t('jwtDecoder.issuedAt')}</div>
+                <div id="claimIat" class="text-sm text-gray-200 break-all">—</div>
+              </div>
+              <!-- JWT ID -->
+              <div class="bg-bg-secondary rounded-xl p-4 border border-white/10">
+                <div class="text-xs text-gray-500 mb-1">{t('jwtDecoder.jwtId')}</div>
+                <div id="claimJti" class="text-sm text-gray-200 break-all">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('jwtDecoder.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('jwtDecoder.tip1')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('jwtDecoder.tip2')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('jwtDecoder.tip3')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('jwtDecoder.tip4')}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Back to home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">
+            &larr; {t('jwtDecoder.backHome')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const jwtInput = document.getElementById('jwtInput') as HTMLTextAreaElement;
+  const clearBtn = document.getElementById('clearBtn');
+  const decodedSections = document.getElementById('decodedSections');
+  const claimsSection = document.getElementById('claimsSection');
+  const headerOutput = document.getElementById('headerOutput');
+  const payloadOutput = document.getElementById('payloadOutput');
+  const signatureOutput = document.getElementById('signatureOutput');
+
+  // Claims elements
+  const claimIss = document.getElementById('claimIss');
+  const claimSub = document.getElementById('claimSub');
+  const claimAud = document.getElementById('claimAud');
+  const claimExp = document.getElementById('claimExp');
+  const claimNbf = document.getElementById('claimNbf');
+  const claimIat = document.getElementById('claimIat');
+  const claimJti = document.getElementById('claimJti');
+  const expBadge = document.getElementById('expBadge');
+
+  // Raw decoded data for copy buttons
+  let rawHeader = '';
+  let rawPayload = '';
+  let rawSignature = '';
+
+  function base64UrlDecode(str: string): string {
+    // Replace base64url characters with standard base64
+    let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+    // Add padding if needed
+    const padding = base64.length % 4;
+    if (padding === 2) {
+      base64 += '==';
+    } else if (padding === 3) {
+      base64 += '=';
+    }
+    try {
+      return decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+    } catch {
+      return atob(base64);
+    }
+  }
+
+  function escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function syntaxHighlight(json: string): string {
+    const escaped = escapeHtml(json);
+    return escaped.replace(
+      /("(\\u[\da-fA-F]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?|\bnull\b)/g,
+      (match: string) => {
+        let color = '#d19a66'; // default: numbers
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            color = '#61afef'; // key
+          } else {
+            color = '#98c379'; // string value
+          }
+        } else if (/true|false/.test(match)) {
+          color = '#c678dd'; // boolean
+        } else if (/null/.test(match)) {
+          color = '#e06c75'; // null
+        }
+        return `<span style="color:${color}">${match}</span>`;
+      }
+    );
+  }
+
+  function formatTimestamp(ts: number): string {
+    const date = new Date(ts * 1000);
+    return date.toLocaleString();
+  }
+
+  function decodeJwt(token: string): void {
+    // Trim whitespace
+    token = token.trim();
+
+    if (!token) {
+      decodedSections?.classList.add('hidden');
+      claimsSection?.classList.add('hidden');
+      return;
+    }
+
+    const parts = token.split('.');
+    if (parts.length < 2 || parts.length > 3) {
+      decodedSections?.classList.add('hidden');
+      claimsSection?.classList.add('hidden');
+      return;
+    }
+
+    try {
+      // Decode header
+      const headerJson = base64UrlDecode(parts[0]);
+      const headerObj = JSON.parse(headerJson);
+      rawHeader = JSON.stringify(headerObj, null, 2);
+      if (headerOutput) {
+        headerOutput.innerHTML = syntaxHighlight(rawHeader);
+      }
+
+      // Decode payload
+      const payloadJson = base64UrlDecode(parts[1]);
+      const payloadObj = JSON.parse(payloadJson);
+      rawPayload = JSON.stringify(payloadObj, null, 2);
+      if (payloadOutput) {
+        payloadOutput.innerHTML = syntaxHighlight(rawPayload);
+      }
+
+      // Signature (raw, third part)
+      rawSignature = parts[2] || '';
+      if (signatureOutput) {
+        signatureOutput.textContent = rawSignature;
+      }
+
+      // Show decoded sections
+      decodedSections?.classList.remove('hidden');
+
+      // Populate claims
+      populateClaims(payloadObj);
+
+    } catch {
+      decodedSections?.classList.add('hidden');
+      claimsSection?.classList.add('hidden');
+    }
+  }
+
+  function populateClaims(payload: Record<string, unknown>): void {
+    claimsSection?.classList.remove('hidden');
+
+    const setClaim = (el: HTMLElement | null, value: unknown) => {
+      if (!el) return;
+      if (value !== undefined && value !== null) {
+        el.textContent = String(value);
+      } else {
+        el.textContent = '—';
+      }
+    };
+
+    // iss
+    if (claimIss) {
+      if (payload.iss !== undefined) {
+        claimIss.textContent = String(payload.iss);
+      } else {
+        claimIss.textContent = '—';
+      }
+    }
+
+    // sub
+    if (claimSub) {
+      if (payload.sub !== undefined) {
+        claimSub.textContent = String(payload.sub);
+      } else {
+        claimSub.textContent = '—';
+      }
+    }
+
+    // aud (can be string or array)
+    if (claimAud) {
+      if (payload.aud !== undefined) {
+        claimAud.textContent = Array.isArray(payload.aud) ? payload.aud.join(', ') : String(payload.aud);
+      } else {
+        claimAud.textContent = '—';
+      }
+    }
+
+    // exp with status badge
+    if (claimExp) {
+      if (payload.exp !== undefined && typeof payload.exp === 'number') {
+        claimExp.textContent = formatTimestamp(payload.exp);
+        const now = Math.floor(Date.now() / 1000);
+        if (expBadge) {
+          expBadge.classList.remove('hidden');
+          if (payload.exp < now) {
+            // Expired
+            expBadge.textContent = document.querySelector('[data-i18n-expired]')?.textContent || 'Expired';
+            expBadge.className = 'text-xs font-medium px-2 py-0.5 rounded-full bg-red-500/20 text-red-400';
+          } else {
+            // Valid
+            expBadge.textContent = document.querySelector('[data-i18n-valid]')?.textContent || 'Valid';
+            expBadge.className = 'text-xs font-medium px-2 py-0.5 rounded-full bg-green-500/20 text-green-400';
+          }
+        }
+      } else {
+        claimExp.textContent = '—';
+        if (expBadge) expBadge.classList.add('hidden');
+      }
+    }
+
+    // nbf
+    if (claimNbf) {
+      if (payload.nbf !== undefined && typeof payload.nbf === 'number') {
+        claimNbf.textContent = formatTimestamp(payload.nbf);
+      } else {
+        claimNbf.textContent = '—';
+      }
+    }
+
+    // iat
+    if (claimIat) {
+      if (payload.iat !== undefined && typeof payload.iat === 'number') {
+        claimIat.textContent = formatTimestamp(payload.iat);
+      } else {
+        claimIat.textContent = '—';
+      }
+    }
+
+    // jti
+    if (claimJti) {
+      if (payload.jti !== undefined) {
+        claimJti.textContent = String(payload.jti);
+      } else {
+        claimJti.textContent = '—';
+      }
+    }
+  }
+
+  // Real-time decoding on input
+  jwtInput?.addEventListener('input', () => {
+    decodeJwt(jwtInput.value);
+  });
+
+  // Clear
+  clearBtn?.addEventListener('click', () => {
+    if (jwtInput) jwtInput.value = '';
+    decodedSections?.classList.add('hidden');
+    claimsSection?.classList.add('hidden');
+    rawHeader = '';
+    rawPayload = '';
+    rawSignature = '';
+  });
+
+  // Copy helpers
+  function setupCopyButton(btnId: string, getText: () => string) {
+    const btn = document.getElementById(btnId);
+    btn?.addEventListener('click', async () => {
+      const text = getText();
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        const original = btn.textContent;
+        btn.textContent = '\u2713';
+        setTimeout(() => {
+          btn.textContent = original;
+        }, 1500);
+      } catch {
+        // Clipboard access denied
+      }
+    });
+  }
+
+  setupCopyButton('copyHeaderBtn', () => rawHeader);
+  setupCopyButton('copyPayloadBtn', () => rawPayload);
+  setupCopyButton('copySignatureBtn', () => rawSignature);
+</script>

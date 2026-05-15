@@ -35,9 +35,17 @@ const categories = [
     icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>`,
     color: 'claude',
     tools: [
-      { href: `/${lang}/code-to-pdf`, label: t('tools.codeToPdf'), emoji: '💻' },
+      { href: `/${lang}/json-formatter`, label: t('tools.jsonFormatter'), emoji: '{ }' },
+      { href: `/${lang}/regex-tester`, label: t('tools.regexTester'), emoji: '.*' },
       { href: `/${lang}/diff-checker`, label: t('tools.diffChecker'), emoji: '⚖️' },
+      { href: `/${lang}/code-to-pdf`, label: t('tools.codeToPdf'), emoji: '💻' },
       { href: `/${lang}/json-to-markdown`, label: t('tools.jsonToMarkdown'), emoji: '📋' },
+      { href: `/${lang}/hash-generator`, label: t('tools.hashGenerator'), emoji: '#' },
+      { href: `/${lang}/jwt-decoder`, label: t('tools.jwtDecoder'), emoji: '🔑' },
+      { href: `/${lang}/timestamp-converter`, label: t('tools.timestampConverter'), emoji: '🕐' },
+      { href: `/${lang}/number-base-converter`, label: t('tools.numberBaseConverter'), emoji: '10' },
+      { href: `/${lang}/qr-code-generator`, label: t('tools.qrCodeGenerator'), emoji: '📱' },
+      { href: `/${lang}/color-picker`, label: t('tools.colorPicker'), emoji: '🎨' },
     ]
   },
   {

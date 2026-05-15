@@ -1,10 +1,10 @@
-# AI Chat Exporter
+# AI Chat Exporter — Free Online Toolbox
 
-> One-click browser extension to export ChatGPT, Claude, Gemini, DeepSeek, and Grok conversations to Markdown, JSON, PDF, TXT, CSV, or PNG formats.
+> 30+ free browser-based tools for developers, students, and everyone. Privacy first — everything runs locally, your data never leaves your device.
 
 ## What It Does
 
-AI Chat Exporter is a free browser extension (Chrome, Edge, Chromium) that lets users export their AI chat conversations in multiple formats. All processing happens locally in the browser - no data is sent to any server.
+AI Chat Exporter is a free browser extension (Chrome, Edge, Chromium) that lets users export their AI chat conversations in multiple formats. The website also provides 30+ free online tools — all processing happens locally in the browser, no data is sent to any server.
 
 ## Supported AI Platforms
 
@@ -20,25 +20,43 @@ Markdown (.md), JSON (.json), PDF (.pdf), Plain Text (.txt), CSV (.csv), PNG Ima
 
 ## Online Tools (Free, No Upload, 100% Local)
 
+### Document Tools
 - **Document to Markdown**: Convert PDF, DOCX, PPTX, XLSX to Markdown online
 - **HTML to Markdown**: Convert HTML content to clean Markdown
-- **JSON to Markdown**: Transform JSON data into formatted Markdown
-- **CSV to JSON**: Convert CSV data to JSON format
 - **Markdown to PDF**: Render Markdown as PDF in browser
+
+### Text Tools
+- **Text Case Converter**: Transform text between 12 different cases
+- **URL Encoder/Decoder**: Encode and decode URLs and Base64 strings
+- **CSV to JSON**: Convert CSV data to JSON format
 - **Markdown Table Generator**: Create Markdown tables with a visual editor
-- **Code to PDF**: Convert source code to formatted PDF
-- **URL Encoder/Decoder**: Encode and decode URLs
+
+### Developer Tools
+- **JSON Formatter & Validator**: Format, validate, beautify JSON with syntax highlighting and tree view
+- **Regex Tester**: Test regular expressions with real-time matching, capture groups, and common pattern library
+- **QR Code Generator**: Generate QR codes from text, URL, or WiFi credentials with custom styling
+- **Hash Generator**: Generate MD5, SHA-1, SHA-256, SHA-512 hashes from text or files
+- **Timestamp Converter**: Convert Unix timestamps to dates and vice versa with timezone support
+- **JWT Decoder**: Decode and inspect JWT tokens with expiration checking
+- **Number Base Converter**: Convert between binary, octal, decimal, and hexadecimal
 - **Diff Checker**: Compare text differences side by side
-- **Text Case Converter**: Transform text between different cases
+- **Code to PDF**: Convert source code to formatted PDF with syntax highlighting
+- **Color Picker & Converter**: Pick colors and convert HEX, RGB, HSL with WCAG contrast checker
+- **JSON to Markdown**: Transform JSON data into formatted Markdown
+
+### Study Tools
+- **Exam Handwriting Eraser**: Remove handwriting from exam papers (AI + manual modes)
+- **Wrong Question Practice**: Upload wrong questions, AI generates similar practice questions
 
 ## Key Features
 
-- One-click export - no setup required
-- 100% local processing - privacy first
-- Supports multiple AI platforms
-- Multiple export formats
-- Cross-platform browser extension
+- 30+ free online tools
+- 100% local processing — privacy first, no data upload
+- Supports 5 major AI chat platforms
+- Multiple export formats (Markdown, JSON, PDF, TXT, CSV, PNG)
+- Cross-platform browser extension (Chrome, Edge, Brave, etc.)
 - Free and open source
+- Bilingual support (English, Chinese)
 
 ## Install
 

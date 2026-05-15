@@ -1,0 +1,566 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('hashGenerator.title')} - AI Chat Exporter`} description={t('hashGenerator.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{t('hashGenerator.title')}</h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">{t('hashGenerator.subtitle')}</p>
+      </div>
+
+      <div class="max-w-5xl mx-auto">
+        <!-- Text Input -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden mb-6">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+            <span class="text-sm font-medium text-gray-300">{t('hashGenerator.textInput')}</span>
+            <div class="flex gap-2">
+              <button id="clearBtn" class="text-xs px-3 py-1 rounded bg-white/5 text-gray-400 hover:bg-white/10 transition-colors">{t('hashGenerator.copy') === 'Copy' ? 'Clear' : '清除'}</button>
+            </div>
+          </div>
+          <textarea id="textInput" class="w-full h-[150px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm" placeholder={t('hashGenerator.textInputPlaceholder')}></textarea>
+        </div>
+
+        <!-- OR Divider -->
+        <div class="flex items-center gap-4 mb-6">
+          <div class="flex-1 h-px bg-white/10"></div>
+          <span class="text-sm text-gray-500">OR</span>
+          <div class="flex-1 h-px bg-white/10"></div>
+        </div>
+
+        <!-- File Drop Zone -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden mb-6">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+            <span class="text-sm font-medium text-gray-300">{t('hashGenerator.fileInput')}</span>
+            <span class="text-xs text-gray-500" id="fileName"></span>
+          </div>
+          <div id="dropZone" class="flex flex-col items-center justify-center py-12 px-4 cursor-pointer hover:bg-white/5 transition-colors">
+            <svg class="w-10 h-10 text-gray-500 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            <p class="text-sm text-gray-400">{t('hashGenerator.dropZone')}</p>
+            <p class="text-xs text-gray-500 mt-1">{t('hashGenerator.supportedFormats')}</p>
+            <input type="file" id="fileInput" class="hidden" />
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4 mb-6">
+          <div class="flex flex-wrap items-center gap-4 justify-center">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="uppercaseCheck" class="w-4 h-4 accent-accent" />
+              <label for="uppercaseCheck" class="text-sm text-gray-400">{t('hashGenerator.uppercase')}</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hash Results -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden mb-6">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+            <span class="text-sm font-medium text-gray-300">{t('hashGenerator.results')}</span>
+            <span id="statusText" class="text-xs text-gray-500"></span>
+          </div>
+          <div class="p-4 space-y-4">
+            <!-- MD5 -->
+            <div class="flex items-start gap-3">
+              <span class="text-sm font-mono text-accent w-16 shrink-0 pt-2">{t('hashGenerator.md5')}</span>
+              <div class="flex-1 bg-white/5 rounded-lg px-3 py-2 font-mono text-sm text-gray-300 break-all min-h-[36px] flex items-center" id="md5Result">-</div>
+              <button data-hash="md5" class="copy-btn px-3 py-2 rounded-lg bg-white/5 text-gray-400 hover:bg-accent/20 hover:text-accent transition-colors text-xs shrink-0">{t('hashGenerator.copy')}</button>
+            </div>
+            <!-- SHA-1 -->
+            <div class="flex items-start gap-3">
+              <span class="text-sm font-mono text-accent w-16 shrink-0 pt-2">{t('hashGenerator.sha1')}</span>
+              <div class="flex-1 bg-white/5 rounded-lg px-3 py-2 font-mono text-sm text-gray-300 break-all min-h-[36px] flex items-center" id="sha1Result">-</div>
+              <button data-hash="sha1" class="copy-btn px-3 py-2 rounded-lg bg-white/5 text-gray-400 hover:bg-accent/20 hover:text-accent transition-colors text-xs shrink-0">{t('hashGenerator.copy')}</button>
+            </div>
+            <!-- SHA-256 -->
+            <div class="flex items-start gap-3">
+              <span class="text-sm font-mono text-accent w-16 shrink-0 pt-2">{t('hashGenerator.sha256')}</span>
+              <div class="flex-1 bg-white/5 rounded-lg px-3 py-2 font-mono text-sm text-gray-300 break-all min-h-[36px] flex items-center" id="sha256Result">-</div>
+              <button data-hash="sha256" class="copy-btn px-3 py-2 rounded-lg bg-white/5 text-gray-400 hover:bg-accent/20 hover:text-accent transition-colors text-xs shrink-0">{t('hashGenerator.copy')}</button>
+            </div>
+            <!-- SHA-512 -->
+            <div class="flex items-start gap-3">
+              <span class="text-sm font-mono text-accent w-16 shrink-0 pt-2">{t('hashGenerator.sha512')}</span>
+              <div class="flex-1 bg-white/5 rounded-lg px-3 py-2 font-mono text-sm text-gray-300 break-all min-h-[36px] flex items-center" id="sha512Result">-</div>
+              <button data-hash="sha512" class="copy-btn px-3 py-2 rounded-lg bg-white/5 text-gray-400 hover:bg-accent/20 hover:text-accent transition-colors text-xs shrink-0">{t('hashGenerator.copy')}</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('hashGenerator.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('hashGenerator.tip1')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('hashGenerator.tip2')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('hashGenerator.tip3')}</li>
+            <li class="flex items-start gap-2"><svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>{t('hashGenerator.tip4')}</li>
+          </ul>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">&larr; {t('hashGenerator.backHome')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // --- MD5 Implementation ---
+  function md5(input: string): string {
+    function safeAdd(x: number, y: number): number {
+      const lsw = (x & 0xffff) + (y & 0xffff);
+      const msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+      return (msw << 16) | (lsw & 0xffff);
+    }
+    function bitRotateLeft(num: number, cnt: number): number {
+      return (num << cnt) | (num >>> (32 - cnt));
+    }
+    function md5cmn(q: number, a: number, b: number, x: number, s: number, t: number): number {
+      return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
+    }
+    function md5ff(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+      return md5cmn((b & c) | (~b & d), a, b, x, s, t);
+    }
+    function md5gg(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+      return md5cmn((b & d) | (c & ~d), a, b, x, s, t);
+    }
+    function md5hh(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+      return md5cmn(b ^ c ^ d, a, b, x, s, t);
+    }
+    function md5ii(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+      return md5cmn(c ^ (b | ~d), a, b, x, s, t);
+    }
+
+    function binlMD5(x: number[], len: number): number[] {
+      x[len >> 5] |= 0x80 << (len % 32);
+      x[(((len + 64) >>> 9) << 4) + 14] = len;
+
+      let a = 1732584193, b = -271733879, c = -1732584194, d = 271733878;
+
+      for (let i = 0; i < x.length; i += 16) {
+        const olda = a, oldb = b, oldc = c, oldd = d;
+
+        a = md5ff(a, b, c, d, x[i],      7, -680876936);
+        d = md5ff(d, a, b, c, x[i + 1],  12, -389564586);
+        c = md5ff(c, d, a, b, x[i + 2],  17,  606105819);
+        b = md5ff(b, c, d, a, x[i + 3],  22, -1044525330);
+        a = md5ff(a, b, c, d, x[i + 4],   7, -176418897);
+        d = md5ff(d, a, b, c, x[i + 5],  12,  1200080426);
+        c = md5ff(c, d, a, b, x[i + 6],  17, -1473231341);
+        b = md5ff(b, c, d, a, x[i + 7],  22, -45705983);
+        a = md5ff(a, b, c, d, x[i + 8],   7,  1770035416);
+        d = md5ff(d, a, b, c, x[i + 9],  12, -1958414417);
+        c = md5ff(c, d, a, b, x[i + 10], 17, -42063);
+        b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
+        a = md5ff(a, b, c, d, x[i + 12],  7,  1804603682);
+        d = md5ff(d, a, b, c, x[i + 13], 12, -40341101);
+        c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
+        b = md5ff(b, c, d, a, x[i + 15], 22,  1236535329);
+
+        a = md5gg(a, b, c, d, x[i + 1],   5, -165796510);
+        d = md5gg(d, a, b, c, x[i + 6],   9, -1069501632);
+        c = md5gg(c, d, a, b, x[i + 11], 14,  643717713);
+        b = md5gg(b, c, d, a, x[i],      20, -373897302);
+        a = md5gg(a, b, c, d, x[i + 5],   5, -701558691);
+        d = md5gg(d, a, b, c, x[i + 10],  9,  38016083);
+        c = md5gg(c, d, a, b, x[i + 15], 14, -660478335);
+        b = md5gg(b, c, d, a, x[i + 4],  20, -405537848);
+        a = md5gg(a, b, c, d, x[i + 9],   5,  568446438);
+        d = md5gg(d, a, b, c, x[i + 14],  9, -1019803690);
+        c = md5gg(c, d, a, b, x[i + 3],  14, -187363961);
+        b = md5gg(b, c, d, a, x[i + 8],  20,  1163531501);
+        a = md5gg(a, b, c, d, x[i + 13],  5, -1444681467);
+        d = md5gg(d, a, b, c, x[i + 2],   9, -51403784);
+        c = md5gg(c, d, a, b, x[i + 7],  14,  1735328473);
+        b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
+
+        a = md5hh(a, b, c, d, x[i + 5],   4, -378558);
+        d = md5hh(d, a, b, c, x[i + 8],  11, -2022574463);
+        c = md5hh(c, d, a, b, x[i + 11], 16,  1839030562);
+        b = md5hh(b, c, d, a, x[i + 14], 23, -35309556);
+        a = md5hh(a, b, c, d, x[i + 1],   4, -1530992060);
+        d = md5hh(d, a, b, c, x[i + 4],  11,  1272893353);
+        c = md5hh(c, d, a, b, x[i + 7],  16, -155497632);
+        b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
+        a = md5hh(a, b, c, d, x[i + 13],  4,  681279174);
+        d = md5hh(d, a, b, c, x[i],      11, -358537222);
+        c = md5hh(c, d, a, b, x[i + 3],  16, -722521979);
+        b = md5hh(b, c, d, a, x[i + 6],  23,  76029189);
+        a = md5hh(a, b, c, d, x[i + 9],   4, -640364487);
+        d = md5hh(d, a, b, c, x[i + 12], 11, -421815835);
+        c = md5hh(c, d, a, b, x[i + 15], 16,  530742520);
+        b = md5hh(b, c, d, a, x[i + 2],  23, -995338651);
+
+        a = md5ii(a, b, c, d, x[i],       6, -198630844);
+        d = md5ii(d, a, b, c, x[i + 7],  10,  1126891415);
+        c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
+        b = md5ii(b, c, d, a, x[i + 5],  21, -57434055);
+        a = md5ii(a, b, c, d, x[i + 12],  6,  1700485571);
+        d = md5ii(d, a, b, c, x[i + 3],  10, -1894986606);
+        c = md5ii(c, d, a, b, x[i + 10], 15, -1051523);
+        b = md5ii(b, c, d, a, x[i + 1],  21, -2054922799);
+        a = md5ii(a, b, c, d, x[i + 8],   6,  1873313359);
+        d = md5ii(d, a, b, c, x[i + 15], 10, -30611744);
+        c = md5ii(c, d, a, b, x[i + 6],  15, -1560198380);
+        b = md5ii(b, c, d, a, x[i + 13], 21,  1309151649);
+        a = md5ii(a, b, c, d, x[i + 4],   6, -145523070);
+        d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
+        c = md5ii(c, d, a, b, x[i + 2],  15,  718787259);
+        b = md5ii(b, c, d, a, x[i + 9],  21, -343485551);
+
+        a = safeAdd(a, olda);
+        b = safeAdd(b, oldb);
+        c = safeAdd(c, oldc);
+        d = safeAdd(d, oldd);
+      }
+      return [a, b, c, d];
+    }
+
+    function str2binl(str: string): number[] {
+      const bin: number[] = [];
+      const mask = (1 << 8) - 1;
+      for (let i = 0; i < str.length * 8; i += 8) {
+        bin[i >> 5] |= (str.charCodeAt(i / 8) & mask) << (i % 32);
+      }
+      return bin;
+    }
+
+    function binl2hex(binarray: number[]): string {
+      const hexTab = '0123456789abcdef';
+      let str = '';
+      for (let i = 0; i < binarray.length * 4; i++) {
+        str += hexTab.charAt((binarray[i >> 2] >> ((i % 4) * 8 + 4)) & 0xf) +
+               hexTab.charAt((binarray[i >> 2] >> ((i % 4) * 8)) & 0xf);
+      }
+      return str;
+    }
+
+    // Encode input as UTF-8
+    const utf8 = unescape(encodeURIComponent(input));
+    return binl2hex(binlMD5(str2binl(utf8), utf8.length * 8));
+  }
+
+  // --- MD5 for ArrayBuffer ---
+  function md5ArrayBuffer(buffer: ArrayBuffer): string {
+    function safeAdd(x: number, y: number): number {
+      const lsw = (x & 0xffff) + (y & 0xffff);
+      const msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+      return (msw << 16) | (lsw & 0xffff);
+    }
+    function bitRotateLeft(num: number, cnt: number): number {
+      return (num << cnt) | (num >>> (32 - cnt));
+    }
+    function md5cmn(q: number, a: number, b: number, x: number, s: number, t: number): number {
+      return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
+    }
+    function md5ff(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+      return md5cmn((b & c) | (~b & d), a, b, x, s, t);
+    }
+    function md5gg(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+      return md5cmn((b & d) | (c & ~d), a, b, x, s, t);
+    }
+    function md5hh(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+      return md5cmn(b ^ c ^ d, a, b, x, s, t);
+    }
+    function md5ii(a: number, b: number, c: number, d: number, x: number, s: number, t: number): number {
+      return md5cmn(c ^ (b | ~d), a, b, x, s, t);
+    }
+
+    function binlMD5(x: number[], len: number): number[] {
+      x[len >> 5] |= 0x80 << (len % 32);
+      x[(((len + 64) >>> 9) << 4) + 14] = len;
+
+      let a = 1732584193, b = -271733879, c = -1732584194, d = 271733878;
+
+      for (let i = 0; i < x.length; i += 16) {
+        const olda = a, oldb = b, oldc = c, oldd = d;
+
+        a = md5ff(a, b, c, d, x[i],      7, -680876936);
+        d = md5ff(d, a, b, c, x[i + 1],  12, -389564586);
+        c = md5ff(c, d, a, b, x[i + 2],  17,  606105819);
+        b = md5ff(b, c, d, a, x[i + 3],  22, -1044525330);
+        a = md5ff(a, b, c, d, x[i + 4],   7, -176418897);
+        d = md5ff(d, a, b, c, x[i + 5],  12,  1200080426);
+        c = md5ff(c, d, a, b, x[i + 6],  17, -1473231341);
+        b = md5ff(b, c, d, a, x[i + 7],  22, -45705983);
+        a = md5ff(a, b, c, d, x[i + 8],   7,  1770035416);
+        d = md5ff(d, a, b, c, x[i + 9],  12, -1958414417);
+        c = md5ff(c, d, a, b, x[i + 10], 17, -42063);
+        b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
+        a = md5ff(a, b, c, d, x[i + 12],  7,  1804603682);
+        d = md5ff(d, a, b, c, x[i + 13], 12, -40341101);
+        c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
+        b = md5ff(b, c, d, a, x[i + 15], 22,  1236535329);
+
+        a = md5gg(a, b, c, d, x[i + 1],   5, -165796510);
+        d = md5gg(d, a, b, c, x[i + 6],   9, -1069501632);
+        c = md5gg(c, d, a, b, x[i + 11], 14,  643717713);
+        b = md5gg(b, c, d, a, x[i],      20, -373897302);
+        a = md5gg(a, b, c, d, x[i + 5],   5, -701558691);
+        d = md5gg(d, a, b, c, x[i + 10],  9,  38016083);
+        c = md5gg(c, d, a, b, x[i + 15], 14, -660478335);
+        b = md5gg(b, c, d, a, x[i + 4],  20, -405537848);
+        a = md5gg(a, b, c, d, x[i + 9],   5,  568446438);
+        d = md5gg(d, a, b, c, x[i + 14],  9, -1019803690);
+        c = md5gg(c, d, a, b, x[i + 3],  14, -187363961);
+        b = md5gg(b, c, d, a, x[i + 8],  20,  1163531501);
+        a = md5gg(a, b, c, d, x[i + 13],  5, -1444681467);
+        d = md5gg(d, a, b, c, x[i + 2],   9, -51403784);
+        c = md5gg(c, d, a, b, x[i + 7],  14,  1735328473);
+        b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
+
+        a = md5hh(a, b, c, d, x[i + 5],   4, -378558);
+        d = md5hh(d, a, b, c, x[i + 8],  11, -2022574463);
+        c = md5hh(c, d, a, b, x[i + 11], 16,  1839030562);
+        b = md5hh(b, c, d, a, x[i + 14], 23, -35309556);
+        a = md5hh(a, b, c, d, x[i + 1],   4, -1530992060);
+        d = md5hh(d, a, b, c, x[i + 4],  11,  1272893353);
+        c = md5hh(c, d, a, b, x[i + 7],  16, -155497632);
+        b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
+        a = md5hh(a, b, c, d, x[i + 13],  4,  681279174);
+        d = md5hh(d, a, b, c, x[i],      11, -358537222);
+        c = md5hh(c, d, a, b, x[i + 3],  16, -722521979);
+        b = md5hh(b, c, d, a, x[i + 6],  23,  76029189);
+        a = md5hh(a, b, c, d, x[i + 9],   4, -640364487);
+        d = md5hh(d, a, b, c, x[i + 12], 11, -421815835);
+        c = md5hh(c, d, a, b, x[i + 15], 16,  530742520);
+        b = md5hh(b, c, d, a, x[i + 2],  23, -995338651);
+
+        a = md5ii(a, b, c, d, x[i],       6, -198630844);
+        d = md5ii(d, a, b, c, x[i + 7],  10,  1126891415);
+        c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
+        b = md5ii(b, c, d, a, x[i + 5],  21, -57434055);
+        a = md5ii(a, b, c, d, x[i + 12],  6,  1700485571);
+        d = md5ii(d, a, b, c, x[i + 3],  10, -1894986606);
+        c = md5ii(c, d, a, b, x[i + 10], 15, -1051523);
+        b = md5ii(b, c, d, a, x[i + 1],  21, -2054922799);
+        a = md5ii(a, b, c, d, x[i + 8],   6,  1873313359);
+        d = md5ii(d, a, b, c, x[i + 15], 10, -30611744);
+        c = md5ii(c, d, a, b, x[i + 6],  15, -1560198380);
+        b = md5ii(b, c, d, a, x[i + 13], 21,  1309151649);
+        a = md5ii(a, b, c, d, x[i + 4],   6, -145523070);
+        d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
+        c = md5ii(c, d, a, b, x[i + 2],  15,  718787259);
+        b = md5ii(b, c, d, a, x[i + 9],  21, -343485551);
+
+        a = safeAdd(a, olda);
+        b = safeAdd(b, oldb);
+        c = safeAdd(c, oldc);
+        d = safeAdd(d, oldd);
+      }
+      return [a, b, c, d];
+    }
+
+    function binl2hex(binarray: number[]): string {
+      const hexTab = '0123456789abcdef';
+      let str = '';
+      for (let i = 0; i < binarray.length * 4; i++) {
+        str += hexTab.charAt((binarray[i >> 2] >> ((i % 4) * 8 + 4)) & 0xf) +
+               hexTab.charAt((binarray[i >> 2] >> ((i % 4) * 8)) & 0xf);
+      }
+      return str;
+    }
+
+    const bytes = new Uint8Array(buffer);
+    const words: number[] = [];
+    for (let i = 0; i < bytes.length; i += 4) {
+      words[i >> 2] = (bytes[i] & 0xff) |
+                      ((bytes[i + 1] & 0xff) << 8) |
+                      ((bytes[i + 2] & 0xff) << 16) |
+                      ((bytes[i + 3] & 0xff) << 24);
+    }
+    return binl2hex(binlMD5(words, bytes.length * 8));
+  }
+
+  // --- Utility: ArrayBuffer to hex string ---
+  function bufToHex(buffer: ArrayBuffer): string {
+    return Array.from(new Uint8Array(buffer))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  // --- State ---
+  const hashResults: Record<string, string> = {
+    md5: '',
+    sha1: '',
+    sha256: '',
+    sha512: '',
+  };
+
+  // --- DOM Elements ---
+  const textInput = document.getElementById('textInput') as HTMLTextAreaElement;
+  const clearBtn = document.getElementById('clearBtn');
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+  const fileName = document.getElementById('fileName');
+  const uppercaseCheck = document.getElementById('uppercaseCheck') as HTMLInputElement;
+  const statusText = document.getElementById('statusText');
+  const copyBtns = document.querySelectorAll('.copy-btn');
+
+  // --- Display hashes ---
+  function displayHashes() {
+    const upper = uppercaseCheck.checked;
+    for (const algo of Object.keys(hashResults)) {
+      const el = document.getElementById(`${algo}Result`);
+      if (el) {
+        const val = hashResults[algo];
+        el.textContent = val ? (upper ? val.toUpperCase() : val) : '-';
+      }
+    }
+  }
+
+  // --- Hash text ---
+  async function hashText(text: string) {
+    if (!text) {
+      hashResults.md5 = '';
+      hashResults.sha1 = '';
+      hashResults.sha256 = '';
+      hashResults.sha512 = '';
+      displayHashes();
+      return;
+    }
+
+    if (statusText) statusText.textContent = 'Hashing...';
+
+    // MD5 (inline)
+    hashResults.md5 = md5(text);
+
+    // SHA-1, SHA-256, SHA-512 via crypto.subtle
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+
+    const [sha1, sha256, sha512] = await Promise.all([
+      crypto.subtle.digest('SHA-1', data),
+      crypto.subtle.digest('SHA-256', data),
+      crypto.subtle.digest('SHA-512', data),
+    ]);
+
+    hashResults.sha1 = bufToHex(sha1);
+    hashResults.sha256 = bufToHex(sha256);
+    hashResults.sha512 = bufToHex(sha512);
+
+    displayHashes();
+    if (statusText) statusText.textContent = '';
+  }
+
+  // --- Hash file ---
+  async function hashFile(file: File) {
+    if (statusText) statusText.textContent = 'Hashing...';
+    if (fileName) fileName.textContent = file.name;
+
+    const buffer = await file.arrayBuffer();
+
+    // MD5
+    hashResults.md5 = md5ArrayBuffer(buffer);
+
+    // SHA-1, SHA-256, SHA-512
+    const [sha1, sha256, sha512] = await Promise.all([
+      crypto.subtle.digest('SHA-1', buffer),
+      crypto.subtle.digest('SHA-256', buffer),
+      crypto.subtle.digest('SHA-512', buffer),
+    ]);
+
+    hashResults.sha1 = bufToHex(sha1);
+    hashResults.sha256 = bufToHex(sha256);
+    hashResults.sha512 = bufToHex(sha512);
+
+    displayHashes();
+    if (statusText) statusText.textContent = '';
+  }
+
+  // --- Text input: hash on input ---
+  let debounceTimer: ReturnType<typeof setTimeout>;
+  textInput.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      hashText(textInput.value);
+      // Clear file name when typing text
+      if (fileName) fileName.textContent = '';
+    }, 300);
+  });
+
+  // --- Clear button ---
+  clearBtn?.addEventListener('click', () => {
+    textInput.value = '';
+    if (fileName) fileName.textContent = '';
+    hashResults.md5 = '';
+    hashResults.sha1 = '';
+    hashResults.sha256 = '';
+    hashResults.sha512 = '';
+    displayHashes();
+  });
+
+  // --- File drop zone: click to browse ---
+  dropZone?.addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  fileInput?.addEventListener('change', (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (file) {
+      textInput.value = '';
+      hashFile(file);
+    }
+  });
+
+  // --- Drag and drop ---
+  dropZone?.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dropZone.classList.add('bg-white/10');
+  });
+
+  dropZone?.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dropZone.classList.remove('bg-white/10');
+  });
+
+  dropZone?.addEventListener('drop', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dropZone.classList.remove('bg-white/10');
+
+    const file = e.dataTransfer?.files[0];
+    if (file) {
+      textInput.value = '';
+      hashFile(file);
+    }
+  });
+
+  // --- Uppercase toggle ---
+  uppercaseCheck.addEventListener('change', displayHashes);
+
+  // --- Copy buttons ---
+  copyBtns.forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const algo = (btn as HTMLElement).getAttribute('data-hash');
+      if (!algo || !hashResults[algo]) return;
+
+      const upper = uppercaseCheck.checked;
+      const value = upper ? hashResults[algo].toUpperCase() : hashResults[algo];
+
+      await navigator.clipboard.writeText(value);
+      const originalText = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => {
+        btn.textContent = originalText;
+      }, 2000);
+    });
+  });
+</script>

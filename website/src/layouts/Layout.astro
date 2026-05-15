@@ -73,20 +73,15 @@ const alternateUrls = Object.keys(languages).map((l) => ({
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
+      "@type": "WebSite",
       "name": "AI Chat Exporter",
+      "alternateName": "Free Online Toolbox",
+      "url": "https://aichatexporter.cc",
       "description": description,
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Chrome, Edge, Chromium-based browsers",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "1000"
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://aichatexporter.cc/en?q={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
     })} />
 

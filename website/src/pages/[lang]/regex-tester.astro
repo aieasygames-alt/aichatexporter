@@ -1,0 +1,388 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('regexTester.title')} - AI Chat Exporter`} description={t('regexTester.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          {t('regexTester.title')}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          {t('regexTester.subtitle')}
+        </p>
+      </div>
+
+      <div class="max-w-5xl mx-auto">
+        <!-- Regex Input & Flags -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4 mb-6">
+          <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1">
+              <label class="text-sm font-medium text-gray-300 mb-2 block">{t('regexTester.regexInput')}</label>
+              <div class="flex items-center bg-white/5 rounded-xl border border-white/10 overflow-hidden focus-within:border-accent transition-colors">
+                <span class="pl-4 text-gray-500 font-mono text-lg">/</span>
+                <input
+                  id="regexInput"
+                  type="text"
+                  class="flex-1 px-2 py-3 bg-transparent text-yellow-300 font-mono text-sm focus:outline-none"
+                  placeholder={t('regexTester.regexPlaceholder')}
+                  spellcheck="false"
+                />
+                <span class="px-2 text-gray-500 font-mono text-lg">/</span>
+                <span id="flagDisplay" class="pr-4 text-accent font-mono text-sm">gim</span>
+              </div>
+              <div id="regexError" class="hidden mt-2 text-sm text-red-400 bg-red-500/10 rounded-lg px-3 py-2"></div>
+            </div>
+            <div class="flex-shrink-0">
+              <label class="text-sm font-medium text-gray-300 mb-2 block">{t('regexTester.flags')}</label>
+              <div class="flex gap-3 items-center h-[46px]">
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="checkbox" id="flagG" checked class="w-4 h-4 accent-accent" />
+                  <span class="text-sm text-gray-300 font-mono">g</span>
+                  <span class="text-xs text-gray-500 hidden md:inline">{t('regexTester.flagGlobal')}</span>
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="checkbox" id="flagI" checked class="w-4 h-4 accent-accent" />
+                  <span class="text-sm text-gray-300 font-mono">i</span>
+                  <span class="text-xs text-gray-500 hidden md:inline">{t('regexTester.flagIgnoreCase')}</span>
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="checkbox" id="flagM" checked class="w-4 h-4 accent-accent" />
+                  <span class="text-sm text-gray-300 font-mono">m</span>
+                  <span class="text-xs text-gray-500 hidden md:inline">{t('regexTester.flagMultiline')}</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test String -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden mb-6">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+            <span class="text-sm font-medium text-gray-300">{t('regexTester.testString')}</span>
+          </div>
+          <textarea
+            id="testString"
+            class="w-full h-[180px] p-4 bg-transparent text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
+            placeholder={t('regexTester.testPlaceholder')}
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <!-- Match Results -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden mb-6">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+            <span class="text-sm font-medium text-gray-300">{t('regexTester.matches')}</span>
+            <span id="matchCount" class="text-xs text-gray-400"></span>
+          </div>
+          <div id="matchResults" class="p-4 font-mono text-sm leading-relaxed min-h-[80px] text-gray-400">
+            <span class="text-gray-500 italic">Enter a regex pattern and test string above...</span>
+          </div>
+        </div>
+
+        <!-- Capture Groups -->
+        <div id="captureGroupsSection" class="hidden bg-bg-secondary rounded-2xl border border-white/10 overflow-hidden mb-6">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-bg-tertiary">
+            <span class="text-sm font-medium text-gray-300">{t('regexTester.captureGroups')}</span>
+          </div>
+          <div id="captureGroups" class="p-4 space-y-2"></div>
+        </div>
+
+        <!-- Common Patterns -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-4 mb-6">
+          <h3 class="text-sm font-medium text-gray-300 mb-3">{t('regexTester.commonPatterns')}</h3>
+          <div class="flex flex-wrap gap-2">
+            <button data-pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" data-flags="gi" class="common-pattern-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-mono">
+              {t('regexTester.patternEmail')}
+            </button>
+            <button data-pattern="https?:\/\/[^\s]+" data-flags="gi" class="common-pattern-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-mono">
+              {t('regexTester.patternUrl')}
+            </button>
+            <button data-pattern="\d{3}[-.]?\d{3}[-.]?\d{4}" data-flags="g" class="common-pattern-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-mono">
+              {t('regexTester.patternPhone')}
+            </button>
+            <button data-pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" data-flags="g" class="common-pattern-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-mono">
+              {t('regexTester.patternIp')}
+            </button>
+            <button data-pattern="\d{4}[-/]\d{2}[-/]\d{2}" data-flags="g" class="common-pattern-btn px-4 py-2 rounded-lg bg-white/5 text-gray-300 hover:bg-accent/20 hover:text-accent transition-colors text-sm font-mono">
+              {t('regexTester.patternDate')}
+            </button>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('regexTester.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('regexTester.tip1')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('regexTester.tip2')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('regexTester.tip3')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('regexTester.tip4')}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Back to home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">
+            &larr; {t('regexTester.backHome')}
+          </a>
+        </div>
+
+        <!-- Hidden translation elements for client-side JS -->
+        <div class="hidden" aria-hidden="true">
+          <span data-t="fullMatch">{t('regexTester.fullMatch')}</span>
+          <span data-t="group">{t('regexTester.group')}</span>
+          <span data-t="noMatch">{t('regexTester.noMatch')}</span>
+          <span data-t="matchCount">{t('regexTester.matchCount')}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const regexInput = document.getElementById('regexInput') as HTMLInputElement;
+  const testString = document.getElementById('testString') as HTMLTextAreaElement;
+  const matchResults = document.getElementById('matchResults')!;
+  const matchCount = document.getElementById('matchCount')!;
+  const regexError = document.getElementById('regexError')!;
+  const flagDisplay = document.getElementById('flagDisplay')!;
+  const captureGroupsSection = document.getElementById('captureGroupsSection')!;
+  const captureGroups = document.getElementById('captureGroups')!;
+
+  const flagG = document.getElementById('flagG') as HTMLInputElement;
+  const flagI = document.getElementById('flagI') as HTMLInputElement;
+  const flagM = document.getElementById('flagM') as HTMLInputElement;
+
+  const groupColors = [
+    'text-cyan-400 bg-cyan-500/10 border-cyan-500/30',
+    'text-green-400 bg-green-500/10 border-green-500/30',
+    'text-purple-400 bg-purple-500/10 border-purple-500/30',
+    'text-orange-400 bg-orange-500/10 border-orange-500/30',
+    'text-pink-400 bg-pink-500/10 border-pink-500/30',
+    'text-blue-400 bg-blue-500/10 border-blue-500/30',
+    'text-teal-400 bg-teal-500/10 border-teal-500/30',
+    'text-yellow-400 bg-yellow-500/10 border-yellow-500/30',
+  ];
+
+  function getFlags(): string {
+    let flags = '';
+    if (flagG.checked) flags += 'g';
+    if (flagI.checked) flags += 'i';
+    if (flagM.checked) flags += 'm';
+    return flags;
+  }
+
+  function updateFlagDisplay(): void {
+    flagDisplay.textContent = getFlags() || 'none';
+  }
+
+  function escapeHtml(text: string): string {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function runMatch(): void {
+    const pattern = regexInput.value;
+    const text = testString.value;
+
+    // Hide previous error
+    regexError.classList.add('hidden');
+    regexError.textContent = '';
+
+    if (!pattern || !text) {
+      matchResults.innerHTML = '<span class="text-gray-500 italic">Enter a regex pattern and test string above...</span>';
+      matchCount.textContent = '';
+      captureGroupsSection.classList.add('hidden');
+      return;
+    }
+
+    let regex: RegExp;
+    try {
+      regex = new RegExp(pattern, getFlags());
+    } catch (e: any) {
+      regexError.textContent = e.message;
+      regexError.classList.remove('hidden');
+      matchResults.innerHTML = '<span class="text-red-400 italic">Invalid regular expression</span>';
+      matchCount.textContent = '';
+      captureGroupsSection.classList.add('hidden');
+      return;
+    }
+
+    // Collect all matches
+    const matches: RegExpExecArray[] = [];
+    if (regex.global) {
+      let match: RegExpExecArray | null;
+      // Reset lastIndex
+      regex.lastIndex = 0;
+      while ((match = regex.exec(text)) !== null) {
+        matches.push(match);
+        if (match[0].length === 0) {
+          regex.lastIndex++;
+        }
+      }
+    } else {
+      const match = regex.exec(text);
+      if (match) matches.push(match);
+    }
+
+    if (matches.length === 0) {
+      matchResults.innerHTML = `<span class="text-gray-500 italic">${escapeHtml(text)}</span>`;
+      matchCount.textContent = t_fn('noMatch');
+      captureGroupsSection.classList.add('hidden');
+      return;
+    }
+
+    // Build highlighted result
+    // Sort matches by index
+    matches.sort((a, b) => a.index - b.index);
+
+    let html = '';
+    let lastIndex = 0;
+
+    for (const match of matches) {
+      // Add text before this match
+      if (match.index > lastIndex) {
+        html += escapeHtml(text.slice(lastIndex, match.index));
+      }
+
+      // Add highlighted match
+      const matchText = match[0];
+      if (matchText.length > 0) {
+        html += `<mark class="bg-yellow-400/30 text-yellow-200 rounded px-0.5">${escapeHtml(matchText)}</mark>`;
+      }
+
+      lastIndex = match.index + matchText.length;
+    }
+
+    // Add remaining text
+    if (lastIndex < text.length) {
+      html += escapeHtml(text.slice(lastIndex));
+    }
+
+    // Preserve newlines
+    html = html.replace(/\n/g, '<br>');
+
+    matchResults.innerHTML = html;
+
+    // Update match count
+    const countTemplate = t_fn('matchCount');
+    matchCount.textContent = countTemplate.replace('{count}', matches.length.toString());
+
+    // Capture groups
+    const hasGroups = matches.some((m) => m.length > 1);
+    if (hasGroups) {
+      captureGroupsSection.classList.remove('hidden');
+      let groupsHtml = '';
+
+      for (let mi = 0; mi < matches.length; mi++) {
+        const match = matches[mi];
+        if (match.length <= 1) continue;
+
+        groupsHtml += `<div class="mb-3">`;
+        groupsHtml += `<div class="text-xs text-gray-500 mb-1">${t_fn('fullMatch')} #${mi + 1}: <span class="text-yellow-300">${escapeHtml(match[0])}</span></div>`;
+        groupsHtml += `<div class="flex flex-wrap gap-2">`;
+
+        for (let gi = 1; gi < match.length; gi++) {
+          const colorClass = groupColors[(gi - 1) % groupColors.length];
+          const value = match[gi] !== undefined ? escapeHtml(match[gi]) : '<span class="text-gray-500 italic">undefined</span>';
+          groupsHtml += `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs ${colorClass}">`;
+          groupsHtml += `<span class="font-medium">${t_fn('group')} ${gi}</span>`;
+          groupsHtml += `<span class="opacity-70">${value}</span>`;
+          groupsHtml += `</span>`;
+        }
+
+        groupsHtml += `</div></div>`;
+      }
+
+      captureGroups.innerHTML = groupsHtml;
+    } else {
+      captureGroupsSection.classList.add('hidden');
+    }
+  }
+
+  // Translation helper for use inside <script>
+  function t_fn(key: string): string {
+    const el = document.querySelector(`[data-t="${key}"]`);
+    if (el) return el.textContent || key;
+    // Fallback: try to find in page
+    return key;
+  }
+
+  // Real-time matching on input changes
+  regexInput.addEventListener('input', () => {
+    runMatch();
+  });
+
+  testString.addEventListener('input', () => {
+    runMatch();
+  });
+
+  // Flag checkboxes
+  flagG.addEventListener('change', () => {
+    updateFlagDisplay();
+    runMatch();
+  });
+  flagI.addEventListener('change', () => {
+    updateFlagDisplay();
+    runMatch();
+  });
+  flagM.addEventListener('change', () => {
+    updateFlagDisplay();
+    runMatch();
+  });
+
+  // Common patterns
+  document.querySelectorAll('.common-pattern-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const pattern = (btn as HTMLElement).dataset.pattern || '';
+      const flags = (btn as HTMLElement).dataset.flags || 'g';
+
+      regexInput.value = pattern;
+
+      // Set flags based on the pattern's flags
+      flagG.checked = flags.includes('g');
+      flagI.checked = flags.includes('i');
+      flagM.checked = flags.includes('m');
+
+      updateFlagDisplay();
+      runMatch();
+    });
+  });
+
+  // Initialize
+  updateFlagDisplay();
+</script>

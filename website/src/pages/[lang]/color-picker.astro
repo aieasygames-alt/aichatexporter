@@ -1,0 +1,723 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { type Lang, useTranslations, languages } from '../../i18n';
+
+export function getStaticPaths() {
+  return Object.keys(languages).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout lang={lang} title={`${t('colorPicker.title')} - AI Chat Exporter`} description={t('colorPicker.description')}>
+  <section class="py-12 md:py-20">
+    <div class="container-custom">
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          {t('colorPicker.title')}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          {t('colorPicker.subtitle')}
+        </p>
+      </div>
+
+      <div class="max-w-5xl mx-auto">
+        <!-- Color Picker Section -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-6 mb-6">
+          <h2 class="text-lg font-semibold text-white mb-5">{t('colorPicker.picker')}</h2>
+
+          <div class="grid md:grid-cols-[200px_1fr] gap-6">
+            <!-- Color Preview & Native Picker -->
+            <div class="flex flex-col items-center gap-4">
+              <div
+                id="colorPreview"
+                class="w-[180px] h-[180px] rounded-2xl border-4 border-white/20 shadow-lg cursor-pointer transition-colors"
+                style="background-color: #6366f1;"
+                title="Click to pick a color"
+              ></div>
+              <input
+                type="color"
+                id="nativeColorPicker"
+                value="#6366f1"
+                class="w-16 h-10 rounded-lg cursor-pointer border border-white/10 bg-transparent"
+              />
+            </div>
+
+            <!-- Color Value Fields -->
+            <div class="space-y-4">
+              <!-- HEX -->
+              <div>
+                <label class="text-sm font-medium text-gray-300 mb-1.5 block">{t('colorPicker.hex')}</label>
+                <div class="flex items-center gap-2">
+                  <input
+                    id="hexInput"
+                    type="text"
+                    value="#6366f1"
+                    class="flex-1 px-3 py-2.5 bg-white/5 rounded-xl border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+                    spellcheck="false"
+                  />
+                  <button
+                    class="copy-btn px-3 py-2.5 rounded-xl bg-white/5 text-gray-400 hover:bg-accent/20 hover:text-accent transition-colors text-sm"
+                    data-target="hexInput"
+                  >
+                    {t('colorPicker.copy')}
+                  </button>
+                </div>
+              </div>
+
+              <!-- RGB -->
+              <div>
+                <label class="text-sm font-medium text-gray-300 mb-1.5 block">{t('colorPicker.rgb')}</label>
+                <div class="flex items-center gap-2">
+                  <div class="flex-1 grid grid-cols-3 gap-2">
+                    <div class="relative">
+                      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">R</span>
+                      <input
+                        id="rgbR"
+                        type="number"
+                        min="0"
+                        max="255"
+                        value="99"
+                        class="w-full pl-7 pr-2 py-2.5 bg-white/5 rounded-xl border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+                      />
+                    </div>
+                    <div class="relative">
+                      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">G</span>
+                      <input
+                        id="rgbG"
+                        type="number"
+                        min="0"
+                        max="255"
+                        value="102"
+                        class="w-full pl-7 pr-2 py-2.5 bg-white/5 rounded-xl border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+                      />
+                    </div>
+                    <div class="relative">
+                      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">B</span>
+                      <input
+                        id="rgbB"
+                        type="number"
+                        min="0"
+                        max="255"
+                        value="241"
+                        class="w-full pl-7 pr-2 py-2.5 bg-white/5 rounded-xl border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    class="copy-btn px-3 py-2.5 rounded-xl bg-white/5 text-gray-400 hover:bg-accent/20 hover:text-accent transition-colors text-sm"
+                    data-format="rgb"
+                  >
+                    {t('colorPicker.copy')}
+                  </button>
+                </div>
+              </div>
+
+              <!-- HSL -->
+              <div>
+                <label class="text-sm font-medium text-gray-300 mb-1.5 block">{t('colorPicker.hsl')}</label>
+                <div class="flex items-center gap-2">
+                  <div class="flex-1 grid grid-cols-3 gap-2">
+                    <div class="relative">
+                      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">H</span>
+                      <input
+                        id="hslH"
+                        type="number"
+                        min="0"
+                        max="360"
+                        value="239"
+                        class="w-full pl-7 pr-2 py-2.5 bg-white/5 rounded-xl border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+                      />
+                    </div>
+                    <div class="relative">
+                      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">S</span>
+                      <input
+                        id="hslS"
+                        type="number"
+                        min="0"
+                        max="100"
+                        value="84"
+                        class="w-full pl-7 pr-2 py-2.5 bg-white/5 rounded-xl border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+                      />
+                    </div>
+                    <div class="relative">
+                      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">L</span>
+                      <input
+                        id="hslL"
+                        type="number"
+                        min="0"
+                        max="100"
+                        value="67"
+                        class="w-full pl-7 pr-2 py-2.5 bg-white/5 rounded-xl border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    class="copy-btn px-3 py-2.5 rounded-xl bg-white/5 text-gray-400 hover:bg-accent/20 hover:text-accent transition-colors text-sm"
+                    data-format="hsl"
+                  >
+                    {t('colorPicker.copy')}
+                  </button>
+                </div>
+              </div>
+
+              <!-- CSS Variable -->
+              <div>
+                <label class="text-sm font-medium text-gray-300 mb-1.5 block">{t('colorPicker.cssVariable')}</label>
+                <div class="flex items-center gap-2">
+                  <input
+                    id="cssVarOutput"
+                    type="text"
+                    readonly
+                    value="--color: #6366f1;"
+                    class="flex-1 px-3 py-2.5 bg-white/5 rounded-xl border border-white/10 text-gray-300 font-mono text-sm focus:outline-none"
+                    spellcheck="false"
+                  />
+                  <button
+                    class="copy-btn px-3 py-2.5 rounded-xl bg-white/5 text-gray-400 hover:bg-accent/20 hover:text-accent transition-colors text-sm"
+                    data-target="cssVarOutput"
+                  >
+                    {t('colorPicker.copy')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contrast Checker Section -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-6 mb-6">
+          <h2 class="text-lg font-semibold text-white mb-5">{t('colorPicker.contrast')}</h2>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <!-- Foreground -->
+            <div>
+              <label class="text-sm font-medium text-gray-300 mb-1.5 block">{t('colorPicker.foregroundColor')}</label>
+              <div class="flex items-center gap-3">
+                <input
+                  type="color"
+                  id="fgColorPicker"
+                  value="#ffffff"
+                  class="w-12 h-10 rounded-lg cursor-pointer border border-white/10 bg-transparent shrink-0"
+                />
+                <input
+                  id="fgHexInput"
+                  type="text"
+                  value="#ffffff"
+                  class="flex-1 px-3 py-2.5 bg-white/5 rounded-xl border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+                  spellcheck="false"
+                />
+              </div>
+            </div>
+
+            <!-- Background -->
+            <div>
+              <label class="text-sm font-medium text-gray-300 mb-1.5 block">{t('colorPicker.backgroundColor')}</label>
+              <div class="flex items-center gap-3">
+                <input
+                  type="color"
+                  id="bgColorPicker"
+                  value="#6366f1"
+                  class="w-12 h-10 rounded-lg cursor-pointer border border-white/10 bg-transparent shrink-0"
+                />
+                <input
+                  id="bgHexInput"
+                  type="text"
+                  value="#6366f1"
+                  class="flex-1 px-3 py-2.5 bg-white/5 rounded-xl border border-white/10 text-white font-mono text-sm focus:outline-none focus:border-accent transition-colors"
+                  spellcheck="false"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview -->
+          <div class="mt-4 rounded-xl p-5 text-center border border-white/10" id="contrastPreview" style="background-color: #6366f1; color: #ffffff;">
+            <span class="text-xl font-bold">Aa</span>
+            <span class="ml-3 text-base">Sample Text</span>
+          </div>
+
+          <!-- Contrast Ratio -->
+          <div class="mt-4 grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div class="bg-white/5 rounded-xl p-4 text-center">
+              <div id="contrastRatio" class="text-2xl font-bold text-white">4.60</div>
+              <div class="text-xs text-gray-400 mt-1">{t('colorPicker.ratio')}</div>
+            </div>
+            <div id="badgeAANormal" class="bg-white/5 rounded-xl p-4 text-center">
+              <div class="text-xs text-gray-400 mb-1">{t('colorPicker.aaNormal')}</div>
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-400">{t('colorPicker.pass')}</span>
+            </div>
+            <div id="badgeAALarge" class="bg-white/5 rounded-xl p-4 text-center">
+              <div class="text-xs text-gray-400 mb-1">{t('colorPicker.aaLarge')}</div>
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-400">{t('colorPicker.pass')}</span>
+            </div>
+            <div id="badgeAAANormal" class="bg-white/5 rounded-xl p-4 text-center">
+              <div class="text-xs text-gray-400 mb-1">{t('colorPicker.aaaNormal')}</div>
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-red-500/20 text-red-400">{t('colorPicker.fail')}</span>
+            </div>
+            <div id="badgeAAALarge" class="bg-white/5 rounded-xl p-4 text-center">
+              <div class="text-xs text-gray-400 mb-1">{t('colorPicker.aaaLarge')}</div>
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-400">{t('colorPicker.pass')}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saved Colors Palette Section -->
+        <div class="bg-bg-secondary rounded-2xl border border-white/10 p-6 mb-6">
+          <div class="flex items-center justify-between mb-5">
+            <h2 class="text-lg font-semibold text-white">{t('colorPicker.palette')}</h2>
+            <div class="flex gap-2">
+              <button
+                id="addColorBtn"
+                class="px-4 py-2 rounded-lg bg-accent/20 text-accent hover:bg-accent/30 transition-colors text-sm font-medium"
+              >
+                {t('colorPicker.addColor')}
+              </button>
+              <button
+                id="clearPaletteBtn"
+                class="px-4 py-2 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 transition-colors text-sm"
+              >
+                {t('colorPicker.clearPalette')}
+              </button>
+            </div>
+          </div>
+          <div id="paletteContainer" class="flex flex-wrap gap-3 min-h-[48px]">
+            <!-- Saved color swatches appear here -->
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-10 bg-white/5 rounded-xl p-6 border border-white/10">
+          <h3 class="text-lg font-semibold text-white mb-4">{t('colorPicker.tips')}</h3>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('colorPicker.tip1')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('colorPicker.tip2')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('colorPicker.tip3')}
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-5 h-5 text-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {t('colorPicker.tip4')}
+            </li>
+          </ul>
+        </div>
+
+        <!-- Back to home -->
+        <div class="mt-8 text-center">
+          <a href={`/${lang}`} class="text-accent hover:text-accent/80 transition-colors text-sm">
+            &larr; {t('colorPicker.backHome')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // ── DOM references ──────────────────────────────────────────────────────
+  const colorPreview = document.getElementById('colorPreview') as HTMLDivElement;
+  const nativeColorPicker = document.getElementById('nativeColorPicker') as HTMLInputElement;
+  const hexInput = document.getElementById('hexInput') as HTMLInputElement;
+  const rgbR = document.getElementById('rgbR') as HTMLInputElement;
+  const rgbG = document.getElementById('rgbG') as HTMLInputElement;
+  const rgbB = document.getElementById('rgbB') as HTMLInputElement;
+  const hslH = document.getElementById('hslH') as HTMLInputElement;
+  const hslS = document.getElementById('hslS') as HTMLInputElement;
+  const hslL = document.getElementById('hslL') as HTMLInputElement;
+  const cssVarOutput = document.getElementById('cssVarOutput') as HTMLInputElement;
+
+  const fgColorPicker = document.getElementById('fgColorPicker') as HTMLInputElement;
+  const fgHexInput = document.getElementById('fgHexInput') as HTMLInputElement;
+  const bgColorPicker = document.getElementById('bgColorPicker') as HTMLInputElement;
+  const bgHexInput = document.getElementById('bgHexInput') as HTMLInputElement;
+  const contrastPreview = document.getElementById('contrastPreview') as HTMLDivElement;
+  const contrastRatioEl = document.getElementById('contrastRatio') as HTMLDivElement;
+
+  const addColorBtn = document.getElementById('addColorBtn') as HTMLButtonElement;
+  const clearPaletteBtn = document.getElementById('clearPaletteBtn') as HTMLButtonElement;
+  const paletteContainer = document.getElementById('paletteContainer') as HTMLDivElement;
+
+  const PALETTE_KEY = 'color-picker-palette';
+
+  // ── Color Conversion Functions ─────────────────────────────────────────
+
+  function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+    hex = hex.replace('#', '');
+    if (hex.length === 3) {
+      hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (hex.length !== 6) return null;
+    const num = parseInt(hex, 16);
+    if (isNaN(num)) return null;
+    return {
+      r: (num >> 16) & 255,
+      g: (num >> 8) & 255,
+      b: num & 255,
+    };
+  }
+
+  function rgbToHex(r: number, g: number, b: number): string {
+    const toHex = (n: number) => {
+      const clamped = Math.max(0, Math.min(255, Math.round(n)));
+      return clamped.toString(16).padStart(2, '0');
+    };
+    return '#' + toHex(r) + toHex(g) + toHex(b);
+  }
+
+  function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const l = (max + min) / 2;
+    let h = 0, s = 0;
+
+    if (max !== min) {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+        case g: h = ((b - r) / d + 2) / 6; break;
+        case b: h = ((r - g) / d + 4) / 6; break;
+      }
+    }
+
+    return {
+      h: Math.round(h * 360),
+      s: Math.round(s * 100),
+      l: Math.round(l * 100),
+    };
+  }
+
+  function hslToRgb(h: number, s: number, l: number): { r: number; g: number; b: number } {
+    h /= 360; s /= 100; l /= 100;
+
+    if (s === 0) {
+      const val = Math.round(l * 255);
+      return { r: val, g: val, b: val };
+    }
+
+    const hue2rgb = (p: number, q: number, t: number): number => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+      return p;
+    };
+
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+
+    return {
+      r: Math.round(hue2rgb(p, q, h + 1 / 3) * 255),
+      g: Math.round(hue2rgb(p, q, h) * 255),
+      b: Math.round(hue2rgb(p, q, h - 1 / 3) * 255),
+    };
+  }
+
+  function isValidHex(hex: string): boolean {
+    return /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(hex);
+  }
+
+  // ── Sync All Fields ────────────────────────────────────────────────────
+
+  let syncing = false;
+
+  function syncFromHex(hex: string): void {
+    if (syncing) return;
+    syncing = true;
+
+    const rgb = hexToRgb(hex);
+    if (!rgb) { syncing = false; return; }
+
+    const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+    colorPreview.style.backgroundColor = hex;
+    nativeColorPicker.value = hex.length === 4
+      ? '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3]
+      : hex;
+
+    hexInput.value = hex;
+    rgbR.value = rgb.r.toString();
+    rgbG.value = rgb.g.toString();
+    rgbB.value = rgb.b.toString();
+    hslH.value = hsl.h.toString();
+    hslS.value = hsl.s.toString();
+    hslL.value = hsl.l.toString();
+    cssVarOutput.value = `--color: ${hex};`;
+
+    syncing = false;
+  }
+
+  function syncFromRgb(): void {
+    if (syncing) return;
+    const r = Math.max(0, Math.min(255, parseInt(rgbR.value) || 0));
+    const g = Math.max(0, Math.min(255, parseInt(rgbG.value) || 0));
+    const b = Math.max(0, Math.min(255, parseInt(rgbB.value) || 0));
+    syncFromHex(rgbToHex(r, g, b));
+  }
+
+  function syncFromHsl(): void {
+    if (syncing) return;
+    const h = Math.max(0, Math.min(360, parseInt(hslH.value) || 0));
+    const s = Math.max(0, Math.min(100, parseInt(hslS.value) || 0));
+    const l = Math.max(0, Math.min(100, parseInt(hslL.value) || 0));
+    const rgb = hslToRgb(h, s, l);
+    syncFromHex(rgbToHex(rgb.r, rgb.g, rgb.b));
+  }
+
+  // ── Contrast Ratio ─────────────────────────────────────────────────────
+
+  function linearize(c: number): number {
+    c /= 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  }
+
+  function relativeLuminance(hex: string): number {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return 0;
+    return 0.2126 * linearize(rgb.r) + 0.7152 * linearize(rgb.g) + 0.0722 * linearize(rgb.b);
+  }
+
+  function contrastRatio(hex1: string, hex2: string): number {
+    const l1 = relativeLuminance(hex1);
+    const l2 = relativeLuminance(hex2);
+    const lighter = Math.max(l1, l2);
+    const darker = Math.min(l1, l2);
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+
+  function updateContrast(): void {
+    const fg = normalizeHex(fgHexInput.value);
+    const bg = normalizeHex(bgHexInput.value);
+
+    if (fg) fgColorPicker.value = fg;
+    if (bg) bgColorPicker.value = bg;
+
+    contrastPreview.style.color = fg || '#ffffff';
+    contrastPreview.style.backgroundColor = bg || '#000000';
+
+    if (!fg || !bg) {
+      contrastRatioEl.textContent = '--';
+      return;
+    }
+
+    const ratio = contrastRatio(fg, bg);
+    contrastRatioEl.textContent = ratio.toFixed(2);
+
+    updateBadge('badgeAANormal', ratio >= 4.5);
+    updateBadge('badgeAALarge', ratio >= 3.0);
+    updateBadge('badgeAAANormal', ratio >= 7.0);
+    updateBadge('badgeAAALarge', ratio >= 4.5);
+  }
+
+  function normalizeHex(val: string): string | null {
+    let hex = val.trim();
+    if (!hex.startsWith('#')) hex = '#' + hex;
+    if (hex.length === 4) {
+      hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+    }
+    return isValidHex(hex) ? hex : null;
+  }
+
+  function updateBadge(id: string, pass: boolean): void {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const badge = el.querySelector('span');
+    if (!badge) return;
+    if (pass) {
+      badge.className = 'inline-block px-3 py-1 rounded-full text-xs font-semibold bg-green-500/20 text-green-400';
+      badge.textContent = document.querySelector('[data-t-pass]')?.textContent || 'Pass';
+    } else {
+      badge.className = 'inline-block px-3 py-1 rounded-full text-xs font-semibold bg-red-500/20 text-red-400';
+      badge.textContent = document.querySelector('[data-t-fail]')?.textContent || 'Fail';
+    }
+  }
+
+  // ── Palette (localStorage) ─────────────────────────────────────────────
+
+  function loadPalette(): string[] {
+    try {
+      const data = localStorage.getItem(PALETTE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function savePalette(colors: string[]): void {
+    localStorage.setItem(PALETTE_KEY, JSON.stringify(colors));
+  }
+
+  function renderPalette(): void {
+    const colors = loadPalette();
+    if (colors.length === 0) {
+      paletteContainer.innerHTML = '<span class="text-gray-500 text-sm italic">No saved colors yet</span>';
+      return;
+    }
+
+    paletteContainer.innerHTML = colors.map((color, index) => `
+      <div
+        class="group relative w-12 h-12 rounded-xl border-2 border-white/20 cursor-pointer hover:border-accent hover:scale-110 transition-all shadow-md"
+        style="background-color: ${color};"
+        data-palette-color="${color}"
+        title="${color} — Click to select"
+      >
+        <button
+          class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white text-xs hidden group-hover:flex items-center justify-center leading-none shadow"
+          data-remove-index="${index}"
+          title="Remove"
+        >&times;</button>
+      </div>
+    `).join('');
+
+    // Click swatch to select color
+    paletteContainer.querySelectorAll('[data-palette-color]').forEach((swatch) => {
+      swatch.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.dataset.removeIndex !== undefined) return;
+        const color = (swatch as HTMLElement).dataset.paletteColor!;
+        syncFromHex(color);
+      });
+    });
+
+    // Remove individual swatch
+    paletteContainer.querySelectorAll('[data-remove-index]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = parseInt((e.target as HTMLElement).dataset.removeIndex!);
+        const colors = loadPalette();
+        colors.splice(idx, 1);
+        savePalette(colors);
+        renderPalette();
+      });
+    });
+  }
+
+  // ── Copy to Clipboard ──────────────────────────────────────────────────
+
+  function copyToClipboard(text: string, btn: HTMLButtonElement): void {
+    navigator.clipboard.writeText(text).then(() => {
+      const original = btn.textContent;
+      btn.textContent = document.querySelector('[data-t-copied]')?.textContent || 'Copied!';
+      btn.classList.add('text-green-400');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('text-green-400');
+      }, 1500);
+    });
+  }
+
+  // ── Event Listeners ────────────────────────────────────────────────────
+
+  // Native color picker
+  nativeColorPicker.addEventListener('input', () => {
+    syncFromHex(nativeColorPicker.value);
+  });
+
+  // Click preview to trigger native picker
+  colorPreview.addEventListener('click', () => {
+    nativeColorPicker.click();
+  });
+
+  // HEX input
+  hexInput.addEventListener('input', () => {
+    let val = hexInput.value.trim();
+    if (!val.startsWith('#')) val = '#' + val;
+    if (isValidHex(val)) syncFromHex(val);
+  });
+
+  // RGB inputs
+  [rgbR, rgbG, rgbB].forEach((input) => {
+    input.addEventListener('input', syncFromRgb);
+  });
+
+  // HSL inputs
+  [hslH, hslS, hslL].forEach((input) => {
+    input.addEventListener('input', syncFromHsl);
+  });
+
+  // Contrast checker inputs
+  fgColorPicker.addEventListener('input', () => {
+    fgHexInput.value = fgColorPicker.value;
+    updateContrast();
+  });
+
+  fgHexInput.addEventListener('input', updateContrast);
+
+  bgColorPicker.addEventListener('input', () => {
+    bgHexInput.value = bgColorPicker.value;
+    updateContrast();
+  });
+
+  bgHexInput.addEventListener('input', updateContrast);
+
+  // Add color to palette
+  addColorBtn.addEventListener('click', () => {
+    const hex = hexInput.value.trim();
+    if (!isValidHex(hex)) return;
+    const colors = loadPalette();
+    if (!colors.includes(hex)) {
+      colors.push(hex);
+      savePalette(colors);
+      renderPalette();
+    }
+  });
+
+  // Clear palette
+  clearPaletteBtn.addEventListener('click', () => {
+    savePalette([]);
+    renderPalette();
+  });
+
+  // Copy buttons
+  document.querySelectorAll('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const el = btn as HTMLButtonElement;
+      const format = el.dataset.format;
+      const targetId = el.dataset.target;
+
+      if (targetId) {
+        const targetInput = document.getElementById(targetId) as HTMLInputElement;
+        if (targetInput) copyToClipboard(targetInput.value, el);
+      } else if (format === 'rgb') {
+        const text = `rgb(${rgbR.value}, ${rgbG.value}, ${rgbB.value})`;
+        copyToClipboard(text, el);
+      } else if (format === 'hsl') {
+        const text = `hsl(${hslH.value}, ${hslS.value}%, ${hslL.value}%)`;
+        copyToClipboard(text, el);
+      }
+    });
+  });
+
+  // ── Initialize ─────────────────────────────────────────────────────────
+  renderPalette();
+  updateContrast();
+
+  // Store translated strings for use in JS
+  // (hidden spans for "Copied!", "Pass", "Fail")
+</script>
+
+<!-- Hidden translation anchors for JS access -->
+<span class="hidden" data-t-copied>{t('colorPicker.copied')}</span>
+<span class="hidden" data-t-pass>{t('colorPicker.pass')}</span>
+<span class="hidden" data-t-fail>{t('colorPicker.fail')}</span>
